@@ -41,9 +41,9 @@ A web application developed to modernize and simplify the matchmaking process by
 #
 Install dependencies and set up the database:
 
-cd backend
-npm install
-npm run start:dev
+**cd backend
+**npm install
+**npm run start:dev
 
 Configure database connection in .env file.
 
@@ -52,16 +52,16 @@ Configure database connection in .env file.
 
 3. **Frontend Setup:**
 #
-cd frontend
-npm install
-npm start
+**cd frontend
+**npm install
+**npm start
 
 ##
 4. **Project Structure**
 #
-frontend/ - React application (UI)
-backend/ - NestJS application (API)
-prisma/ - Prisma schema and database migrations
+**frontend/ - React application (UI)
+**backend/ - NestJS application (API)
+**prisma/ - Prisma schema and database migrations
 
 
 
