@@ -30,13 +30,13 @@ A web application developed to modernize and simplify the matchmaking process by
 ## Installation
 
 1. **Clone the repository**:
-   
+   #
    git  clone https://github.com/Sampannasapkota/matrimonial-webApp.git
    cd matrimonial-webApp
 
 
 3. **Backend Setup:**
-
+#
 Install dependencies and set up the database:
 
 cd backend
@@ -47,14 +47,14 @@ Configure database connection in .env file.
 
 
 3. **Frontend Setup:**
-
+#
 cd frontend
 npm install
 npm start
 
 
 4. **Project Structure**
-
+#
 frontend/ - React application (UI)
 backend/ - NestJS application (API)
 prisma/ - Prisma schema and database migrations
