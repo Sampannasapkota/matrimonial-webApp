@@ -1,0 +1,94 @@
+/* Login.css */
+
+
+
+.login-wrapper {
+    width: 100%;
+    max-width: 400px;
+    margin: 50px auto;
+    text-align: center;
+  }
+  
+  .logo-container {
+    margin-bottom: 30; /* Overlap logo above the container */
+    position: relative;
+    z-index: 1;
+  }
+  
+  .login-logo {
+    width: 100px; /* Set a fixed width for the logo */
+    height: auto; /* Maintain aspect ratio */
+  }
+  
+  .login-container {
+    width: 100%;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    text-align: center;
+    position: relative;
+    z-index: 0;
+  }
+  
+  .login-container h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    
+  }
+  
+  .login-form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+    text-align: left;
+  }
+  
+  .form-group label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color:  rgb(157, 32, 32) ;
+  
+  }
+  
+  .form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid;
+    border-color: #790B0B;
+     background: #D9D9D933;
+  
+    border-radius: 15px;
+    font-size: 16px;
+  }
+  
+  .login-button {
+    padding: 10px 20px;
+    background: linear-gradient(90deg, #790B0B 0%, #DF1414 100%);
+  
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  
+  
+  .forgot-password {
+    margin-top: 15px;
+  }
+  
+  .forgot-password a {
+    color:rgb(157, 32, 32);
+    text-decoration: none;
+  }
+  
+  .forgot-password a:hover {
+    text-decoration: underline;
+  }
+  
