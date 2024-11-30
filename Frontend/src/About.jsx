@@ -1,9 +1,9 @@
-import React from 'react'
-import picture from './assets/wed-about.png'
+import React from "react";
+import picture from "./assets/wed-about.png";
 
 const About = () => {
   return (
-    <div className="font-outfit">
+    <div className="font-outfit" id="about">
       <h2 className="text-center font-extrabold text-[40px] text-[#FF6347] mt-20">
         About
       </h2>
@@ -15,7 +15,7 @@ const About = () => {
           and aspirations, focusing on meaningful <br /> connections and a
           smooth experience. <br />
           <p className="mt-10">
-            <span className="text-[#FF6347] text-6xl font-bold underline">
+            <span className="text-[#FF6347] text-[40px] font-bold underline">
               Join us
             </span>{" "}
             today to explore a supportive, <br />
@@ -31,6 +31,6 @@ const About = () => {
       </div>
     </div>
   );
-}
+};
 
-export default About
+export default About;

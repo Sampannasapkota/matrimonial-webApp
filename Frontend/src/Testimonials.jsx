@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import comment from "./assets/fluent_comment-48-regular.png";
 import pic1 from "./assets/cropped-SUMIR_BARAL CROPPED.png";
 import pic2 from "./assets/Anish.png";
@@ -6,11 +6,11 @@ import pic3 from "./assets/rimesh_sapkota.png";
 
 const Testimonials = () => {
   return (
-    <div className="font-outfit">
+    <div className="font-outfit" id="testimonials">
       <h2 className="text-center font-extrabold text-[40px] text-[#FF6347] mt-20">
         Testimonials
       </h2>
-      <p className="ml-[5%] text-[20px] mt-20 text-[#333333]">
+      <p className="ml-[5%] mr-[5%] text-[20px] mt-20 text-[#333333]">
         We understand that finding a life partner is a deeply personal journey.
         At MeroBihe, we bring together individuals with shared values and
         aspirations, focusing on meaningful connections and a smooth experience.
@@ -51,6 +51,6 @@ const Testimonials = () => {
       </div>
     </div>
   );
-}
+};
 
-export default Testimonials
+export default Testimonials;

@@ -1,7 +1,13 @@
-import React from 'react'
-import wedding from './assets/wedding.jpeg'
+import React from "react";
+import wedding from "./assets/wedding.jpeg";
+import { useNavigate } from "react-router-dom";
 
 const Hero = () => {
+  const navigate= useNavigate()
+  const handleRegister=()=>{
+    navigate('/register')
+  }
+
   //bg-[#FF6347]
   return (
     <div className="relative ">
@@ -12,21 +18,21 @@ const Hero = () => {
       </div>
       <h2 className="absolute top-36 left-[5%] text-white font-inter text-5xl font-extrabold ">
         Find your perfect <br />
-        <span className="bg-gradient-to-t from-yellow-400 to-yellow-100 bg-clip-text text-transparent">
+        <span className="text-transparent bg-gradient-to-t from-yellow-400 to-yellow-100 bg-clip-text">
           life partner.
         </span>
       </h2>
       <p className="absolute top-[32%] left-[5%] font-outfit font-[400] text-[28px] text-white">
-        Your trusted partner in finding the perfect match. <br/> We provide a secure,
-        private, and personalized matchmaking <br /> experience for those ready to take
-        the next step in life.
+        Your trusted partner in finding the perfect match. <br /> We provide a
+        secure, private, and personalized matchmaking <br /> experience for
+        those ready to take the next step in life.
       </p>
-      <button className="absolute top-[50%] left-[5%] w-40 text-[#FF6347] bg-white font-bold rounded-xl p-3 hover:text-amber-950 hover:border-2 hover:border-amber-950">
+      <button onClick={handleRegister} className="absolute top-[50%] left-[5%] w-40 text-[#FF6347] bg-white font-bold rounded-xl p-3 hover:text-amber-950 hover:border-2 hover:border-amber-950">
         Join Now
       </button>
     </div>
   );
-}
+};
 /* “Match. Meet. Marry.” */
 
-export default Hero
+export default Hero;

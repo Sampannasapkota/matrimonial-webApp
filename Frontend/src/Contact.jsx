@@ -1,9 +1,9 @@
-import React from 'react'
-import contact from './assets/Contact.png'
+import React from "react";
+import contact from "./assets/Contact.png";
 
 const Contact = () => {
   return (
-    <div className="font-outfit">
+    <div className="font-outfit" id="contact">
       <h2 className="mb-[5%] text-center font-extrabold text-[40px] text-[#FF6347] mt-20">
         Contact
       </h2>
@@ -71,6 +71,6 @@ const Contact = () => {
       </div>
     </div>
   );
-}
+};
 
-export default Contact
+export default Contact;

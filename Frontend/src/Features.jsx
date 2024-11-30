@@ -1,15 +1,15 @@
-import React from 'react'
-import person from './assets/Exclude.png'
-import component from './assets/Component.png'
-import chat from './assets/fluent_chat-48-filled.png'
+import React from "react";
+import person from "./assets/Exclude.png";
+import component from "./assets/Component.png";
+import chat from "./assets/fluent_chat-48-filled.png";
 
 const Features = () => {
   return (
-    <div className="font-outfit">
-      <h2 className="text-center font-extrabold text-[40px] text-[#FF6347] mt-20">
+    <div className="font-outfit" id="features">
+      <h2 className="text-center font-extrabold text-[40px] text-[#FF6347] mt-36">
         Our Features
       </h2>
-      <p className="ml-[5%] text-[20px] mt-20 text-[#333333]">
+      <p className="ml-[5%] mr-[5%] text-[20px] mt-20 text-[#333333]">
         We understand that finding a life partner is a deeply personal journey.
         At MeroBihe, we bring together individuals with shared values and
         aspirations, focusing on meaningful connections and a smooth experience.
@@ -51,6 +51,6 @@ const Features = () => {
       </div>
     </div>
   );
-}
+};
 
-export default Features
+export default Features;
