@@ -9,6 +9,8 @@ import NotFoundPage from "./NotFoundPage";
 import Register from "./Register";
 import UserDashboard from "./userDashboard/UserDashboard";
 import MainDashboard from "./userDashboard/MainDashboard";
+import Step1 from "./RegisterSteps/Step1";
+import Step2 from "./RegisterSteps/Step2";
 
 function App() {
   return (
@@ -20,7 +22,10 @@ function App() {
     //     <Route path="*" element={<NotFoundPage />} />
     //   </Routes>
     // </Router>
-    <UserDashboard/>
+    // <UserDashboard/>
+    // <Step1/>
+    <Step2/>
+    // <Register/>
     // <div className="">
     //   <HomePage />
     // </div>

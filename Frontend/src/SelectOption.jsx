@@ -8,7 +8,7 @@ const SelectOption = () => {
               styles={customStyles}
               placeholder="Gender"
               options={options}
-            />z
+            />
     </div>
   )
 }
