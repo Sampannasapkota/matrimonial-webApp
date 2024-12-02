@@ -7,8 +7,14 @@ import img3 from "./assets/Rectangle 80.png";
 import img4 from "./assets/Rectangle 81.png";
 import { IoMdLock, IoMdMail } from "react-icons/io";
 import { FcGoogle } from "react-icons/fc";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
+  const navigate= useNavigate()
+
+  const handleSignup = () => { navigate('/register')}
+  const handleLogin = () => { navigate('/dashboard') }
+  
   return (
     <div
       id="login"
@@ -63,13 +69,14 @@ const LoginPage = () => {
             <button
               className="w-full bg-[#F24822] rounded-lg h-10 text-white font-semibold  hover:bg-white hover:text-rose-950 hover:border-2 hover:border-rose-950"
               type="submit"
+              onClick={handleLogin}
             >
               Log In
             </button>
           </div>
-          <p className="text-center mt-5 text-gray-600">
+          <p className="mt-5 text-center text-gray-600">
             New member?
-            <a className="text-[#F24822] ml-2 underline" href="">
+            <a className="text-[#F24822] ml-2 underline" href="" onClick={handleSignup}>
               SignUp
             </a>
           </p>

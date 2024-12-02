@@ -1,8 +1,8 @@
 import React from "react";
-import comment from "./assets/fluent_comment-48-regular.png";
-import pic1 from "./assets/cropped-SUMIR_BARAL CROPPED.png";
-import pic2 from "./assets/Anish.png";
-import pic3 from "./assets/rimesh_sapkota.png";
+import comment from "../assets/fluent_comment-48-regular.png";
+import pic1 from "../assets/cropped-SUMIR_BARAL CROPPED.png";
+import pic2 from "../assets/Anish.png";
+import pic3 from "../assets/rimesh_sapkota.png";
 
 const Testimonials = () => {
   return (

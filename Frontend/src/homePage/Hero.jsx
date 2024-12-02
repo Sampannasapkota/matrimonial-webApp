@@ -1,5 +1,5 @@
 import React from "react";
-import wedding from "./assets/wedding.jpeg";
+import wedding from "../assets/wedding.jpeg";
 import { useNavigate } from "react-router-dom";
 
 const Hero = () => {

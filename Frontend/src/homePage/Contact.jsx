@@ -1,5 +1,5 @@
 import React from "react";
-import contact from "./assets/Contact.png";
+import contact from "../assets/Contact.png";
 
 const Contact = () => {
   return (
@@ -10,7 +10,7 @@ const Contact = () => {
       <div className="w-[80%] mx-auto px-[10%] py-[5%] shadow-xl shadow-gray-400 rounded-3xl">
         <img className="w-[12%] mx-auto" src={contact} alt="" />
         <form action="" className="py-10">
-          <div className="flex justify-between space-x-10 w-full">
+          <div className="flex justify-between w-full space-x-10">
             <div>
               <label
                 className="block font-bold text-[#333333] text-xl"

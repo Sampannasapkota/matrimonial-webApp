@@ -2,8 +2,15 @@ import React, { useState } from "react";
 import mainLogo from "./assets/main-logo.png";
 import wedding from "./assets/wedding.jpeg";
 import Select from "react-select";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
+   const navigate = useNavigate();
+
+   const handleLogin = () => {
+     navigate("/login");
+   };
+  
     const [selectedOption, setSelectedOption] = useState();
     const [isOpen , setIsOpen] = useState(false)
 
@@ -42,7 +49,7 @@ const Register = () => {
         <h2 className="text-center text-3xl text-[#FF6347] font-semibold mt-6 mb-5">
           Register Now!
         </h2>
-        <img className="absolute top-5 left-16 w-16" src={mainLogo} alt="" />
+        <img className="absolute w-16 top-5 left-16" src={mainLogo} alt="" />
         <div className="flex flex-col space-y-5">
           <input
             className="w-full p-2 pl-5 shadow-md focus:outline-none"
@@ -77,7 +84,7 @@ const Register = () => {
             placeholder="Confirm Password *"
           />
           <label
-            className="ml-2 text-gray-600 text-sm text-center"
+            className="ml-2 text-sm text-center text-gray-600"
             htmlFor="remember"
           >
             <input type="checkbox" id="terms" name="terms" />
@@ -91,7 +98,7 @@ const Register = () => {
           </button>
           <p className="text-center text-gray-600">
             Already a Member?
-            <a className="text-[#F24822] ml-2 underline" href="">
+            <a className="text-[#F24822] ml-2 underline" href="" onClick={handleLogin}>
               Log In
             </a>
           </p>

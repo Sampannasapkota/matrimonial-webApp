@@ -1,5 +1,5 @@
 import React from "react";
-import logo from "./assets/main-logo.png";
+import logo from "../assets/main-logo.png";
 import { Link } from "react-scroll";
 import { useNavigate } from "react-router-dom";
 
@@ -26,12 +26,12 @@ const Navbar = () => {
             </Link>
           </li>
           <li className="cursor-pointer hover:underline">
-            <Link to="testimonials" smooth={true} offset={-50} duration={500}>
+            <Link to="testimonials" smooth={true} offset={-50} duration={600}>
               Testimonials
             </Link>
           </li>
           <li className="cursor-pointer hover:underline">
-            <Link to="contact" smooth={true} offset={-50} duration={500}>
+            <Link to="contact" smooth={true} offset={-50} duration={700}>
               Contact
             </Link>
           </li>

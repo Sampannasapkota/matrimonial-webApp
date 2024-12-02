@@ -1,7 +1,7 @@
 import React from "react";
-import person from "./assets/Exclude.png";
-import component from "./assets/Component.png";
-import chat from "./assets/fluent_chat-48-filled.png";
+import person from "../assets/Exclude.png";
+import component from "../assets/Component.png";
+import chat from "../assets/fluent_chat-48-filled.png";
 
 const Features = () => {
   return (
