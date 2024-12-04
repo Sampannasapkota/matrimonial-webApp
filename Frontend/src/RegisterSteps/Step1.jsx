@@ -2,8 +2,15 @@ import React from "react";
 import wedding from "../assets/wedding.jpeg";
 import mainLogo from "../assets/main-logo.png";
 import Select from "react-select";
+import { useNavigate } from "react-router-dom";
 
 const Step1 = () => {
+  const navigate = useNavigate();
+
+  const handleStep1 = () => {
+    navigate("/step2");
+  };
+  
     const optionsMarital = [
       { value: "single", label: "Single" },
       { value: "divorced", label: "Divorced" },
@@ -54,13 +61,13 @@ const Step1 = () => {
   return (
     <div
       className="relative flex justify-center w-full h-screen py-[5%] bg-center bg-cover font-outfit"
-      id="register"
+      id="step1"
       style={{ backgroundImage: `url(${wedding})` }}
     >
       <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-red-500 to-orange-400 opacity-70"></div>
       <form className="absolute px-[8%] h-[78%] shadow-lg bg-white w-[65%] rounded-3xl">
-        <img className="absolute top-5 left-16 w-16" src={mainLogo} alt="" />
-        <p className="text-center font-light text-lg text-gray-600 mt-16 mb-2">
+        <img className="absolute w-16 top-5 left-16" src={mainLogo} alt="" />
+        <p className="mt-16 mb-2 text-lg font-light text-center text-gray-600">
           Setting up your profile
         </p>
         <h2 className="text-[#FF6347] font-semibold text-center text-2xl mb-8">
@@ -102,6 +109,7 @@ const Step1 = () => {
             <button
               className="w-96 mx-auto bg-[#F24822] rounded-lg h-10 text-white font-semibold  hover:bg-white hover:text-rose-950 hover:border-2 hover:border-rose-950"
               type="submit"
+              onClick={handleStep1}
             >
               Next
             </button>

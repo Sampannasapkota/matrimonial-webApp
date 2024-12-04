@@ -3,12 +3,19 @@ import wedding from "../assets/wedding.jpeg";
 import mainLogo from "../assets/main-logo.png";
 import { BsExclamationTriangleFill } from 'react-icons/bs';
 import EmptyPhotoComp from './EmptyPhotoComp';
+import { useNavigate } from 'react-router-dom';
 
 const Step5 = () => {
+  const navigate = useNavigate();
+
+  const handleSubmit = () => {
+    navigate("/dashboard");
+  };
+  
   return (
     <div
       className="relative flex justify-center w-full h-screen py-[5%] bg-center bg-cover font-outfit"
-      id="register"
+      id="step5"
       style={{ backgroundImage: `url(${wedding})` }}
     >
       <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-red-500 to-orange-400 opacity-70"></div>
@@ -44,8 +51,9 @@ const Step5 = () => {
           <button
             className="w-80 mx-auto bg-[#F24822] rounded-lg h-10 text-white font-semibold  hover:bg-white hover:text-rose-950 hover:border-2 hover:border-rose-950"
             type="submit"
+            onClick={handleSubmit}
           >
-            Next
+            Submit
           </button>
         </div>
       </form>

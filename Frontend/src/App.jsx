@@ -20,9 +20,15 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<Register/>}/>
         <Route path="/dashboard" element={<UserDashboard/>}/>
+        <Route path="/step1" element={<Step1/>}/>
+        <Route path="/step2" element={<Step2/>}/>
+        <Route path="/step3" element={<Step3/>}/>
+        <Route path="/step4" element={<Step4/>}/>
+        <Route path="/step5" element={<Step5/>}/>
+        
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
-     </Router> 
+     </Router>
     // <UserDashboard/>
     // <Step1/>
     // <Step2/>
