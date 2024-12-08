@@ -30,7 +30,7 @@ const Footer = () => {
           </ul>
         </div>
         <div>
-          <h2 className="mb-2 -ml-6 text-xl font-semibold">Privact & You</h2>
+          <h2 className="mb-2 -ml-6 text-xl font-semibold">Privacy & You</h2>
           <ul className="space-y-1 list-disc">
             <li>Terms of User</li>
             <li>Privacy Policy</li>
