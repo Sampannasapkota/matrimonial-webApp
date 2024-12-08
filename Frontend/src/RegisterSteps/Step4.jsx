@@ -50,12 +50,12 @@ const Step4 = () => {
   
   return (
     <div
-      className="relative flex justify-center w-full h-screen py-[5%] bg-center bg-cover font-outfit"
-      id="step4"
+      className="relative flex justify-center w-full h-screen items-center bg-center bg-cover font-outfit"
+      id="step1"
       style={{ backgroundImage: `url(${wedding})` }}
     >
       <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-red-500 to-orange-400 opacity-70"></div>
-      <form className="absolute px-[8%] h-[78%] shadow-lg bg-white w-[65%] rounded-3xl">
+      <form className="absolute px-28 h-[35em] shadow-lg bg-white w-[60em] rounded-3xl">
         <img className="absolute w-16 top-5 left-16" src={mainLogo} alt="" />
         <p className="mt-16 mb-2 text-lg font-light text-center text-gray-600">
           You are one step closer...
@@ -64,16 +64,14 @@ const Step4 = () => {
           Step 4 : Select Your 5 Interests
         </h2>
         <div className="flex flex-wrap justify-center gap-x-7 gap-y-4">
-          {
-            options.map((option)=>(
-              <SelectOptionStep4
-                key={option}
-                label={option}
-                isSelected={selectedItems.includes(option)}
-                onClick={()=>handleOptionClick(option)}
-              />
-            ))
-          }
+          {options.map((option) => (
+            <SelectOptionStep4
+              key={option}
+              label={option}
+              isSelected={selectedItems.includes(option)}
+              onClick={() => handleOptionClick(option)}
+            />
+          ))}
         </div>
         <div className="flex justify-around mt-14">
           <button

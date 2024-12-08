@@ -107,7 +107,7 @@ const UserDashboard = () => {
           {/* <SlOptionsVertical className="absolute right-[5%] top-5 text-4xl text-[#F24822]  " /> */}
           <div className="flex flex-col gap-y-4">
             {/* profile photo and like btn and cross btn  */}
-            <div className="flex justify-center items-center gap-12 w-full mt-[4%] ">
+            <div className="flex justify-center items-center gap-12 w-full mt-20 ">
               <div className="flex items-center justify-center w-24 h-24 rounded-full shadow-xl">
                 <HiMiniXMark className="text-gray-500 text-7xl" />
               </div>
@@ -130,9 +130,9 @@ const UserDashboard = () => {
               <InterestComponent name="Music" />
               <InterestComponent name="Singing" />
             </div>
-            <div className="flex justify-center text-gray-700 gap-x-5 ">
+            <div className="flex justify-center text-gray-700 gap-x-6 ">
               <PersonalIdentity icon=<FaUserGraduate /> name="Student" />
-              <PersonalIdentity icon=<FaUser /> name="Never Married" />
+              <PersonalIdentity icon=<FaUser /> name="Single" />
               <PersonalIdentity icon="ॐ " name="Hindu" />
               <PersonalIdentity icon=<PiBowlFoodFill /> name="Non-Veg" />
               <PersonalIdentity icon=<FaSmoking /> name="Smoker" />
