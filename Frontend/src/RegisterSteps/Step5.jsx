@@ -3,8 +3,13 @@ import wedding from "../assets/wedding.jpeg";
 import mainLogo from "../assets/main-logo.png";
 import { BsExclamationTriangleFill } from 'react-icons/bs';
 import EmptyPhotoComp from './EmptyPhotoComp';
+import { useNavigate } from 'react-router-dom';
 
 const Step5 = () => {
+  const navigate = useNavigate()
+  const handleSubmit=()=>{
+    navigate('/dashboard')
+  }
   return (
     <div
       className="relative flex justify-center w-full h-screen py-[5%] bg-center bg-cover font-outfit"
@@ -43,7 +48,7 @@ const Step5 = () => {
           </button>
           <button
             className="w-80 mx-auto bg-[#F24822] rounded-lg h-10 text-white font-semibold  hover:bg-white hover:text-rose-950 hover:border-2 hover:border-rose-950"
-            type="submit"
+            onClick={handleSubmit}
           >
             Next
           </button>

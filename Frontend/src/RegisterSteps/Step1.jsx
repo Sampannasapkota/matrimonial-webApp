@@ -2,8 +2,13 @@ import React from "react";
 import wedding from "../assets/wedding.jpeg";
 import mainLogo from "../assets/main-logo.png";
 import Select from "react-select";
+import { useNavigate } from "react-router-dom";
 
 const Step1 = () => {
+  const navigate = useNavigate()
+  const handleStep1=()=>{
+    navigate('/step2')
+  }
     const optionsMarital = [
       { value: "single", label: "Single" },
       { value: "divorced", label: "Divorced" },
@@ -32,15 +37,18 @@ const Step1 = () => {
       { value: "buddhist", label: "Buddhist" },
       { value: "christain", label: "Christain" },
       { value: "jains", label: "Jains" },
+      { value: "kirat", label: "Kirat" },
       { value: "others", label: "Others" },
     ];
 
     const optionsEducational = [
-      { value: "primary-school", label: "Primary School" },
-      { value: "sec-school", label: "Sec. School" },
+      { value: "primary-school", label: "Primary " },
+      { value: "sec-school", label: "Secondary" },
+      { value: "higher-school", label: "Higher Secondary" },
       { value: "bachelors-degree", label: "Bachelor's Degree" },
       { value: "masters-degree", label: "Master's Degree" },
       { value: "phd", label: "PhD" },
+      { value: "diploma", label: "Diploma" },
     ];
 
     const optionsEmployment = [
@@ -101,7 +109,7 @@ const Step1 = () => {
         <div className="flex justify-center mt-14">
             <button
               className="w-96 mx-auto bg-[#F24822] rounded-lg h-10 text-white font-semibold  hover:bg-white hover:text-rose-950 hover:border-2 hover:border-rose-950"
-              type="submit"
+              onClick={handleStep1}
             >
               Next
             </button>

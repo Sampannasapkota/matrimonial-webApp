@@ -2,8 +2,13 @@ import React from 'react'
 import wedding from "../assets/wedding.jpeg";
 import mainLogo from "../assets/main-logo.png";
 import Select from "react-select";
+import { useNavigate } from 'react-router-dom';
 
 const Step2 = () => {
+  const navigate = useNavigate()
+  const handleStep2=()=>{
+    navigate('/step3')
+  }
     const optionsDiet = [
       { value: "veg", label: "Veg" },
       { value: "non-veg", label: "Non-Veg" },
@@ -68,13 +73,13 @@ const Step2 = () => {
         <div className="flex justify-around mt-14">
           <button
             className="w-80 mx-auto text-[#F24822] rounded-lg h-10 font-semibold border-2 border-[#F24822] hover:text-rose-950 hover:border-2 hover:border-rose-950"
-            type="submit"
+          
           >
             Back
           </button>
           <button
             className="w-80 mx-auto bg-[#F24822] rounded-lg h-10 text-white font-semibold  hover:bg-white hover:text-rose-950 hover:border-2 hover:border-rose-950"
-            type="submit"
+            onClick={handleStep2}
           >
             Next
           </button>

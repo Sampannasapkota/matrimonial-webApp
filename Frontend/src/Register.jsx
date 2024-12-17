@@ -7,6 +7,10 @@ import { useNavigate } from "react-router-dom";
 const Register = () => {
    const navigate = useNavigate();
 
+   const handleRegister=()=>{
+    navigate("/step1");
+   }
+
    const handleLogin = () => {
      navigate("/login");
    };
@@ -92,7 +96,7 @@ const Register = () => {
           </label>
           <button
             className="w-96 mx-auto bg-[#F24822] rounded-lg h-10 text-white font-semibold  hover:bg-white hover:text-rose-950 hover:border-2 hover:border-rose-950"
-            type="submit"
+            onClick={handleRegister}
           >
             Register
           </button>

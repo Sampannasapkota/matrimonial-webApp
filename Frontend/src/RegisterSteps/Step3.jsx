@@ -2,8 +2,13 @@ import React, { useState } from "react";
 import wedding from "../assets/wedding.jpeg";
 import mainLogo from "../assets/main-logo.png";
 import Select from "react-select";
+import { useNavigate } from "react-router-dom";
 
 const Step3 = () => {
+  const navigate = useNavigate()
+  const handleStep3=()=>{
+    navigate('/step4')
+  }
 const [age, setAge] = useState(18);
 
 const handleChange = (e) => {
@@ -126,7 +131,7 @@ const handleChange = (e) => {
           </button>
           <button
             className="w-80 mx-auto bg-[#F24822] rounded-lg h-10 text-white font-semibold  hover:bg-white hover:text-rose-950 hover:border-2 hover:border-rose-950"
-            type="submit"
+            onClick={handleStep3}
           >
             Next
           </button>

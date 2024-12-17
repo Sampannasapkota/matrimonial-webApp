@@ -1,0 +1,168 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+enum Gender {
+  Male
+  Female
+  NonBinary
+}
+
+enum Religion {
+  hinduism
+  buddhism
+  islam
+  christianity
+  others
+}
+
+enum MaritalStatus {
+  single
+  widowed
+  divorced
+}
+
+enum ProvinceName {
+  Bagmati
+  Gandaki
+  Koshi
+  Karnali
+  Lumbini
+  Madhesh
+  Sudurpaschim
+}
+
+enum DietPreference {
+  Veg
+  NonVeg
+  Eggiterian
+  Vegan
+  NoPreference
+}
+
+enum EducationLevel {
+  PrimaryLevel
+  SecondaryLevel
+  HigherSecondaryLevel
+  Bachelor
+  Masters
+  PhD
+  Diploma
+}
+
+enum EmploymentStatus {
+  Employed
+  SelfEmployed
+  Student
+  Unemployed
+  Retired
+}
+// Models
+
+model Role {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+}
+
+model User {
+  id            Int      @id @default(autoincrement())
+  roleId        Int?
+  role          String     
+  fullname      String
+  email         String   @unique
+  password      String
+  gender        Gender
+  socialSignIn  Boolean
+  status        Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @default(now())
+  profile       Profile?
+  messagesSent  Message[] @relation("SenderMessages")
+  messagesReceived Message[] @relation("ReceiverMessages")
+  matches       Match[] @relation("UserMatches")
+  interests     InterestUser[]
+  matchesAsUserOne Match[]   @relation("UserOneMatches") 
+  matchesAsUserTwo Match[]   @relation("UserTwoMatches") 
+}
+
+model Province {
+  id           Int          @id @default(autoincrement())
+  provinceName ProvinceName
+  districts    District[]
+}
+
+model District {
+  id         Int      @id @default(autoincrement())
+  provinceId Int
+  province   Province @relation(fields: [provinceId], references: [id])
+  name       String
+  profiles   Profile[]
+}
+
+model Profile {
+  id                Int             @id @default(autoincrement())
+  userId            Int @unique
+  user              User            @relation(fields: [userId], references: [id])
+  gender            Gender
+  profilePic        String?
+  dietPreference    DietPreference
+  ageRange          Int
+  dateOfBirth       String
+  religion          Religion
+  districtId        Int
+  district          District        @relation(fields: [districtId], references: [id])
+  height            Float
+  maritalStatus     MaritalStatus
+  educationStatus   EducationLevel
+  employmentStatus  EmploymentStatus
+  partnerPreference String
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @default(now())
+}
+
+model Message {
+  id          Int      @id @default(autoincrement())
+  senderId    Int
+  sender      User     @relation("SenderMessages", fields: [senderId], references: [id])
+  receiverId  Int
+  receiver    User     @relation("ReceiverMessages", fields: [receiverId], references: [id])
+  messageContent String
+  sentAt      DateTime
+  readAt      DateTime?
+}
+
+model Match {
+  id        Int      @id @default(autoincrement())
+  userOneId Int
+  userOne   User     @relation("UserOneMatches", fields: [userOneId], references: [id])
+  userTwoId Int
+  userTwo   User     @relation("UserTwoMatches", fields: [userTwoId], references: [id])
+  matchDate DateTime @default(now())
+
+  User User[] @relation("UserMatches")
+}
+
+
+model Interest {
+  id    Int      @id @default(autoincrement())
+  name  String   @unique
+  users InterestUser[]
+}
+
+model InterestUser {
+  userId     Int
+  user       User     @relation(fields: [userId], references: [id])
+  interestId Int
+  interest   Interest @relation(fields: [interestId], references: [id])
+  @@id([userId,interestId])
+}
