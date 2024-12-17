@@ -44,13 +44,13 @@ const Register = () => {
 
   return (
     <div
-      className="relative flex justify-center w-full h-screen py-[5%] bg-center bg-cover font-outfit"
+      className="relative flex justify-center w-full h-screen items-center bg-center bg-cover font-outfit"
       id="register"
       style={{ backgroundImage: `url(${wedding})` }}
     >
       <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-red-500 to-orange-400 opacity-70"></div>
-      <form className="absolute px-[8%] h-[78%] shadow-lg bg-white w-[65%] rounded-3xl">
-        <h2 className="text-center text-3xl text-[#FF6347] font-semibold mt-6 mb-5">
+      <form className="absolute px-28 h-[35em] shadow-lg bg-white w-[60em] rounded-3xl">
+        <h2 className="text-center text-3xl text-[#FF6347] font-semibold mt-6 mb-10">
           Register Now!
         </h2>
         <img className="absolute w-16 top-5 left-16" src={mainLogo} alt="" />
@@ -68,7 +68,9 @@ const Register = () => {
           <div className="flex space-x-10">
             <input
               className="w-full p-2 pl-5 text-gray-400 shadow-md focus:outline-none"
-              type="date"
+              type="number"
+              placeholder="Your Age"
+              min={18}
             />
             <Select
               className="w-full"
@@ -92,7 +94,7 @@ const Register = () => {
             htmlFor="remember"
           >
             <input type="checkbox" id="terms" name="terms" />
-            I've read and agree to the Terms and Conditions and Privacy Policy.
+            {" "}I've read and agree to the Terms and Conditions and Privacy Policy.
           </label>
           <button
             className="w-96 mx-auto bg-[#F24822] rounded-lg h-10 text-white font-semibold  hover:bg-white hover:text-rose-950 hover:border-2 hover:border-rose-950"

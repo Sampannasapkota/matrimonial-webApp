@@ -6,37 +6,35 @@ import EmptyPhotoComp from './EmptyPhotoComp';
 import { useNavigate } from 'react-router-dom';
 
 const Step5 = () => {
-  const navigate = useNavigate()
-  const handleSubmit=()=>{
-    navigate('/dashboard')
-  }
   return (
     <div
-      className="relative flex justify-center w-full h-screen py-[5%] bg-center bg-cover font-outfit"
-      id="register"
+      className="relative flex justify-center w-full h-screen items-center bg-center bg-cover font-outfit"
+      id="step1"
       style={{ backgroundImage: `url(${wedding})` }}
     >
       <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-red-500 to-orange-400 opacity-70"></div>
-      <form className="absolute px-[8%] h-[78%] shadow-lg bg-white w-[65%] rounded-3xl">
+      <form className="absolute px-28 h-[35em] shadow-lg bg-white w-[60em] rounded-3xl">
         <img className="absolute w-16 top-5 left-16" src={mainLogo} alt="" />
-        <p className="mt-10 mb-2 text-lg font-light text-center text-gray-600">
+        <p className="mt-14 mb-2 text-lg font-light text-center text-gray-600">
           The final step...
         </p>
         <h2 className="text-[#FF6347] font-semibold text-center text-2xl ">
           Step 5 : Please upload atleast 3 pictures
         </h2>
-        <p className='flex items-center justify-center text-sm text-gray-500 gap-x-1'>
-          <span><BsExclamationTriangleFill /></span>
+        <p className="flex items-center justify-center text-sm text-gray-500 gap-x-1">
+          <span>
+            <BsExclamationTriangleFill />
+          </span>
           Make sure your face has been seen clearly for better matches
         </p>
         {/* Photos goes here  */}
-        <div className='flex flex-wrap items-center justify-center px-10 mt-5 gap-x-20 gap-y-4'>
-            <EmptyPhotoComp/>
-            <EmptyPhotoComp/>
-            <EmptyPhotoComp/>
-            <EmptyPhotoComp/>
-            <EmptyPhotoComp/>
-            <EmptyPhotoComp/>
+        <div className="flex flex-wrap items-center justify-center px-10 mt-5 gap-x-20 gap-y-4">
+          <EmptyPhotoComp />
+          <EmptyPhotoComp />
+          <EmptyPhotoComp />
+          <EmptyPhotoComp />
+          <EmptyPhotoComp />
+          <EmptyPhotoComp />
         </div>
 
         <div className="flex justify-around mt-10">
@@ -48,9 +46,9 @@ const Step5 = () => {
           </button>
           <button
             className="w-80 mx-auto bg-[#F24822] rounded-lg h-10 text-white font-semibold  hover:bg-white hover:text-rose-950 hover:border-2 hover:border-rose-950"
-            onClick={handleSubmit}
+            type="submit"
           >
-            Next
+            Submit
           </button>
         </div>
       </form>

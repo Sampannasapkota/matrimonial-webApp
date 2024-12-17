@@ -1,8 +1,8 @@
 import React from "react";
 import comment from "../assets/fluent_comment-48-regular.png";
-import pic1 from "../assets/cropped-SUMIR_BARAL CROPPED.png";
-import pic2 from "../assets/Anish.png";
-import pic3 from "../assets/rimesh_sapkota.png";
+import pic1 from "../assets/hello.png";
+import pic2 from "../assets/hello1.png";
+import pic3 from "../assets/hello2.png";
 
 const Testimonials = () => {
   return (
@@ -22,7 +22,7 @@ const Testimonials = () => {
           <img className="absolute top-[6%] w-8" src={comment} alt="" />
           <img className="w-[50%] mx-auto mt-[6%]" src={pic1} alt="" />
           <h3 className="mt-[6%] mb-[6%] text-[#FF6347] font-semibold text-2xl text-center">
-            Sumir Baral
+            Sarita Baraili
           </h3>
           <p className="p-5 h-[46%] text-center text-[#333333] border-2 border-[#FF6347] rounded-3xl">
             100% partner finder.. wow...Congratulation to all...
@@ -32,7 +32,7 @@ const Testimonials = () => {
           <img className="absolute top-[6%] w-8" src={comment} alt="" />
           <img className="w-[50%] mx-auto mt-[6%]" src={pic2} alt="" />
           <h3 className="mt-[6%] mb-[6%] text-[#FF6347] font-semibold text-2xl text-center">
-            Anish Gadtaula
+            Sibham Karki
           </h3>
           <p className="p-5 h-[46%] text-center text-[#333333] border-2 border-[#FF6347] rounded-3xl">
             Wowowowowowo just wow
@@ -42,7 +42,7 @@ const Testimonials = () => {
           <img className="absolute top-[6%] w-8" src={comment} alt="" />
           <img className="w-[50%] mx-auto mt-[6%]" src={pic3} alt="" />
           <h3 className="mt-[6%] mb-[6%] text-[#FF6347] font-semibold text-2xl text-center">
-            Rimesh Sapkota
+            Shibu Sharma
           </h3>
           <p className="p-5 h-[46%] text-center text-[#333333] border-2 border-[#FF6347] rounded-3xl">
             Lovely..❤

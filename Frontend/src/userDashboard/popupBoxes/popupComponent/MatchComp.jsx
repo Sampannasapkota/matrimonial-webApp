@@ -7,7 +7,7 @@ const MatchComp = () => {
     <div className="flex gap-x-4 ">
       <img className="w-12" src={profilePic} alt="profilepic" />
       <div className="flex items-center gap-x-8 ">
-        <h3 className="w-32">Khaire</h3>
+        <h3 className="w-32">Pujan</h3>
         {/* message  */}
         <BiMessageRoundedDetail className="text-[#F24822] text-3xl" />
       </div>

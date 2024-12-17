@@ -9,7 +9,7 @@ const LikesComp = () => {
       <div className="flex items-center gap">
         <IoMdHeart className="p-0 m-0 text-[#FF3D00]" />
         <h3 className="text-[14px] w-28">
-          Khaire
+          Sampanna
         </h3>
         <div className=" flex justify-center items-center rounded-full bg-[#FF3D00] text-white text-[12px] w-24 h-8 ">
           View Profile
