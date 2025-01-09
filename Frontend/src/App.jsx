@@ -11,6 +11,13 @@ import Step2 from "./RegisterSteps/Step2";
 import Step3 from "./RegisterSteps/Step3";
 import Step4 from "./RegisterSteps/Step4";
 import Step5 from "./RegisterSteps/Step5";
+import { useAuth } from "./auth/authContext";
+
+// const ProtectedRoutes = () => {
+//   const { token } = useAuth();
+//   console.log({ token });
+//   return token ? <AppLayout /> : <Navigate to="/login" />;
+// };
 
 function App() {
   return (

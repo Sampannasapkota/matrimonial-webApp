@@ -92,31 +92,28 @@ enum ResidentialStatus {
 model Role {
   id   Int    @id @default(autoincrement())
   name String @unique
+  
 }
 
 model User {
-  id               Int            @id @default(autoincrement())
-  roleId           Int?
-  role             String
-  fullname         String
-  email            String         @unique
-  password         String
-  gender           Gender
-  socialSignIn     Boolean
-  status           Boolean        @default(true)
-  createdAt        DateTime       @default(now())
-  updatedAt        DateTime       @default(now())
-  profile          Profile?
-  messagesSent     Message[]      @relation("SenderMessages")
-  messagesReceived Message[]      @relation("ReceiverMessages")
-  matches          Match[]        @relation("UserMatches")
-  interests        InterestUser[]
-  matchesAsUserOne Match[]        @relation("UserOneMatches")
-  matchesAsUserTwo Match[]        @relation("UserTwoMatches")
-  familyDetails    FamilyDetails?
-  Like             Like[]         @relation("UserLikes")
-
-  Report Report[]
+  id            Int      @id @default(autoincrement())
+  roleId        Int?
+  role          String     
+  fullname      String
+  email         String   @unique
+  password      String
+  gender        Gender
+  socialSignIn  Boolean
+  status        Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @default(now())
+  profile       Profile?
+  messagesSent  Message[] @relation("SenderMessages")
+  messagesReceived Message[] @relation("ReceiverMessages")
+  matches       Match[] @relation("UserMatches")
+  interests     InterestUser[]
+  matchesAsUserOne Match[]   @relation("UserOneMatches") 
+  matchesAsUserTwo Match[]   @relation("UserTwoMatches") 
 }
 
 model Province {
