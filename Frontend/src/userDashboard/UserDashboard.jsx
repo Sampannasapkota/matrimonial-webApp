@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import mainLogo from "../assets/main-logo.png";
 import wedding from "../assets/wedding.jpeg";
 import { RiHeartsFill } from "react-icons/ri";
+import json from "../data.json";
 import {
   FaBell,
   FaSmoking,
@@ -12,7 +13,6 @@ import {
 import { BiMessageRoundedDetail } from "react-icons/bi";
 
 import { IoMdHeart, IoMdOptions } from "react-icons/io";
-import { SlOptionsVertical } from "react-icons/sl";
 import photo from "../assets/Rectangle 100.png";
 import { HiMiniXMark } from "react-icons/hi2";
 import InterestComponent from "./InterestComponent";
@@ -30,6 +30,8 @@ const UserDashboard = () => {
 
   const [isBoxVisible, setIsBoxVisible] = useState(false);
 
+  const user = json.find((user) => user.id === 1);
+
   const toggleBox = () => {
     setIsBoxVisible(!isBoxVisible);
   };
@@ -40,7 +42,7 @@ const UserDashboard = () => {
 
   return (
     <div className="flex flex-col h-screen font-outfit" id="dashboard">
-      <nav className="absolute z-10 bg-white w-full flex items-center justify-center h-[12%]">
+      <nav className="z-10 bg-white w-full flex items-center justify-center h-[12%]">
         <img src={mainLogo} className="w-20 pl-3" alt="logo" />
 
         <div className="flex items-center justify-end pr-8 gap-x-12 w-[85%]">
@@ -97,17 +99,19 @@ const UserDashboard = () => {
       <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-red-500 to-orange-400 opacity-70"></div>
       {/* main Section to view  */}
 
-      <div className="absolute flex justify-around bg-transparent left-44 top-32 w-[80%] h-[70%]  ">
+      <div className="absolute flex justify-around items-center bg-transparent left-44 top-[16%] w-[80%] h-[32em]  ">
         <div className=" bg-white w-[25%] rounded-3xl h-full">
           <MySection />
         </div>
-        <div className="relative bg-white w-[70%] rounded-3xl h-full">
+        {/* Dashboard with picture  */}
+
+        <div className="relative bg-white w-[50em] rounded-3xl h-full">
           <IoMdOptions className="absolute left-[5%] top-5 text-4xl text-[#F24822]  " />
-          <ReportPopup/>
+          <ReportPopup />
           {/* <SlOptionsVertical className="absolute right-[5%] top-5 text-4xl text-[#F24822]  " /> */}
           <div className="flex flex-col gap-y-4">
             {/* profile photo and like btn and cross btn  */}
-            <div className="flex justify-center items-center gap-12 w-full mt-20 ">
+            <div className="flex items-center justify-center w-full gap-12 mt-20 ">
               <div className="flex items-center justify-center w-24 h-24 rounded-full shadow-xl">
                 <HiMiniXMark className="text-gray-500 text-7xl" />
               </div>
@@ -120,15 +124,18 @@ const UserDashboard = () => {
             </div>
             {/* name  */}
             <h1 className="text-3xl text-[#F24822] font-semibold text-center">
-              Sammantha Bhattarai{" "}
-              <span className="text-3xl font-semibold text-black">- 22</span>
+              {user.name}{" "}
+              <span className="text-3xl font-semibold text-black">
+                {"- "}
+                {user.age}
+              </span>
             </h1>
             <div className="flex justify-center gap-x-2">
-              <InterestComponent name="Animal" />
-              <InterestComponent name="Travel" />
-              <InterestComponent name="Dance" />
-              <InterestComponent name="Music" />
-              <InterestComponent name="Singing" />
+              <InterestComponent name={user.interest[0]} />
+              <InterestComponent name={user.interest[1]} />
+              <InterestComponent name={user.interest[2]} />
+              <InterestComponent name={user.interest[3]} />
+              <InterestComponent name={user.interest[4]} />
             </div>
             <div className="flex justify-center text-gray-700 gap-x-6 ">
               <PersonalIdentity icon=<FaUserGraduate /> name="Student" />

@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import mainLogo from "./assets/main-logo.png";
 import wedding from "./assets/wedding.jpeg";
 import Select from "react-select";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
 
 const Register = () => {
    const navigate = useNavigate();
@@ -11,9 +12,7 @@ const Register = () => {
     navigate("/step1");
    }
 
-   const handleLogin = () => {
-     navigate("/login");
-   };
+
   
     const [selectedOption, setSelectedOption] = useState();
     const [isOpen , setIsOpen] = useState(false)
@@ -44,7 +43,7 @@ const Register = () => {
 
   return (
     <div
-      className="relative flex justify-center w-full h-screen items-center bg-center bg-cover font-outfit"
+      className="relative flex items-center justify-center w-full h-screen bg-center bg-cover font-outfit"
       id="register"
       style={{ backgroundImage: `url(${wedding})` }}
     >
@@ -104,9 +103,9 @@ const Register = () => {
           </button>
           <p className="text-center text-gray-600">
             Already a Member?
-            <a className="text-[#F24822] ml-2 underline" href="" onClick={handleLogin}>
+            <Link to='/login' className="text-[#F24822] ml-2 underline" >
               Log In
-            </a>
+            </Link>
           </p>
         </div>
       </form>

@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "name": "Sammantha Bhattarai",
+    "age": 23,
+    "interest": ["Coding", "Music", "Traveling", "Reading", "Cooking"]
+  },
+  {
+    "id": 2,
+    "name": "Sophia Sharma",
+    "age": 25,
+    "interest": ["Reading", "Cooking", "Yoga", "Traveling", "Gaming"]
+  },
+  {
+    "id": 3,
+    "name": "Aarav Joshi",
+    "age": 24,
+    "interest": ["Photography", "Gaming", "Hiking", "Traveling", "Reading"]
+  }
+]
