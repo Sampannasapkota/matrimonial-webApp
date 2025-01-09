@@ -20,7 +20,7 @@ export class UsersService {
 
     if (await this.checkIfUserExist(CreateUserDto.fullname)) {
       throw new BadRequestException(
-        `User ${CreateUserDto.fullname}has alrready been taken`,
+        `User ${CreateUserDto.fullname}has already been taken`,
       );
     }
     const roleObj = await this.prismaService.role.findFirst({

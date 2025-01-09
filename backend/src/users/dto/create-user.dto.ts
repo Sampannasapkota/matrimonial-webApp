@@ -11,9 +11,6 @@ import { Gender } from '@prisma/client';
 
 export class CreateUserDto {
   static role: any;
-  name(name: any) {
-    throw new Error('Method not implemented.');
-  }
   @IsInt()
   @IsOptional()
   roleId: number;
@@ -26,6 +23,7 @@ export class CreateUserDto {
   @IsNotEmpty()
   fullname: string;
 
+  
   @IsEmail()
   @IsNotEmpty()
   email: string;

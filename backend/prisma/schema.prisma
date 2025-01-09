@@ -12,6 +12,7 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
 enum Gender {
   Male
   Female
@@ -67,6 +68,25 @@ enum EmploymentStatus {
   Unemployed
   Retired
 }
+
+enum FamilyType {
+  Joint
+  Nuclear
+  Extended
+}
+
+enum FamilyClass {
+  MiddleClass
+  UpperClass
+  LowerClass
+}
+
+enum ResidentialStatus {
+  NepaliCitizen
+  PRHolder
+  NRN
+}
+
 // Models
 
 model Role {
@@ -75,24 +95,28 @@ model Role {
 }
 
 model User {
-  id            Int      @id @default(autoincrement())
-  roleId        Int?
-  role          String     
-  fullname      String
-  email         String   @unique
-  password      String
-  gender        Gender
-  socialSignIn  Boolean
-  status        Boolean  @default(true)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @default(now())
-  profile       Profile?
-  messagesSent  Message[] @relation("SenderMessages")
-  messagesReceived Message[] @relation("ReceiverMessages")
-  matches       Match[] @relation("UserMatches")
-  interests     InterestUser[]
-  matchesAsUserOne Match[]   @relation("UserOneMatches") 
-  matchesAsUserTwo Match[]   @relation("UserTwoMatches") 
+  id               Int            @id @default(autoincrement())
+  roleId           Int?
+  role             String
+  fullname         String
+  email            String         @unique
+  password         String
+  gender           Gender
+  socialSignIn     Boolean
+  status           Boolean        @default(true)
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @default(now())
+  profile          Profile?
+  messagesSent     Message[]      @relation("SenderMessages")
+  messagesReceived Message[]      @relation("ReceiverMessages")
+  matches          Match[]        @relation("UserMatches")
+  interests        InterestUser[]
+  matchesAsUserOne Match[]        @relation("UserOneMatches")
+  matchesAsUserTwo Match[]        @relation("UserTwoMatches")
+  familyDetails    FamilyDetails?
+  Like             Like[]         @relation("UserLikes")
+
+  Report Report[]
 }
 
 model Province {
@@ -102,17 +126,17 @@ model Province {
 }
 
 model District {
-  id         Int      @id @default(autoincrement())
+  id         Int       @id @default(autoincrement())
   provinceId Int
-  province   Province @relation(fields: [provinceId], references: [id])
+  province   Province  @relation(fields: [provinceId], references: [id])
   name       String
   profiles   Profile[]
 }
 
 model Profile {
-  id                Int             @id @default(autoincrement())
-  userId            Int @unique
-  user              User            @relation(fields: [userId], references: [id])
+  id                Int               @id @default(autoincrement())
+  userId            Int               @unique
+  user              User              @relation(fields: [userId], references: [id])
   gender            Gender
   profilePic        String?
   dietPreference    DietPreference
@@ -120,25 +144,26 @@ model Profile {
   dateOfBirth       String
   religion          Religion
   districtId        Int
-  district          District        @relation(fields: [districtId], references: [id])
+  district          District          @relation(fields: [districtId], references: [id])
+  residentialStatus ResidentialStatus   @default(NepaliCitizen)
   height            Float
   maritalStatus     MaritalStatus
   educationStatus   EducationLevel
   employmentStatus  EmploymentStatus
   partnerPreference String
-  createdAt         DateTime        @default(now())
-  updatedAt         DateTime        @default(now())
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @default(now())
 }
 
 model Message {
-  id          Int      @id @default(autoincrement())
-  senderId    Int
-  sender      User     @relation("SenderMessages", fields: [senderId], references: [id])
-  receiverId  Int
-  receiver    User     @relation("ReceiverMessages", fields: [receiverId], references: [id])
+  id             Int       @id @default(autoincrement())
+  senderId       Int
+  sender         User      @relation("SenderMessages", fields: [senderId], references: [id])
+  receiverId     Int
+  receiver       User      @relation("ReceiverMessages", fields: [receiverId], references: [id])
   messageContent String
-  sentAt      DateTime
-  readAt      DateTime?
+  sentAt         DateTime
+  readAt         DateTime?
 }
 
 model Match {
@@ -152,10 +177,9 @@ model Match {
   User User[] @relation("UserMatches")
 }
 
-
 model Interest {
-  id    Int      @id @default(autoincrement())
-  name  String   @unique
+  id    Int            @id @default(autoincrement())
+  name  String         @unique
   users InterestUser[]
 }
 
@@ -164,5 +188,32 @@ model InterestUser {
   user       User     @relation(fields: [userId], references: [id])
   interestId Int
   interest   Interest @relation(fields: [interestId], references: [id])
-  @@id([userId,interestId])
+
+  @@id([userId, interestId])
+}
+
+model FamilyDetails {
+  id          Int         @id @default(autoincrement())
+  userId      Int         @unique
+  user        User        @relation(fields: [userId], references: [id])
+  familyType  FamilyType
+  familyClass FamilyClass
+  religion    Religion
+  gotra       String
+}
+
+model Like {
+  id     Int  @default(autoincrement())
+  userId Int
+  user   User @relation("UserLikes", fields: [userId], references: [id])
+
+  @@id([userId])
+}
+
+model Report {
+  id            Int      @id @default(autoincrement())
+  userId        Int
+  user          User     @relation(fields: [userId], references: [id])
+  reportContent String
+  reportDate    DateTime @default(now())
 }
