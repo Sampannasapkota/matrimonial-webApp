@@ -114,6 +114,12 @@ model User {
   interests     InterestUser[]
   matchesAsUserOne Match[]   @relation("UserOneMatches") 
   matchesAsUserTwo Match[]   @relation("UserTwoMatches") 
+
+  Like Like[] @relation("UserLikes")
+
+  Report Report[]
+
+  FamilyDetails FamilyDetails[]
 }
 
 model Province {
