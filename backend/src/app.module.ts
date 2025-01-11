@@ -8,11 +8,11 @@ import { DistrictsModule } from './districts/districts.module';
 import { ProfilesModule } from './profiles/profiles.module';
 import { MessagesModule } from './messages/messages.module';
 import { MatchesModule } from './matches/matches.module';
-import { InterestsModule } from './interests/interests.module';
-import { InterestusersModule } from './interestusers/interestusers.module';
+import { ReportsModule } from './reports/reports.module';
+import { LikesModule } from './likes/likes.module';
 
 @Module({
-  imports: [RolesModule, UsersModule, ProvincesModule, DistrictsModule, ProfilesModule, MessagesModule, MatchesModule, InterestsModule, InterestusersModule],
+  imports: [RolesModule, UsersModule, ProvincesModule, DistrictsModule, ProfilesModule, MessagesModule, MatchesModule,  ReportsModule, LikesModule],
   controllers: [AppController],
   providers: [AppService],
 })
