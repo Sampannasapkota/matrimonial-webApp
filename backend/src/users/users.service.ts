@@ -15,14 +15,15 @@ export class UsersService {
 
   async create(CreateUserDto: CreateUserDto) {
     CreateUserDto.fullname = CreateUserDto.fullname
-      ? capitalizeFirstLetterOfEachWordInAphrase(CreateUserDto.fullname)
+      ? capitalizeFirstLetterOfEachWordInAphrase(CreateUserDto.fullname.trim())
       : '';
 
     if (await this.checkIfUserExist(CreateUserDto.fullname)) {
       throw new BadRequestException(
-        `User ${CreateUserDto.fullname}has already been taken`,
+        `User ${CreateUserDto.fullname} has already been taken`,
       );
     }
+
     const roleObj = await this.prismaService.role.findFirst({
       where: { name: CreateUserDto.role },
     });

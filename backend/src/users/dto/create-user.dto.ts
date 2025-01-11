@@ -10,7 +10,6 @@ import {
 import { Gender } from '@prisma/client';
 
 export class CreateUserDto {
-  static role: any;
   @IsInt()
   @IsOptional()
   roleId: number;

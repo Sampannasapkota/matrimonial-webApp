@@ -9,7 +9,8 @@ export class MessagesController {
 
   @Post()
   create(@Body() createMessageDto: CreateMessageDto) {
-    return this.messagesService.create(createMessageDto);
+    const { senderId, receiverId, messageContent } = createMessageDto;
+    return this.messagesService.create(senderId, receiverId, messageContent);
   }
 
   @Get()
@@ -24,7 +25,7 @@ export class MessagesController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateMessageDto: UpdateMessageDto) {
-    return this.messagesService.update(+id, updateMessageDto);
+    return this.messagesService.update(+id, updateMessageDto.messageContent);
   }
 
   @Delete(':id')

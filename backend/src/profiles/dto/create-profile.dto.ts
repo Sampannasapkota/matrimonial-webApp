@@ -67,7 +67,7 @@ export class CreateProfileDto {
 
   @IsEnum(EducationLevel)
   @IsNotEmpty()
-  educationStatus: EducationLevel;
+  educationLevel: EducationLevel;
 
   @IsEnum(EmploymentStatus)
   @IsNotEmpty()

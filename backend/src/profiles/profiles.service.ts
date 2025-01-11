@@ -2,15 +2,15 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateProfileDto } from './dto/create-profile.dto';
 
-// import {
-//   Gender,
-//   DietPreference,
-//   Religion,
-//   MaritalStatus,
-//   EducationLevel,
-//   EmploymentStatus,
-// } from '@prisma/client';
-// import { Profile } from './entities/profile.entity';
+import {
+  Gender,
+  DietPreference,
+  Religion,
+  MaritalStatus,
+  EducationLevel,
+  EmploymentStatus,
+} from '@prisma/client';
+import { Profile } from './entities/profile.entity';
 
 @Injectable()
 export class ProfilesService {
@@ -28,8 +28,8 @@ export class ProfilesService {
       religion,
       height,
       maritalStatus,
-      educationStatus,
       employmentStatus,
+      educationLevel,
       partnerPreference,
     } = createProfileDto;
 
@@ -46,7 +46,7 @@ export class ProfilesService {
 
         height,
         maritalStatus,
-        educationStatus,
+        educationLevel,
         employmentStatus,
         partnerPreference,
       },
