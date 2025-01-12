@@ -10,9 +10,10 @@ import { MessagesModule } from './messages/messages.module';
 import { MatchesModule } from './matches/matches.module';
 import { ReportsModule } from './reports/reports.module';
 import { LikesModule } from './likes/likes.module';
+import { FamilydetailsModule } from './familydetails/familydetails.module';
 
 @Module({
-  imports: [RolesModule, UsersModule, ProvincesModule, DistrictsModule, ProfilesModule, MessagesModule, MatchesModule,  ReportsModule, LikesModule],
+  imports: [RolesModule, UsersModule, ProvincesModule, DistrictsModule, ProfilesModule, MessagesModule, MatchesModule,  ReportsModule, LikesModule, FamilydetailsModule],
   controllers: [AppController],
   providers: [AppService],
 })

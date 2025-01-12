@@ -75,16 +75,17 @@ enum FamilyType {
   Extended
 }
 
-enum FamilyClass {
-  MiddleClass
-  UpperClass
-  LowerClass
-}
+
 
 enum ResidentialStatus {
   NepaliCitizen
   PRHolder
   NRN
+}
+enum FamilyClass {
+  MiddleClass
+  UpperClass
+  LowerClass
 }
 enum Ethnicity {
   Brahmin
