@@ -121,6 +121,29 @@ enum MotherTongue {
   Limbu
   Others
 }
+enum Interests {
+  Animals
+  Travel
+  Food
+  Sports
+  Art
+  Movie
+  Music
+  Dancing
+  Singing
+  Comedy
+  Beauty
+  Science
+  Reading
+  Technology
+  Cooking
+  Fitness
+  Shopping
+  Writing
+  Business
+  Others
+
+}
 
 // Models
 
@@ -214,13 +237,12 @@ model Match {
   userTwoId Int
   userTwo   User     @relation("UserTwoMatches", fields: [userTwoId], references: [id])
   matchDate DateTime @default(now())
-
-  User User[] @relation("UserMatches")
+User User[] @relation("UserMatches")
 }
 
 model Interest {
   id    Int            @id @default(autoincrement())
-  name  String         @unique
+  interest Interests
   users InterestUser[]
 }
 

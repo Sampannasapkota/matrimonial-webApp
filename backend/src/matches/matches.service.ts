@@ -1,26 +1,70 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateMatchDto } from './dto/create-match.dto';
 import { UpdateMatchDto } from './dto/update-match.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class MatchesService {
-  create(createMatchDto: CreateMatchDto) {
-    return 'This action adds a new match';
+
+  constructor(private prismaService: PrismaService) {}
+
+  async create(createMatchDto: CreateMatchDto) {
+    
+    return this.prismaService.match.create({
+      data: {
+        userOneId: createMatchDto.userOneId,
+        userTwoId: createMatchDto.userTwoId,
+        matchDate: createMatchDto.matchDate || new Date(),
+      },
+    });
   }
 
-  findAll() {
-    return `This action returns all matches`;
+  async findAll() {
+    return this.prismaService.match.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} match`;
+  async findOne(id: number) {
+    const match = await this.prismaService.match.findUnique({
+      where: {
+        id,
+      },
+    });
+    if (!match) {
+      throw new NotFoundException(`Match with ID ${id} not found`);
+    }
+    return match;
   }
 
-  update(id: number, updateMatchDto: UpdateMatchDto) {
-    return `This action updates a #${id} match`;
+  async update(id: number, updateMatchDto: UpdateMatchDto) {
+    const match= await this.prismaService.match.findUnique({
+      where: {
+        id,
+      },
+    });
+    if (!match) {
+      throw new NotFoundException(`Match with ID ${id} not found`);
+    }
+    return this.prismaService.match.update({
+      where: {
+        id,
+      },
+      data: updateMatchDto,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} match`;
+  async remove(id: number) {
+    const match= await this.prismaService.match.findUnique({
+      where: {
+        id,
+      },
+    });
+    if (!match) {
+      throw new NotFoundException(`Match with ID ${id} not found`);
+    }
+    return this.prismaService.match.delete({
+      where: {
+        id,
+      },
+    });
   }
 }

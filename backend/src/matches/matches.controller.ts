@@ -8,22 +8,22 @@ export class MatchesController {
   constructor(private readonly matchesService: MatchesService) {}
 
   @Post()
-  create(@Body() createMatchDto: CreateMatchDto) {
+  async create(@Body() createMatchDto: CreateMatchDto) {
     return this.matchesService.create(createMatchDto);
   }
 
   @Get()
-  findAll() {
+  async findAll() {
     return this.matchesService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string) {
     return this.matchesService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMatchDto: UpdateMatchDto) {
+  async update(@Param('id') id: string, @Body() updateMatchDto: UpdateMatchDto) {
     return this.matchesService.update(+id, updateMatchDto);
   }
 
