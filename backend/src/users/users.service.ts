@@ -11,6 +11,7 @@ import { capitalizeFirstLetterOfEachWordInAphrase } from 'src/helpers/capitalize
 
 @Injectable()
 export class UsersService {
+  [x: string]: any;
   constructor(private readonly prismaService: PrismaService) {}
 
   async create(CreateUserDto: CreateUserDto) {

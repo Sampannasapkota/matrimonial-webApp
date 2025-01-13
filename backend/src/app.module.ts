@@ -12,9 +12,10 @@ import { InterestsModule } from './interests/interests.module';
 import { ReportsModule } from './reports/reports.module';
 import { LikesModule } from './likes/likes.module';
 import { FamilydetailsModule } from './familydetails/familydetails.module';
+import { AuthModule } from './authentication/auth.module';
 
 @Module({
-  imports: [RolesModule, UsersModule, ProvincesModule, DistrictsModule, ProfilesModule, MessagesModule, MatchesModule, InterestsModule, ReportsModule, LikesModule, FamilydetailsModule],
+  imports: [RolesModule, UsersModule,AuthModule, ProvincesModule, DistrictsModule, ProfilesModule, MessagesModule, MatchesModule, InterestsModule, ReportsModule, LikesModule, FamilydetailsModule],
   controllers: [AppController],
   providers: [AppService],
 })
