@@ -1,4 +1,5 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Req, Res } from '@nestjs/common';
+import { Request, Response } from 'express';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -13,9 +14,22 @@ export class UsersController {
   }
 
   @Get()
-  findAll() {
-    return this.usersService.findAll();
-  }
+ async findAll(@Req()request:Request,@Res()response:Response):Promise<any> {
+    try{
+      const users = await this.usersService.findAll();
+      return response.status(200).json({
+        status:'Ok',
+        message:'Successfully fetch data',
+        users:users
+      });
+    }catch(err){
+      return response.status(500).json({
+        status:'Error',
+        message:'Failed to fetch data',
+        error:err
+        });
+    }
+ }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
