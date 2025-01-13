@@ -1,10 +1,12 @@
+import { IsInt, IsOptional } from "class-validator";
+
 export class CreateMatchDto {
-
-    userOneId: number;
-    userTwoId: number;
-    matchDate?: Date;
-
-
+  @IsInt()
+  userOneId: number;
+  @IsInt()
+  userTwoId: number;
+  @IsOptional()
+  matchDate?: Date;
 }
 
 /* 
