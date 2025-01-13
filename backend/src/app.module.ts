@@ -13,10 +13,24 @@ import { ReportsModule } from './reports/reports.module';
 import { LikesModule } from './likes/likes.module';
 import { FamilydetailsModule } from './familydetails/familydetails.module';
 import { AuthModule } from './authentication/auth.module';
-
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [RolesModule, UsersModule,AuthModule, ProvincesModule, DistrictsModule, ProfilesModule, MessagesModule, MatchesModule, InterestsModule, ReportsModule, LikesModule, FamilydetailsModule],
+  imports: [
+    RolesModule,
+    UsersModule,
+    AuthModule,
+    ProvincesModule,
+    DistrictsModule,
+    ProfilesModule,
+    MessagesModule,
+    MatchesModule,
+    InterestsModule,
+    ReportsModule,
+    LikesModule,
+    FamilydetailsModule,
+    ConfigModule.forRoot(),
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
