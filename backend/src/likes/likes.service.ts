@@ -6,13 +6,16 @@ import { PrismaService } from 'src/prisma/prisma.service';
 @Injectable()
 export class LikesService {
   constructor(private readonly prismaService: PrismaService){}
+
   async create(createLikeDto: CreateLikeDto) {
 
     const {userId}= createLikeDto;
-    return await this.prismaService.like.create({
-      data: {
+    return await this.prismaService.like.upsert({
+      where: {
         userId,
       },
+      update:{},
+      create:{userId},
     });
   }
 
@@ -20,22 +23,22 @@ export class LikesService {
     return await this.prismaService.like.findMany();
   }
 
-  async findOne(id: number) {
+  async findOne(userId: number) {
     return await this.prismaService.like.findUnique({
-      where :{ userId: id},
+      where :{ userId},
     });
   }
 
-  async update(id: number, updateLikeDto: UpdateLikeDto) {
+  async update(userId: number, updateLikeDto: UpdateLikeDto) {
     return await this.prismaService.like.update({
-      where:{userId: id},
+      where:{userId},
       data: updateLikeDto,
     });
   }
 
-  async remove(id: number) {
+  async remove(userId: number) {
     return await this.prismaService.like.delete({
-      where: {userId: id},
+      where: {userId},
     });
   }
 }
