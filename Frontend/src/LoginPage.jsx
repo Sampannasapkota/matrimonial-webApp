@@ -11,7 +11,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { api } from "./api/index";
 
 const LoginPage = () => {
+<<<<<<< HEAD
   const [email, setEmail] = useState("");
+=======
+  const navigate = useNavigate();
+  // const { login } = useAuth();
+
+  const [username, setUsername] = useState("");
+>>>>>>> 9da07ed25c6c765beae221679f129a11f55ce504
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
