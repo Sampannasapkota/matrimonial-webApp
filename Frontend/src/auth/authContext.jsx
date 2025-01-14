@@ -1,5 +1,6 @@
-import React, { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
 
+// Define the initial context value
 const AuthContext = createContext({
   token: null,
   isAuthenticated: false,
@@ -7,6 +8,7 @@ const AuthContext = createContext({
   logout: () => {},
 });
 
+// Define the AuthProvider component
 const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const token = localStorage.getItem("token");
@@ -30,6 +32,7 @@ const AuthProvider = ({ children }) => {
   );
 };
 
+// Hook to use the AuthContext
 const useAuth = () => useContext(AuthContext);
 
 export { AuthProvider, useAuth };
