@@ -16,7 +16,9 @@ const About = () => {
           smooth experience. <br />
           <p className="mt-10">
             <span className="text-[#FF6347] text-[40px] font-bold underline">
+              <a href="">
               Join us
+              </a>
             </span>{" "}
             today to explore a supportive, <br />
             transparent, and privacy-centric platform that <br /> empowers you
