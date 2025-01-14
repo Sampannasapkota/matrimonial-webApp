@@ -1,4 +1,4 @@
-import { useState } from "react";
+
 import "./App.css";
 import HomePage from "./homePage/HomePage";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -11,7 +11,6 @@ import Step2 from "./RegisterSteps/Step2";
 import Step3 from "./RegisterSteps/Step3";
 import Step4 from "./RegisterSteps/Step4";
 import Step5 from "./RegisterSteps/Step5";
-import { useAuth } from "./auth/authContext";
 
 // const ProtectedRoutes = () => {
 //   const { token } = useAuth();
@@ -41,13 +40,6 @@ function App() {
         <Route path="/step5" element={<Step5 />} />
       </Routes>
      </Router> 
-    // <UserDashboard/>
-    // <Step1/>
-    // <Step2/>
-    // <Step3/>
-    // <Step4/>
-    // <Step5 />
-    // <Register/>
   );
 }
 
