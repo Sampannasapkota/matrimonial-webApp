@@ -37,47 +37,68 @@ export class MatchesService {
   }
 
   async findAll() {
-    return await this.prismaService.match.findMany();
+    // Fetch all matches with related user details
+    return await this.prismaService.match.findMany({
+      include: {
+        userOne: true,
+        userTwo: true,
+      },
+    });
   }
 
-  async findOne(id: number) {
+  async findOne(userOneId: number, userTwoId: number) {
+    // Find match by composite ID
     const match = await this.prismaService.match.findUnique({
-      where: { id },
+      where: { userOneId_userTwoId: { userOneId, userTwoId } },
+      include: {
+        userOne: true,
+        userTwo: true,
+      },
     });
 
     if (!match) {
-      throw new BadRequestException(`Match with ID ${id} not found`);
+      throw new BadRequestException(
+        `Match between users ${userOneId} and ${userTwoId} not found`
+      );
     }
 
     return match;
   }
 
-  async update(id: number, updateMatchDto: UpdateMatchDto) {
+  async update(userOneId: number, userTwoId: number, updateMatchDto: UpdateMatchDto) {
+    // Check if the match exists
     const match = await this.prismaService.match.findUnique({
-      where: { id },
+      where: { userOneId_userTwoId: { userOneId, userTwoId } },
     });
 
     if (!match) {
-      throw new BadRequestException(`Match with ID ${id} not found`);
+      throw new BadRequestException(
+        `Match between users ${userOneId} and ${userTwoId} not found`
+      );
     }
 
+    // Update the match
     return await this.prismaService.match.update({
-      where: { id },
+      where: { userOneId_userTwoId: { userOneId, userTwoId } },
       data: updateMatchDto,
     });
   }
 
-  async remove(id: number) {
+  async remove(userOneId: number, userTwoId: number) {
+    // Check if the match exists
     const match = await this.prismaService.match.findUnique({
-      where: { id },
+      where: { userOneId_userTwoId: { userOneId, userTwoId } },
     });
 
     if (!match) {
-      throw new BadRequestException(`Match with ID ${id} not found`);
+      throw new BadRequestException(
+        `Match between users ${userOneId} and ${userTwoId} not found`
+      );
     }
 
+    // Delete the match
     return await this.prismaService.match.delete({
-      where: { id },
+      where: { userOneId_userTwoId: { userOneId, userTwoId } },
     });
   }
 }

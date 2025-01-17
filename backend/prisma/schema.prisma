@@ -75,18 +75,18 @@ enum FamilyType {
   Extended
 }
 
-
-
 enum ResidentialStatus {
   NepaliCitizen
   PRHolder
   NRN
 }
+
 enum FamilyClass {
   MiddleClass
   UpperClass
   LowerClass
 }
+
 enum Ethnicity {
   Brahmin
   Chhetri
@@ -103,11 +103,13 @@ enum Ethnicity {
   Janajati
   Others
 }
+
 enum FamilyValue {
   Traditional
   Modern
   Liberal
 }
+
 enum MotherTongue {
   Nepali
   Newari
@@ -122,6 +124,7 @@ enum MotherTongue {
   Limbu
   Others
 }
+
 enum Interests {
   Animals
   Travel
@@ -143,7 +146,6 @@ enum Interests {
   Writing
   Business
   Others
-
 }
 
 // Models
@@ -151,34 +153,36 @@ enum Interests {
 model Role {
   id   Int    @id @default(autoincrement())
   name String @unique
-  
 }
 
 model User {
-  id            Int      @id @default(autoincrement())
-  roleId        Int?
-  role          String     
-  fullname      String
-  email         String   @unique
-  password      String
-  gender        Gender
-  socialSignIn  Boolean
-  status        Boolean  @default(true)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @default(now())
-  profile       Profile?
-  messagesSent  Message[] @relation("SenderMessages")
-  messagesReceived Message[] @relation("ReceiverMessages")
-  matches       Match[] @relation("UserMatches")
-  interests     InterestUser[]
-  matchesAsUserOne Match[]   @relation("UserOneMatches") 
-  matchesAsUserTwo Match[]   @relation("UserTwoMatches") 
+  id               Int            @id @default(autoincrement())
+  roleId           Int?
+  role             String
+  fullname         String
+  email            String         @unique
+  password         String
+  gender           Gender
+  socialSignIn     Boolean
+  status           Boolean        @default(true)
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @default(now())
+  profile          Profile?
+  messagesSent     Message[]      @relation("SenderMessages")
+  messagesReceived Message[]      @relation("ReceiverMessages")
+  interests        InterestUser[]
+  matchesAsUserOne Match[]        @relation("UserOneMatches")
+  matchesAsUserTwo Match[]        @relation("UserTwoMatches")
 
   Like Like[] @relation("UserLikes")
 
   Report Report[]
 
   FamilyDetails FamilyDetails[]
+
+  UploadPhoto UploadPhoto[]
+
+  PartnerPreference PartnerPreference[]
 }
 
 model Province {
@@ -207,14 +211,14 @@ model Profile {
   religion          Religion
   districtId        Int
   district          District          @relation(fields: [districtId], references: [id])
-  residentialStatus ResidentialStatus   @default(NepaliCitizen)
+  residentialStatus ResidentialStatus @default(NepaliCitizen)
   familyType        FamilyType        @default(Nuclear)
   height            Float
-  incomeRange       Int @default(0)
+  incomeRange       Int               @default(0)
   maritalStatus     MaritalStatus
-  educationLevel   EducationLevel @default(PrimaryLevel)
+  educationLevel    EducationLevel    @default(PrimaryLevel)
   employmentStatus  EmploymentStatus
-  motherTongue      MotherTongue @default(Nepali)
+  motherTongue      MotherTongue      @default(Nepali)
   partnerPreference String
   createdAt         DateTime          @default(now())
   updatedAt         DateTime          @default(now())
@@ -232,19 +236,19 @@ model Message {
 }
 
 model Match {
-  id        Int      @id @default(autoincrement())
   userOneId Int
   userOne   User     @relation("UserOneMatches", fields: [userOneId], references: [id])
   userTwoId Int
   userTwo   User     @relation("UserTwoMatches", fields: [userTwoId], references: [id])
   matchDate DateTime @default(now())
-User User[] @relation("UserMatches")
+
+  @@id([userOneId, userTwoId])
 }
 
 model Interest {
-  id    Int            @id @default(autoincrement())
-  interest Interests
-  users InterestUser[]
+  id       Int            @id @default(autoincrement())
+  interest Interests?
+  users    InterestUser[]
 }
 
 model InterestUser {
@@ -257,15 +261,14 @@ model InterestUser {
 }
 
 model FamilyDetails {
-  id          Int         @id @default(autoincrement())
-  userId      Int         @unique
-  user        User        @relation(fields: [userId], references: [id])
-  ethnicity   Ethnicity
+  id           Int         @id @default(autoincrement())
+  userId       Int         @unique
+  user         User        @relation(fields: [userId], references: [id])
+  ethnicity    Ethnicity
   familyValues FamilyValue
-  familyClass FamilyClass
-  religion    Religion
-  gotra       String
-
+  familyClass  FamilyClass
+  religion     Religion
+  gotra        String
 }
 
 model Like {
@@ -282,4 +285,29 @@ model Report {
   user          User     @relation(fields: [userId], references: [id])
   reportContent String
   reportDate    DateTime @default(now())
+}
+
+model UploadPhoto {
+  id     Int    @id @default(autoincrement())
+  file   String
+  userId Int
+  user   User   @relation(fields: [userId], references: [id])
+}
+
+model PartnerPreference {
+  id                Int               @id @default(autoincrement())
+  userId            Int
+  user              User              @relation(fields: [userId], references: [id])
+  maritalStatus     MaritalStatus
+  ageRange          Int               @default(0)
+  dietPreference    DietPreference
+  religion          Religion
+  familyValues      FamilyValue
+  ethnicity         Ethnicity
+  familyClass       FamilyClass
+  residentialStatus ResidentialStatus @default(NepaliCitizen)
+  employmentStatus  EmploymentStatus
+  educationLevel    EducationLevel    @default(PrimaryLevel)
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @default(now())
 }

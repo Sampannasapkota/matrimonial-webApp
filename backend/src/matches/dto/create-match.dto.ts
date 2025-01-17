@@ -1,23 +1,16 @@
-import { IsInt, IsOptional } from "class-validator";
+import { IsInt, IsOptional } from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class CreateMatchDto {
   @IsInt()
+  @Type(() => Number)
   userOneId: number;
+
   @IsInt()
+  @Type(() => Number)
   userTwoId: number;
+
   @IsOptional()
+  @Type(() => Date)
   matchDate?: Date;
 }
-
-/* 
-model Match {
-  id        Int      @id @default(autoincrement())
-  userOneId Int
-  userOne   User     @relation("UserOneMatches", fields: [userOneId], references: [id])
-  userTwoId Int
-  userTwo   User     @relation("UserTwoMatches", fields: [userTwoId], references: [id])
-  matchDate DateTime @default(now())
-
-  User User[] @relation("UserMatches")
-}
-*/

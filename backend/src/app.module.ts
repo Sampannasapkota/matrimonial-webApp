@@ -14,6 +14,8 @@ import { LikesModule } from './likes/likes.module';
 import { FamilydetailsModule } from './familydetails/familydetails.module';
 import { AuthModule } from './authentication/auth.module';
 import { ConfigModule } from '@nestjs/config';
+import { UploadPhotosModule } from './upload-photos/upload-photos.module';
+import { PartnerPreferencesModule } from './partner-preferences/partner-preferences.module';
 
 @Module({
   imports: [
@@ -30,6 +32,8 @@ import { ConfigModule } from '@nestjs/config';
     LikesModule,
     FamilydetailsModule,
     ConfigModule.forRoot(),
+    UploadPhotosModule,
+    PartnerPreferencesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

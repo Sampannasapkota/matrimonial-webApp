@@ -18,17 +18,17 @@ export class MatchesController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
-    return this.matchesService.findOne(+id);
+  async findOne(@Param('id') id: string, @Param('userTwoId') userTwoId: string) {
+    return this.matchesService.findOne(+id, +userTwoId);
   }
 
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateMatchDto: UpdateMatchDto) {
-    return this.matchesService.update(+id, updateMatchDto);
+  async update(@Param('id') id: string, @Param('userTwoId') userTwoId: string, @Body() updateMatchDto: UpdateMatchDto) {
+    return this.matchesService.update(+id, +userTwoId, updateMatchDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.matchesService.remove(+id);
+  remove(@Param('id') id: string, @Param('userTwoId') userTwoId: string) {
+    return this.matchesService.remove(+id, +userTwoId);
   }
 }

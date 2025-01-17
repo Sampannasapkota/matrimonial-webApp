@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import wedding from "./assets/wedding.jpeg";
 import mainLogo from "./assets/main-logo.png";
@@ -8,33 +7,26 @@ import img3 from "./assets/Rectangle 80.png";
 import img4 from "./assets/Rectangle 81.png";
 import { IoMdLock, IoMdMail } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
-import { api } from "./api/index";
 
 const LoginPage = () => {
-<<<<<<< HEAD
   const [email, setEmail] = useState("");
-=======
-  const navigate = useNavigate();
-  // const { login } = useAuth();
+
 
   const [username, setUsername] = useState("");
->>>>>>> 9da07ed25c6c765beae221679f129a11f55ce504
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-
   const handleLogin = async (e) => {
     e.preventDefault();
     console.log(email, password);
-    
+
     try {
       const response = await api.post("/auth/login", { username, password });
       console.log(response);
       navigate("/");
       // login(response.data.token);
-    }
-     catch (error) {
+    } catch (error) {
       console.error(error);
       setError(error.response.data.message);
     }
@@ -104,11 +96,7 @@ const LoginPage = () => {
           </div>
           <p className="mt-5 text-center text-gray-600">
             New member?
-            <Link 
-              to='/register'
-              className="text-[#F24822] ml-2 underline"
-              
-            >
+            <Link to="/register" className="text-[#F24822] ml-2 underline">
               SignUp
             </Link>
           </p>
