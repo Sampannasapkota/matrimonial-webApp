@@ -14,10 +14,31 @@ CREATE TYPE "ProvinceName" AS ENUM ('Bagmati', 'Gandaki', 'Koshi', 'Karnali', 'L
 CREATE TYPE "DietPreference" AS ENUM ('Veg', 'NonVeg', 'Eggiterian', 'Vegan', 'NoPreference');
 
 -- CreateEnum
-CREATE TYPE "EducationLevel" AS ENUM ('PrimaryLevel', 'SecondaryLevel', 'HigherSecondaryLevel', 'BachelorDegree', 'MasterDegree', 'PhD');
+CREATE TYPE "EducationLevel" AS ENUM ('PrimaryLevel', 'SecondaryLevel', 'HigherSecondaryLevel', 'Bachelor', 'Masters', 'PhD', 'Diploma');
 
 -- CreateEnum
 CREATE TYPE "EmploymentStatus" AS ENUM ('Employed', 'SelfEmployed', 'Student', 'Unemployed', 'Retired');
+
+-- CreateEnum
+CREATE TYPE "FamilyType" AS ENUM ('Joint', 'Nuclear', 'Extended');
+
+-- CreateEnum
+CREATE TYPE "ResidentialStatus" AS ENUM ('NepaliCitizen', 'PRHolder', 'NRN');
+
+-- CreateEnum
+CREATE TYPE "FamilyClass" AS ENUM ('MiddleClass', 'UpperClass', 'LowerClass');
+
+-- CreateEnum
+CREATE TYPE "Ethnicity" AS ENUM ('Brahmin', 'Chhetri', 'Newar', 'Gurung', 'Magar', 'Rai', 'Limbu', 'Tamang', 'Sherpa', 'Thakuri', 'Dalit', 'Madhesi', 'Janajati', 'Others');
+
+-- CreateEnum
+CREATE TYPE "FamilyValue" AS ENUM ('Traditional', 'Modern', 'Liberal');
+
+-- CreateEnum
+CREATE TYPE "MotherTongue" AS ENUM ('Nepali', 'Newari', 'Maithili', 'Bhojpuri', 'Tharu', 'Tamang', 'Sherpa', 'Gurung', 'Magar', 'Rai', 'Limbu', 'Others');
+
+-- CreateEnum
+CREATE TYPE "Interests" AS ENUM ('Animals', 'Travel', 'Food', 'Sports', 'Art', 'Movie', 'Music', 'Dancing', 'Singing', 'Comedy', 'Beauty', 'Science', 'Reading', 'Technology', 'Cooking', 'Fitness', 'Shopping', 'Writing', 'Business', 'Others');
 
 -- CreateTable
 CREATE TABLE "Role" (
@@ -30,7 +51,8 @@ CREATE TABLE "Role" (
 -- CreateTable
 CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
-    "roleId" INTEGER NOT NULL,
+    "roleId" INTEGER,
+    "role" TEXT NOT NULL,
     "fullname" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
@@ -71,10 +93,14 @@ CREATE TABLE "Profile" (
     "dateOfBirth" TEXT NOT NULL,
     "religion" "Religion" NOT NULL,
     "districtId" INTEGER NOT NULL,
+    "residentialStatus" "ResidentialStatus" NOT NULL DEFAULT 'NepaliCitizen',
+    "familyType" "FamilyType" NOT NULL DEFAULT 'Nuclear',
     "height" DOUBLE PRECISION NOT NULL,
+    "incomeRange" INTEGER NOT NULL DEFAULT 0,
     "maritalStatus" "MaritalStatus" NOT NULL,
-    "educationStatus" "EducationLevel" NOT NULL,
+    "educationLevel" "EducationLevel" NOT NULL DEFAULT 'PrimaryLevel',
     "employmentStatus" "EmploymentStatus" NOT NULL,
+    "motherTongue" "MotherTongue" NOT NULL DEFAULT 'Nepali',
     "partnerPreference" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -96,18 +122,17 @@ CREATE TABLE "Message" (
 
 -- CreateTable
 CREATE TABLE "Match" (
-    "id" SERIAL NOT NULL,
     "userOneId" INTEGER NOT NULL,
     "userTwoId" INTEGER NOT NULL,
     "matchDate" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT "Match_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Match_pkey" PRIMARY KEY ("userOneId","userTwoId")
 );
 
 -- CreateTable
 CREATE TABLE "Interest" (
     "id" SERIAL NOT NULL,
-    "name" TEXT NOT NULL,
+    "interest" "Interests",
 
     CONSTRAINT "Interest_pkey" PRIMARY KEY ("id")
 );
@@ -121,9 +146,63 @@ CREATE TABLE "InterestUser" (
 );
 
 -- CreateTable
-CREATE TABLE "_UserMatches" (
-    "A" INTEGER NOT NULL,
-    "B" INTEGER NOT NULL
+CREATE TABLE "FamilyDetails" (
+    "id" SERIAL NOT NULL,
+    "userId" INTEGER NOT NULL,
+    "ethnicity" "Ethnicity" NOT NULL,
+    "familyValues" "FamilyValue" NOT NULL,
+    "familyClass" "FamilyClass" NOT NULL,
+    "religion" "Religion" NOT NULL,
+    "gotra" TEXT NOT NULL,
+
+    CONSTRAINT "FamilyDetails_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Like" (
+    "id" SERIAL NOT NULL,
+    "userId" INTEGER NOT NULL,
+
+    CONSTRAINT "Like_pkey" PRIMARY KEY ("userId")
+);
+
+-- CreateTable
+CREATE TABLE "Report" (
+    "id" SERIAL NOT NULL,
+    "userId" INTEGER NOT NULL,
+    "reportContent" TEXT NOT NULL,
+    "reportDate" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "Report_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "UploadPhoto" (
+    "id" SERIAL NOT NULL,
+    "file" TEXT NOT NULL,
+    "userId" INTEGER NOT NULL,
+
+    CONSTRAINT "UploadPhoto_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "PartnerPreference" (
+    "id" SERIAL NOT NULL,
+    "userId" INTEGER NOT NULL,
+    "maritalStatus" "MaritalStatus" NOT NULL,
+    "ageRange" INTEGER NOT NULL DEFAULT 0,
+    "dietPreference" "DietPreference" NOT NULL,
+    "religion" "Religion" NOT NULL,
+    "familyValues" "FamilyValue" NOT NULL,
+    "ethnicity" "Ethnicity" NOT NULL,
+    "familyClass" "FamilyClass" NOT NULL,
+    "residentialStatus" "ResidentialStatus" NOT NULL DEFAULT 'NepaliCitizen',
+    "employmentStatus" "EmploymentStatus" NOT NULL,
+    "educationLevel" "EducationLevel" NOT NULL DEFAULT 'PrimaryLevel',
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "PartnerPreference_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -136,16 +215,7 @@ CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 CREATE UNIQUE INDEX "Profile_userId_key" ON "Profile"("userId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Interest_name_key" ON "Interest"("name");
-
--- CreateIndex
-CREATE UNIQUE INDEX "_UserMatches_AB_unique" ON "_UserMatches"("A", "B");
-
--- CreateIndex
-CREATE INDEX "_UserMatches_B_index" ON "_UserMatches"("B");
-
--- AddForeignKey
-ALTER TABLE "User" ADD CONSTRAINT "User_roleId_fkey" FOREIGN KEY ("roleId") REFERENCES "Role"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+CREATE UNIQUE INDEX "FamilyDetails_userId_key" ON "FamilyDetails"("userId");
 
 -- AddForeignKey
 ALTER TABLE "District" ADD CONSTRAINT "District_provinceId_fkey" FOREIGN KEY ("provinceId") REFERENCES "Province"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -175,7 +245,16 @@ ALTER TABLE "InterestUser" ADD CONSTRAINT "InterestUser_userId_fkey" FOREIGN KEY
 ALTER TABLE "InterestUser" ADD CONSTRAINT "InterestUser_interestId_fkey" FOREIGN KEY ("interestId") REFERENCES "Interest"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "_UserMatches" ADD CONSTRAINT "_UserMatches_A_fkey" FOREIGN KEY ("A") REFERENCES "Match"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "FamilyDetails" ADD CONSTRAINT "FamilyDetails_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "_UserMatches" ADD CONSTRAINT "_UserMatches_B_fkey" FOREIGN KEY ("B") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "Like" ADD CONSTRAINT "Like_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Report" ADD CONSTRAINT "Report_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "UploadPhoto" ADD CONSTRAINT "UploadPhoto_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "PartnerPreference" ADD CONSTRAINT "PartnerPreference_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

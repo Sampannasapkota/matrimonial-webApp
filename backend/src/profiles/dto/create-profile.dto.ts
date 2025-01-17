@@ -38,7 +38,7 @@ export class CreateProfileDto {
 
   @IsInt()
   @Min(18)
-  @Max(99)
+  @Max(80)
   @IsNotEmpty()
   ageRange: number;
 
