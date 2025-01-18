@@ -6,6 +6,18 @@ import { useNavigate } from 'react-router-dom';
 
 const Step2 = () => {
     const navigate = useNavigate();
+    const optionsFamilyValues = [
+      { value: "traditional", label: "Traditional" },
+      { value: "modern", label: "Modern" },
+      { value: "liberal", label: "Liberal" },
+      { value: "no-peference", label: "No Preference" },
+    ];
+    const optionsFamilyClass = [
+    { value: "middleClass", label: "Middle Class" },
+    { value: "upperClass", label: "Upper Class" },
+    { value: "lowerClass", label: "Lower Class" },
+    { value: "no-peference", label: "No Preference" },
+  ];
     const optionsFamily = [
       { value: "nuclear", label: "Nuclear" },
       { value: "joint", label: "Joint" },
@@ -21,6 +33,32 @@ const Step2 = () => {
       { value: "drinker", label: "Drinker" },
       { value: "trying-to-quit", label: "Trying to quit" },
     ];
+    const optionsEthnicity = [
+      { value: "brahmin", label: "Brahmin" },
+      { value: "chhetri", label: "Chhetri" },
+      { value: "newar", label: "Newar" },
+      { value: "gurung", label: "Gurung" },
+      { value: "magar", label: "Magar" },
+      { value: "rai", label: "Rai" },
+      { value: "limbu", label: "Limbu" },
+      { value: "tamang", label: "Tamang" },
+      { value: "sherpa", label: "Sherpa" },
+      { value: "thakuri", label: "Thakuri" },
+      { value: "dalit", label: "Dalit" },
+      { value: "madhesi", label: "Madhesi" },
+      { value: "janajati", label: "Janajati" },
+      { value: "others", label: "Others" },
+      { value: "no-peference", label: "No Preference" },
+    ];
+    const optionsReligion = [
+      { value: "hindu", label: "Hindu" },
+      { value: "muslim", label: "Muslim" },
+      { value: "buddhist", label: "Buddhist" },
+      { value: "christain", label: "Christain" },
+      { value: "jains", label: "Jains" },
+      { value: "others", label: "Others" },
+      { value: "no-peference", label: "No Preference" },
+    ];
   return (
     <div
       className="relative flex justify-center w-full h-screen items-center bg-center bg-cover font-outfit"
@@ -34,25 +72,38 @@ const Step2 = () => {
           Setting up your profile
         </p>
         <h2 className="text-[#FF6347] font-semibold text-center text-2xl mb-8">
-          Step 2 : Matchmaking Details
+          Step 2: Family Details
         </h2>
         <div className="flex flex-wrap justify-center gap-10">
-          <Select className="w-80" placeholder="Height" />
+          <Select
+            className="w-80"
+            placeholder="Religion"
+            options={optionsReligion}
+          />
+          <Select
+            className="w-80"
+            placeholder="Ethnicity"
+            options={optionsEthnicity}
+          />
+          <Select
+            className="w-80"
+            placeholder="Family Class"
+            options={optionsFamilyClass}
+          />
+          <input
+            type="text"
+            className="w-80 border-2 border-gray-300 rounded-md pl-2 "
+            placeholder="Gotra"
+          />
           <Select
             className="w-80"
             placeholder="Family Type"
             options={optionsFamily}
           />
-          <Select className="w-80" placeholder="Income Range" />
           <Select
             className="w-80"
-            placeholder="Smoking Preferences"
-            options={optionsSmoking}
-          />
-          <Select
-            className="w-80"
-            placeholder="Drinking Preferences"
-            options={optionsDrinking}
+            placeholder="Family Values"
+            options={optionsFamilyValues}
           />
         </div>
         <div className="flex justify-around mt-14">

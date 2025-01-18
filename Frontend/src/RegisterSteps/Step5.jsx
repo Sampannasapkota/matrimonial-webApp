@@ -5,7 +5,10 @@ import { BsExclamationTriangleFill } from 'react-icons/bs';
 import EmptyPhotoComp from './EmptyPhotoComp';
 import { useNavigate } from 'react-router-dom';
 
+
+
 const Step5 = () => {
+   
   return (
     <div
       className="relative flex justify-center w-full h-screen items-center bg-center bg-cover font-outfit"
@@ -13,7 +16,9 @@ const Step5 = () => {
       style={{ backgroundImage: `url(${wedding})` }}
     >
       <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-red-500 to-orange-400 opacity-70"></div>
-      <form className="absolute px-28 h-[35em] shadow-lg bg-white w-[60em] rounded-3xl">
+      <form
+      onSubmit={handleSubmit}
+       className="absolute px-28 h-[35em] shadow-lg bg-white w-[60em] rounded-3xl">
         <img className="absolute w-16 top-5 left-16" src={mainLogo} alt="" />
         <p className="mt-14 mb-2 text-lg font-light text-center text-gray-600">
           The final step...
@@ -28,17 +33,20 @@ const Step5 = () => {
           Make sure your face has been seen clearly for better matches
         </p>
         {/* Photos goes here  */}
-        <div className="flex flex-wrap items-center justify-center px-10 mt-5 gap-x-20 gap-y-4">
-          <EmptyPhotoComp />
-          <EmptyPhotoComp />
-          <EmptyPhotoComp />
-          <EmptyPhotoComp />
+        <div className="flex flex-col items-center justify-center px-5 mt-5 gap-x-20 gap-y-4">
+          <div className='flex gap-x-24'>
+            <EmptyPhotoComp />
+            <EmptyPhotoComp />
+          </div>
+          <div className='flex gap-x-24'>
+            <EmptyPhotoComp />
+            <EmptyPhotoComp />
+          </div>
         </div>
 
         <div className="flex justify-around mt-10">
           <button
             className="w-80 mx-auto text-[#F24822] rounded-lg h-10 font-semibold border-2 border-[#F24822] hover:text-rose-950 hover:border-2 hover:border-rose-950"
-
             onClick={() => {
               navigate("/register/step4");
             }}

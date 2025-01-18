@@ -25,6 +25,7 @@ const handleChange = (e) => {
     { value: "christain", label: "Christain" },
     { value: "jains", label: "Jains" },
     { value: "others", label: "Others" },
+    { value: "no-peference", label: "No Preference" },
   ];
 
   const optionsEmployment = [
@@ -33,6 +34,7 @@ const handleChange = (e) => {
     { value: "student", label: "Student" },
     { value: "unemployed", label: "UnEmployed" },
     { value: "retired", label: "Retired" },
+    { value: "no-peference", label: "No Preference" },
   ];
 
   const optionsDiet = [
@@ -42,16 +44,60 @@ const handleChange = (e) => {
     { value: "vegan", label: "Vegan" },
     { value: "no-peference", label: "No Preference" },
   ];
-
-  const optionsSmoking = [
-    { value: "non-smoker", label: "Non-Smoker" },
-    { value: "smoker", label: "Smoker" },
-    { value: "trying-to-quit", label: "Trying to quit" },
+  const optionsAge = [
+    { value: "genz", label: "18-28" },
+    { value: "millenial", label: "29-44" },
+    { value: "genx", label: "25-60" },
+    { value: "babyboomer", label: "60 above" },
+    { value: "no-peference", label: "No Preference" },
   ];
-  const optionsDrinking = [
-    { value: "non-drinker", label: "Non-Drinker" },
-    { value: "drinker", label: "Drinker" },
-    { value: "trying-to-quit", label: "Trying to quit" },
+
+  const optionsResidential = [
+    { value: "nepaliCitizen", label: "Nepali Citizen" },
+    { value: "prHolder", label: "PR Holder" },
+    { value: "nrn", label: "NRN" },
+    { value: "no-peference", label: "No Preference" },
+  ];
+
+  const optionsEducation = [
+    { value: "primaryLevel", label: "Primary Level" },
+    { value: "secondaryLevel", label: "Secondary Level" },
+    { value: "higherSecondaryLevel", label: "Higher Secondary Level" },
+    { value: "bachelor", label: "Bachelor" },
+    { value: "masters", label: "Masters" },
+    { value: "phd", label: "PhD" },
+    { value: "diploma", label: "Diploma" },
+    { value: "no-peference", label: "No Preference" },
+  ];
+
+  const optionsFamilyClass = [
+    { value: "middleClass", label: "Middle Class" },
+    { value: "upperClass", label: "Upper Class" },
+    { value: "lowerClass", label: "Lower Class" },
+    { value: "no-peference", label: "No Preference" },
+  ];
+  const optionsEthnicity = [
+    { value: "brahmin", label: "Brahmin" },
+    { value: "chhetri", label: "Chhetri" },
+    { value: "newar", label: "Newar" },
+    { value: "gurung", label: "Gurung" },
+    { value: "magar", label: "Magar" },
+    { value: "rai", label: "Rai" },
+    { value: "limbu", label: "Limbu" },
+    { value: "tamang", label: "Tamang" },
+    { value: "sherpa", label: "Sherpa" },
+    { value: "thakuri", label: "Thakuri" },
+    { value: "dalit", label: "Dalit" },
+    { value: "madhesi", label: "Madhesi" },
+    { value: "janajati", label: "Janajati" },
+    { value: "others", label: "Others" },
+    { value: "no-peference", label: "No Preference" },
+  ];
+  const optionsFamilyValues = [
+    { value: "traditional", label: "Traditional" },
+    { value: "modern", label: "Modern" },
+    { value: "liberal", label: "Liberal" },
+    { value: "no-peference", label: "No Preference" },
   ];
 
   return (
@@ -75,24 +121,11 @@ const handleChange = (e) => {
             placeholder="Marital Status"
             options={optionsMarital}
           />
-
-          <div className="flex flex-col w-80 ">
-            <label
-              htmlFor="age-slider"
-              className="text-[17px] text-gray-600 font-medium mb-1"
-            >
-              Select Min Age: <span className="px-2 text-gray-700">{age}</span>
-            </label>
-            <input
-              id="age-slider"
-              type="range"
-              min="18"
-              max="80"
-              value={age}
-              onChange={handleChange}
-              className="h-2 bg-gray-200 rounded-lg appearance-none w-72 focus:outline-none focus:ring-2 focus:ring-blue-400"
-            />
-          </div>
+          <Select
+            className="w-80"
+            placeholder="Age Range"
+            options={optionsAge}
+          />
           <Select
             className="w-80"
             placeholder="Diet Preferences"
@@ -105,24 +138,40 @@ const handleChange = (e) => {
           />
           <Select
             className="w-80"
+            placeholder="Ethnicity"
+            options={optionsEthnicity}
+          />
+          <Select
+            className="w-80"
+            placeholder="Family Class"
+            options={optionsFamilyClass}
+          />
+          <Select
+            className="w-80"
+            placeholder="Education Level"
+            options={optionsEducation}
+          />
+          <Select
+            className="w-80"
             placeholder="Employment Status"
             options={optionsEmployment}
           />
           <Select
             className="w-80"
-            placeholder="Smoking Preferences"
-            options={optionsSmoking}
+            placeholder="Residential Status"
+            options={optionsResidential}
           />
           <Select
-            className="w-80 "
-            placeholder="Drinking Preferences"
-            options={optionsDrinking}
+            className="w-80"
+            placeholder="Family Values"
+            options={optionsFamilyValues}
           />
+          
+          
         </div>
-        <div className="flex justify-around mt-14">
+        <div className="flex justify-around mt-8">
           <button
             className="w-80 mx-auto text-[#F24822] rounded-lg h-10 font-semibold border-2 border-[#F24822] hover:text-rose-950 hover:border-2 hover:border-rose-950"
-
             onClick={() => {
               navigate("/register/step2");
             }}

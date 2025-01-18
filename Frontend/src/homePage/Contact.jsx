@@ -7,9 +7,9 @@ const Contact = () => {
       <h2 className="mb-[5%] text-center font-extrabold text-[40px] text-[#FF6347] mt-20">
         Contact
       </h2>
-      <div className="w-[80%] mx-auto px-[10%] py-[5%] shadow-xl shadow-gray-400 rounded-3xl">
+      <div className="w-[60%] mx-auto px-[10%] py-[5%] shadow-xl shadow-gray-400 rounded-3xl">
         <img className="w-[12%] mx-auto" src={contact} alt="" />
-        <form action="" className="py-10">
+        <form action="" className="py-8">
           <div className="flex justify-between w-full space-x-10">
             <div>
               <label
@@ -19,7 +19,7 @@ const Contact = () => {
                 First Name
               </label>
               <input
-                className="pl-2 w-96 h-10 border-2 border-[#FF6347] rounded-lg"
+                className="pl-2 w-72 h-10 border-2 border-[#FF6347] rounded-lg"
                 id="firstName"
                 type="text"
               />
@@ -32,7 +32,7 @@ const Contact = () => {
                 Last Name
               </label>
               <input
-                className="pl-2 w-96 h-10 border-2 border-[#FF6347] rounded-lg"
+                className="pl-2 w-72 h-10 border-2 border-[#FF6347] rounded-lg"
                 id="lastName"
                 type="text"
               />
@@ -45,7 +45,7 @@ const Contact = () => {
             Email
           </label>
           <input
-            className="pl-2 w-full h-10  border-2 border-[#FF6347] rounded-lg"
+            className="pl-2 w-[38.5em] h-10  border-2 border-[#FF6347] rounded-lg"
             id="email"
             type="email"
           />
@@ -56,7 +56,7 @@ const Contact = () => {
             Message
           </label>
           <textarea
-            className="block p-2 w-full h-40 text-lg border-2 border-[#FF6347] rounded-lg"
+            className="block p-2 w-[34em] h-40 text-lg border-2 border-[#FF6347] rounded-lg"
             name="message"
             id="message"
             placeholder="Type your message here..."

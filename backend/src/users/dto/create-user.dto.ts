@@ -10,13 +10,6 @@ import {
 import { Gender } from '@prisma/client';
 
 export class CreateUserDto {
-  @IsInt()
-  @IsOptional()
-  roleId: number;
-
-  @IsString()
-  @IsNotEmpty()
-  role: string;
 
   @IsString()
   @IsNotEmpty()
@@ -29,15 +22,15 @@ export class CreateUserDto {
 
   @IsString()
   @IsNotEmpty()
+  dob: string;
+
+  @IsString()
+  @IsNotEmpty()
   password: string;
 
   @IsEnum(Gender)
   @IsNotEmpty()
   gender: Gender;
-
-  @IsBoolean()
-  @IsNotEmpty()
-  status: boolean;
 
   @IsBoolean()
   @IsOptional()

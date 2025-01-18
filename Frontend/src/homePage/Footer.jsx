@@ -7,36 +7,19 @@ const Footer = () => {
       className="flex space-x-52 bg-[#F24822] h-72 mt-[5%] p-[5%]"
       style={{ borderRadius: "55% 55% 10% 10% / 20% 20% 0% 0%  " }}
     >
-      <div className="flex items-center justify-center w-20 h-20 bg-white rounded-full ">
+      <div className="flex items-center justify-center w-28 h-28 bg-white rounded-full ">
         <img className="w-16" src={logo} alt="" />
       </div>
       <div className="flex space-x-32 text-white">
-        <div>
-          <h2 className="mb-2 -ml-6 text-xl font-semibold">Need Help ?</h2>
-          <ul className="space-y-1 list-disc">
-            <li>Member Login</li>
-            <li>Sign Up</li>
-            <li>How to use meroBihe</li>
-            <li>Customer Support</li>
-          </ul>
-        </div>
-        <div>
-          <h2 className="mb-2 -ml-6 text-xl font-semibold">Company</h2>
-          <ul className="space-y-1 list-disc">
-            <li>About Us</li>
-            <li>MeroBihe blog</li>
-            <li>Careers</li>
-            <li>Contact Us</li>
-          </ul>
-        </div>
-        <div>
-          <h2 className="mb-2 -ml-6 text-xl font-semibold">Privacy & You</h2>
-          <ul className="space-y-1 list-disc">
-            <li>Terms of User</li>
-            <li>Privacy Policy</li>
-            <li>Report Misuse</li>
-            <li>Success Stories </li>
-          </ul>
+        <div className='flex flex-col -ml-16'>
+          <h2 className="mb-2 text-xl font-semibold">Why meroBihe?</h2>
+          <p className='w-[45em] font-medium'>
+            MeroBihe offers a modern, secure, and personalized way to find your
+            life partner. Unlike traditional methods, it gives you full control
+            over your preferences, ensuring better matches while respecting your
+            privacy. Our goal is to make the process simple, safe, and truly
+            meaningful.
+          </p>
         </div>
       </div>
     </div>

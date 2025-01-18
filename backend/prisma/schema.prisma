@@ -157,14 +157,12 @@ model Role {
 
 model User {
   id               Int            @id @default(autoincrement())
-  roleId           Int?
-  role             String
   fullname         String
   email            String         @unique
+  dob              String
   password         String
   gender           Gender
   socialSignIn     Boolean
-  status           Boolean        @default(true)
   createdAt        DateTime       @default(now())
   updatedAt        DateTime       @default(now())
   profile          Profile?

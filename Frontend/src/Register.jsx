@@ -3,18 +3,29 @@ import mainLogo from "./assets/main-logo.png";
 import wedding from "./assets/wedding.jpeg";
 import Select from "react-select";
 import { Link, useNavigate } from "react-router-dom";
+import {api} from './api/index'
 
 const Register = () => {
   const navigate = useNavigate();
   const [isTermsChecked, setIsTermsChecked] = useState(false);
 
-  const handleRegister = () => {
-    navigate("/register/step1");
-  };
-
   // Update checkbox state
   const handleTermsChange = (e) => {
     setIsTermsChecked(e.target.checked);
+  };
+
+  const handleRegister = async () => {
+    e.preventDefault();
+    console.log(fullname,gender, email, password);
+    try {
+      const response = await api.post(
+        "http://localhost:3000/auth/register",
+        fullname,email,dob, gender,password
+      );
+      console.log("User data saved:", response.data);
+    } catch (error) {
+      console.error("Error saving data:", error);
+    }
   };
 
   const options = [
@@ -47,7 +58,9 @@ const Register = () => {
       style={{ backgroundImage: `url(${wedding})` }}
     >
       <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-red-500 to-orange-400 opacity-70"></div>
-      <form className="absolute px-28 h-[35em] shadow-lg bg-white w-[60em] rounded-3xl">
+      <form
+      onSubmit={handleRegister}
+       className="absolute px-28 h-[35em] shadow-lg bg-white w-[60em] rounded-3xl">
         <h2 className="text-center text-3xl text-[#FF6347] font-semibold mt-6 mb-10">
           Register Now!
         </h2>
@@ -57,34 +70,40 @@ const Register = () => {
             className="w-full p-2 pl-5 shadow-md focus:outline-none"
             type="email"
             placeholder="Full Name *"
+            required
           />
           <input
             className="w-full p-2 pl-5 shadow-md focus:outline-none"
             type="email"
             placeholder="Email Address *"
+            required
           />
           <div className="flex space-x-10">
             <input
               className="w-full p-2 pl-5 text-gray-400 shadow-md focus:outline-none"
               type="date"
               placeholder="Date Of Birth"
+              required
             />
             <Select
               className="w-full"
               styles={customStyles}
               placeholder="Gender"
               options={options}
+              required
             />
           </div>
           <input
             className="w-full p-2 pl-5 shadow-md focus:outline-none"
             type="email"
-            placeholder="Password *"
+            placeholder="Password *" 
+            required
           />
           <input
             className="w-full p-2 pl-5 shadow-md focus:outline-none"
             type="email"
             placeholder="Confirm Password *"
+            required
           />
           <label
             className="ml-2 text-sm text-center text-gray-600"
@@ -104,7 +123,7 @@ const Register = () => {
                 ? "hover:bg-white hover:text-rose-950 hover:border-2 hover:border-rose-950"
                 : "opacity-50 cursor-not-allowed"
             }`}
-            onClick={handleRegister}
+            onClick={()=>{navigate("/register/otp");}}
             disabled={!isTermsChecked}
           >
             Register

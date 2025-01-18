@@ -13,6 +13,7 @@ import Step4 from "./RegisterSteps/Step4";
 import Step5 from "./RegisterSteps/Step5";
 import AdminDashboard from "./admin/AdminDashboard";
 import { useAuth } from "./context/authContext";
+import Otp from "./RegisterSteps/Otp";
 
 const ProtectedRoutes = () => {
   const { token } = useAuth();
@@ -26,6 +27,7 @@ function App() {
       <Route path="/" element={<HomePage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/register/otp" element={<Otp/>} />
       <Route path="/register/step1" element={<Step1 />} />
       <Route path="/register/step2" element={<Step2 />} />
       <Route path="/register/step3" element={<Step3 />} />
