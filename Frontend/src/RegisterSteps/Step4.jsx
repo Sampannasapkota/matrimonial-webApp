@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Step4 = () => {
   const [selectedItems, setSelectedItems] = useState([]);
+  const navigate=useNavigate()
 
   const handleOptionClick = (label) => {
     if (selectedItems.includes(label)) {
@@ -70,13 +71,18 @@ const Step4 = () => {
         <div className="flex justify-around mt-14">
           <button
             className="w-80 mx-auto text-[#F24822] rounded-lg h-10 font-semibold border-2 border-[#F24822] hover:text-rose-950 hover:border-2 hover:border-rose-950"
-            type="submit"
+            onClick={() => {
+              navigate("/register/step3");
+            }}
           >
             Back
           </button>
           <button
             className="w-80 mx-auto bg-[#F24822] rounded-lg h-10 text-white font-semibold  hover:bg-white hover:text-rose-950 hover:border-2 hover:border-rose-950"
             type="submit"
+            onClick={() => {
+              navigate("/register/step5");
+            }}
           >
             Next
           </button>

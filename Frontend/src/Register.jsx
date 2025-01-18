@@ -4,42 +4,41 @@ import wedding from "./assets/wedding.jpeg";
 import Select from "react-select";
 import { Link, useNavigate } from "react-router-dom";
 
-
 const Register = () => {
-   const navigate = useNavigate();
+  const navigate = useNavigate();
+  const [isTermsChecked, setIsTermsChecked] = useState(false);
 
-   const handleRegister=()=>{
-    navigate("/step1");
-   }
+  const handleRegister = () => {
+    navigate("/register/step1");
+  };
 
+  // Update checkbox state
+  const handleTermsChange = (e) => {
+    setIsTermsChecked(e.target.checked);
+  };
 
-  
-    const [selectedOption, setSelectedOption] = useState();
-    const [isOpen , setIsOpen] = useState(false)
+  const options = [
+    { value: "male", label: "Male" },
+    { value: "female", label: "Female" },
+    { value: "non-binary", label: "Non-Binary" },
+  ];
 
-    const options=[
-      {value: 'male', label:'Male'},
-      {value:'female', label:'Female'},
-      {value:'non-binary', label:'Non-Binary'},
-    ]
-
-    const customStyles = {
-      control: (base) => ({
-        ...base,
-        display: "flex",
-        borderRadius: "0.375rem",
-        padding: "0.25rem", 
-        borderColor: "rgb(209 213 219)", 
-        boxShadow: "1px 1px 1px rgb(209 213 219)", 
-        "&:hover": {
-          borderColor: "rgb(107 114 128)", 
-        },
-        "&:focus": {
-          outline: "hidden",
-        },
-      }),
-    };
-    
+  const customStyles = {
+    control: (base) => ({
+      ...base,
+      display: "flex",
+      borderRadius: "0.375rem",
+      padding: "0.25rem",
+      borderColor: "rgb(209 213 219)",
+      boxShadow: "1px 1px 1px rgb(209 213 219)",
+      "&:hover": {
+        borderColor: "rgb(107 114 128)",
+      },
+      "&:focus": {
+        outline: "hidden",
+      },
+    }),
+  };
 
   return (
     <div
@@ -67,9 +66,8 @@ const Register = () => {
           <div className="flex space-x-10">
             <input
               className="w-full p-2 pl-5 text-gray-400 shadow-md focus:outline-none"
-              type="number"
-              placeholder="Your Age"
-              min={18}
+              type="date"
+              placeholder="Date Of Birth"
             />
             <Select
               className="w-full"
@@ -92,18 +90,28 @@ const Register = () => {
             className="ml-2 text-sm text-center text-gray-600"
             htmlFor="remember"
           >
-            <input type="checkbox" id="terms" name="terms" />
-            {" "}I've read and agree to the Terms and Conditions and Privacy Policy.
+            <input
+              type="checkbox"
+              id="terms"
+              name="terms"
+              onChange={handleTermsChange}
+            />{" "}
+            I've read and agree to the Terms and Conditions and Privacy Policy.
           </label>
           <button
-            className="w-96 mx-auto bg-[#F24822] rounded-lg h-10 text-white font-semibold  hover:bg-white hover:text-rose-950 hover:border-2 hover:border-rose-950"
+            className={`w-96 mx-auto bg-[#F24822] rounded-lg h-10 text-white font-semibold ${
+              isTermsChecked
+                ? "hover:bg-white hover:text-rose-950 hover:border-2 hover:border-rose-950"
+                : "opacity-50 cursor-not-allowed"
+            }`}
             onClick={handleRegister}
+            disabled={!isTermsChecked}
           >
             Register
           </button>
           <p className="text-center text-gray-600">
             Already a Member?
-            <Link to='/login' className="text-[#F24822] ml-2 underline" >
+            <Link to="/login" className="text-[#F24822] ml-2 underline">
               Log In
             </Link>
           </p>

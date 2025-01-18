@@ -5,6 +5,7 @@ import Select from "react-select";
 import { useNavigate } from "react-router-dom";
 
 const Step1 = () => {
+  const navigate= useNavigate()
     const optionsMarital = [
       { value: "single", label: "Single" },
       { value: "divorced", label: "Divorced" },
@@ -19,12 +20,6 @@ const Step1 = () => {
       { value: "lumbini", label: "Lumbini" },
       { value: "karnali", label: "Karnali" },
       { value: "sudurpaschim", label: "Sudurpaschim" },
-    ];
-
-    const optionsDistrict = [
-      { value: "morang", label: "Morang" },
-      { value: "sunsari", label: "Sunsari" },
-      { value: "jhapa", label: "Jhapa" },
     ];
 
     const optionsReligion = [
@@ -47,12 +42,49 @@ const Step1 = () => {
       { value: "diploma", label: "Diploma" },
     ];
 
+    const optionsDiet = [
+      { value: "veg", label: "Veg" },
+      { value: "non-veg", label: "Non-Veg" },
+      { value: "eggiterian", label: "Eggiterian" },
+      { value: "vegan", label: "Vegan" },
+      { value: "no-peference", label: "No Preference" },
+    ];
+
     const optionsEmployment = [
       { value: "employed", label: "Employed" },
       { value: "self-employed", label: "Self-Employed" },
       { value: "student", label: "Student" },
       { value: "unemployed", label: "UnEmployed" },
       { value: "retired", label: "Retired" },
+    ];
+    const optionsIncome = [
+      { value: "very-low", label: "Less than 20,000" },
+      { value: "low", label: "20,000 to 40,000" },
+      { value: "medium", label: "40,000 to 60,000" },
+      { value: "high", label: "60,000 to 1,00,000" },
+      { value: "very-high", label: "Above 1,00,000" },
+      { value: "unemployed", label: "UnEmployed" },
+    ];
+    const optionsMotherTongue = [
+      { value: "nepali", label: "Nepali" },
+      { value: "newari", label: "Newari" },
+      { value: "maithili", label: "Maithili" },
+      { value: "bhojpuri", label: "Bhojpuri" },
+      { value: "tharu", label: "Tharu" },
+      { value: "tamang", label: "Tamang" },
+      { value: "sherpa", label: "Sherpa" },
+      { value: "gurung", label: "Gurung" },
+      { value: "magar", label: "Magar" },
+      { value: "rai", label: "Rai" },
+      { value: "limbu", label: "Limbu" },
+      { value: "others", label: "Others" },
+    ];
+
+    const optionsHeight = [
+      { value: "very-short", label: "Below 5'2" },
+      { value: "short", label: "5'3 to 5'6" },
+      { value: "medium", label: "5'7 to 5'10" },
+      { value: "tall", label: "5'11 and above" },
     ];
 
   return (
@@ -70,10 +102,15 @@ const Step1 = () => {
         <h2 className="text-[#FF6347] font-semibold text-center text-2xl mb-8">
           Step 1 : Demographic Details
         </h2>
-        <div className="flex flex-wrap justify-center gap-10">
+        <div className="flex flex-wrap justify-center gap-5">
           <Select
             className="w-80"
             placeholder="Marital Status"
+            options={optionsMarital}
+          />
+          <Select
+            className="w-80"
+            placeholder="Residential Status"
             options={optionsMarital}
           />
           <Select
@@ -83,14 +120,10 @@ const Step1 = () => {
           />
           <Select
             className="w-80"
-            placeholder="District"
-            options={optionsDistrict}
+            placeholder="Mother Tongue"
+            options={optionsMotherTongue}
           />
-          <Select
-            className="w-80"
-            placeholder="Religion"
-            options={optionsReligion}
-          />
+
           <Select
             className="w-80"
             placeholder="Education Level"
@@ -101,14 +134,35 @@ const Step1 = () => {
             placeholder="Employment Status"
             options={optionsEmployment}
           />
+          <Select
+            className="w-80"
+            placeholder="Diet Preference"
+            options={optionsDiet}
+          />
+          <Select
+            className="w-80"
+            placeholder="Height"
+            options={optionsHeight}
+          />
+          <Select
+            className="w-80"
+            placeholder="Income Range"
+            options={optionsIncome}
+          />
+          <input
+            type="text"
+            className="w-80 border-2 border-gray-300 rounded-lg pl-2"
+            placeholder="District"
+          />
         </div>
         <div className="flex justify-center mt-14">
-            <button
-              className="w-96 mx-auto bg-[#F24822] rounded-lg h-10 text-white font-semibold  hover:bg-white hover:text-rose-950 hover:border-2 hover:border-rose-950"
-              type="submit"
-            >
-              Next
-            </button>
+          <button
+            className="w-96 mx-auto bg-[#F24822] rounded-lg h-10 text-white font-semibold  hover:bg-white hover:text-rose-950 hover:border-2 hover:border-rose-950"
+            type="submit"
+            onClick={()=>{navigate("/register/step2")}}
+          >
+            Next
+          </button>
         </div>
       </form>
     </div>

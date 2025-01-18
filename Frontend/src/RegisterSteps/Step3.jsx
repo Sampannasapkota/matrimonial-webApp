@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 const Step3 = () => {
 const [age, setAge] = useState(18);
+const navigate=useNavigate()
 
 const handleChange = (e) => {
   setAge(e.target.value);
@@ -121,13 +122,19 @@ const handleChange = (e) => {
         <div className="flex justify-around mt-14">
           <button
             className="w-80 mx-auto text-[#F24822] rounded-lg h-10 font-semibold border-2 border-[#F24822] hover:text-rose-950 hover:border-2 hover:border-rose-950"
-            type="submit"
+
+            onClick={() => {
+              navigate("/register/step2");
+            }}
           >
             Back
           </button>
           <button
             className="w-80 mx-auto bg-[#F24822] rounded-lg h-10 text-white font-semibold  hover:bg-white hover:text-rose-950 hover:border-2 hover:border-rose-950"
             type="submit"
+            onClick={() => {
+              navigate("/register/step4");
+            }}
           >
             Next
           </button>

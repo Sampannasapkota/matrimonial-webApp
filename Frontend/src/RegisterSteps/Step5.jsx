@@ -33,14 +33,15 @@ const Step5 = () => {
           <EmptyPhotoComp />
           <EmptyPhotoComp />
           <EmptyPhotoComp />
-          <EmptyPhotoComp />
-          <EmptyPhotoComp />
         </div>
 
         <div className="flex justify-around mt-10">
           <button
             className="w-80 mx-auto text-[#F24822] rounded-lg h-10 font-semibold border-2 border-[#F24822] hover:text-rose-950 hover:border-2 hover:border-rose-950"
-            type="submit"
+
+            onClick={() => {
+              navigate("/register/step4");
+            }}
           >
             Back
           </button>

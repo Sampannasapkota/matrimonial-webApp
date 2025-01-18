@@ -5,13 +5,7 @@ import Select from "react-select";
 import { useNavigate } from 'react-router-dom';
 
 const Step2 = () => {
-    const optionsDiet = [
-      { value: "veg", label: "Veg" },
-      { value: "non-veg", label: "Non-Veg" },
-      { value: "eggiterian", label: "Eggiterian" },
-      { value: "vegan", label: "Vegan" },
-      { value: "no-peference", label: "No Preference" },
-    ];
+    const navigate = useNavigate();
     const optionsFamily = [
       { value: "nuclear", label: "Nuclear" },
       { value: "joint", label: "Joint" },
@@ -43,11 +37,6 @@ const Step2 = () => {
           Step 2 : Matchmaking Details
         </h2>
         <div className="flex flex-wrap justify-center gap-10">
-          <Select
-            className="w-80"
-            placeholder="Diet Preferences"
-            options={optionsDiet}
-          />
           <Select className="w-80" placeholder="Height" />
           <Select
             className="w-80"
@@ -69,13 +58,18 @@ const Step2 = () => {
         <div className="flex justify-around mt-14">
           <button
             className="w-80 mx-auto text-[#F24822] rounded-lg h-10 font-semibold border-2 border-[#F24822] hover:text-rose-950 hover:border-2 hover:border-rose-950"
-          
+            onClick={() => {
+              navigate("/register/step1");
+            }}
           >
             Back
           </button>
           <button
             className="w-80 mx-auto bg-[#F24822] rounded-lg h-10 text-white font-semibold  hover:bg-white hover:text-rose-950 hover:border-2 hover:border-rose-950"
             type="submit"
+            onClick={() => {
+              navigate("/register/step3");
+            }}
           >
             Next
           </button>
