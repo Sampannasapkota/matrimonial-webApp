@@ -1,17 +1,40 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UploadedFile, UseInterceptors } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common';
 import { UploadPhotosService } from './upload-photos.service';
 import { CreateUploadPhotoDto } from './dto/create-upload-photo.dto';
 import { UpdateUploadPhotoDto } from './dto/update-upload-photo.dto';
-import { FileInterceptor } from '@nestjs/platform-express/multer';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
 
 @Controller('upload-photos')
 export class UploadPhotosController {
-  constructor(private readonly uploadPhotosService: UploadPhotosService) {}
+  constructor(
+    private readonly uploadPhotosService: UploadPhotosService,
+    private readonly cloudinaryService: CloudinaryService,
+  ) {}
 
   @Post()
-  @Post()
   @UseInterceptors(FileInterceptor('file'))
-  create(@Body() createUploadPhotoDto: CreateUploadPhotoDto, @UploadedFile() file: Express.Multer.File) {
+  async create(
+    @Body() createUploadPhotoDto: CreateUploadPhotoDto,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    if (!file) {
+      throw new Error('File is required');
+    }
+
+    const uploadResult = await this.cloudinaryService.uploadImage(file);
+    createUploadPhotoDto.file = uploadResult.secure_url;
+
     return this.uploadPhotosService.create(createUploadPhotoDto, file);
   }
 
@@ -26,7 +49,16 @@ export class UploadPhotosController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUploadPhotoDto: UpdateUploadPhotoDto) {
+  async update(
+    @Param('id') id: string,
+    @Body() updateUploadPhotoDto: UpdateUploadPhotoDto,
+    @UploadedFile() file?: Express.Multer.File,
+  ) {
+    if (file) {
+      const uploadResult = await this.cloudinaryService.uploadImage(file);
+      updateUploadPhotoDto.file = uploadResult.secure_url;
+    }
+
     return this.uploadPhotosService.update(+id, updateUploadPhotoDto);
   }
 

@@ -4,7 +4,7 @@ import toStream = require('buffer-to-stream');
 @Injectable()
 
 export class CloudinaryService {
-  async uploadFile(
+  async uploadImage(
     file:any
   ): Promise<UploadApiResponse | UploadApiErrorResponse> {
     return new Promise((resolve, reject) => {

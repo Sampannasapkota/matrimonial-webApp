@@ -11,46 +11,72 @@ import { capitalizeFirstLetterOfEachWordInAphrase } from 'src/helpers/capitalize
 
 @Injectable()
 export class UsersService {
-  [x: string]: any;
   constructor(private readonly prismaService: PrismaService) {}
 
-  async create(CreateUserDto: CreateUserDto) {
-    CreateUserDto.fullname = CreateUserDto.fullname
-      ? capitalizeFirstLetterOfEachWordInAphrase(CreateUserDto.fullname.trim())
+  async create(createUserDto: CreateUserDto) {
+    createUserDto.fullname = createUserDto.fullname
+      ? capitalizeFirstLetterOfEachWordInAphrase(createUserDto.fullname.trim())
       : '';
 
-    if (await this.checkIfUserExist(CreateUserDto.fullname)) {
+    if (await this.checkIfUserExist(createUserDto.email)) {
       throw new BadRequestException(
-        `User ${CreateUserDto.fullname} has already been taken`,
+        `User with email ${createUserDto.email} already exists.`,
       );
     }
 
-    const roleObj = await this.prismaService.role.findFirst({
-      where: { name: CreateUserDto.role },
-    });
-
-    if (!roleObj) {
-      throw new NotFoundException(
-        `Unable to find the role ${CreateUserDto.role}`,
-      );
-    }
-    CreateUserDto.roleId = roleObj.id;
+    createUserDto.password = await hash(createUserDto.password, 10);
 
     return this.prismaService.user.create({
-      data: CreateUserDto,
+      data: {
+        fullname: createUserDto.fullname,
+        email: createUserDto.email,
+        dob: createUserDto.dob,
+        password: createUserDto.password,
+        gender: createUserDto.gender,
+        socialSignIn: createUserDto.socialSignIn,
+        profile: createUserDto.profile ? {
+          create: {
+            bio: createUserDto.profile.bio,
+            avatarUrl: createUserDto.profile.avatarUrl,
+          },
+        } : undefined,
+        interests: createUserDto.interests ? {
+          create: createUserDto.interests.map((interest) => ({
+            interestId: interest,
+          })),
+        } : undefined,
+        partnerPreference: createUserDto.partnerPreference ? {
+          create: createUserDto.partnerPreference,
+        } : undefined,
+      },
     });
   }
 
-  findAll() {
-    return this.prismaService.user.findMany();
+  async findAll() {
+    return this.prismaService.user.findMany({
+      include: {
+        profile: true,
+        messagesSent: true,
+        messagesReceived: true,
+        interests: { include: { interest: true } },
+        matchesAsUserOne: true,
+        matchesAsUserTwo: true,
+        Like: true,
+        Report: true,
+        FamilyDetails: true,
+        UploadPhoto: true,
+        PartnerPreference: true,
+      },
+    });
   }
 
   async findOne(id: number) {
-    return this.getUserById(id);
+    return this.getUserById(id, true);
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
     const user = await this.getUserById(id);
+
     if (
       updateUserDto.email &&
       (await this.checkIfEmailExist(updateUserDto.email, id))
@@ -63,13 +89,37 @@ export class UsersService {
     }
 
     if (updateUserDto.fullname) {
-      UpdateUserDto.fullname = UpdateUserDto.fullname
-        ? capitalizeFirstLetterOfEachWordInAphrase(UpdateUserDto.fullname)
-        : '';
+      updateUserDto.fullname = capitalizeFirstLetterOfEachWordInAphrase(
+        updateUserDto.fullname.trim(),
+      );
     }
+
     return this.prismaService.user.update({
       where: { id },
-      data: updateUserDto,
+      data: {
+        interests: updateUserDto.interests ? {
+          deleteMany: {},
+          create: updateUserDto.interests.map((interest) => ({
+            interestId: interest,
+          })),
+        } : undefined,
+      profile: updateUserDto.profile ? {
+        upsert: {
+          create: {
+            bio: updateUserDto.profile.bio,
+            avatarUrl: updateUserDto.profile.avatarUrl,
+          },
+          update: {
+            bio: updateUserDto.profile.bio,
+            avatarUrl: updateUserDto.profile.avatarUrl,
+          },
+        },
+      } : undefined,
+      },
+      include: {
+        profile: true,
+        interests: true,
+      },
     });
   }
 
@@ -80,34 +130,47 @@ export class UsersService {
     });
   }
 
-  private async getUserById(id: number) {
-    const user = await this.prismaService.user.findFirst({ where: { id } });
+  private async getUserById(id: number, includeRelations = false) {
+    const user = await this.prismaService.user.findUnique({
+      where: { id },
+      include: includeRelations
+        ? {
+            profile: true,
+            messagesSent: true,
+            messagesReceived: true,
+            interests: { include: { interest: true } },
+            matchesAsUserOne: true,
+            matchesAsUserTwo: true,
+            Like: true,
+            Report: true,
+            FamilyDetails: true,
+            UploadPhoto: true,
+            PartnerPreference: true,
+          }
+        : undefined,
+    });
+
     if (!user) {
       throw new NotFoundException(`User with ID ${id} does not exist.`);
     }
+
     return user;
   }
-  private async checkIfUserExist(name: string, id?: number): Promise<boolean> {
-    const user = await this.prismaService.user.findFirst({
-      where: { fullname: name },
-    });
 
+  private async checkIfUserExist(email: string, id?: number): Promise<boolean> {
+    const user = await this.prismaService.user.findUnique({ where: { email } });
     if (id) {
       return user ? user.id !== id : false;
     }
     return !!user;
   }
 
-  private async checkIfEmailExist(
-    email: string,
-    id?: number,
-  ): Promise<boolean> {
+  private async checkIfEmailExist(email: string, id?: number): Promise<boolean> {
     if (!email) {
       throw new BadRequestException('Email is required');
     }
-    const user = await this.prismaService.user.findUnique({
-      where: { email },
-    });
+
+    const user = await this.prismaService.user.findUnique({ where: { email } });
 
     if (id) {
       return user ? user.id !== id : false;

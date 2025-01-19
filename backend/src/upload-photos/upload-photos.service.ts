@@ -7,21 +7,23 @@ import { CloudinaryService } from '../cloudinary/cloudinary.service';
 @Injectable()
 export class UploadPhotosService {
   constructor(
-    private readonly prisma: PrismaService,
+    private readonly prismaService: PrismaService,
     private readonly cloudinaryService: CloudinaryService,
   ) {}
 
   async create(createUploadPhotoDto: CreateUploadPhotoDto, file: Express.Multer.File) {
     const { userId } = createUploadPhotoDto;
 
-    const user = await this.prisma.user.findUnique({ where: { id: userId } });
+    const user = await this.prismaService.user.findUnique({ where: { id: userId } });
     if (!user) {
       throw new NotFoundException(`User with ID ${userId} not found`);
     }
 
-    const uploadResult = await this.cloudinaryService.uploadFile(file);
+    const uploadResult = await this.cloudinaryService.uploadImage(file).catch(()=>{
+      throw new NotFoundException('Failed to upload image');
+    })
 
-    return this.prisma.uploadPhoto.create({
+    return this.prismaService.uploadPhoto.create({
       data: {
         file: uploadResult.secure_url,
         userId: userId,
@@ -30,13 +32,13 @@ export class UploadPhotosService {
   }
 
   findAll() {
-    return this.prisma.uploadPhoto.findMany({
+    return this.prismaService.uploadPhoto.findMany({
       include: { user: true },
     });
   }
 
   async findOne(id: number) {
-    const uploadPhoto = await this.prisma.uploadPhoto.findUnique({
+    const uploadPhoto = await this.prismaService.uploadPhoto.findUnique({
       where: { id },
       include: { user: true },
     });
@@ -49,26 +51,26 @@ export class UploadPhotosService {
   }
 
   async update(id: number, updateUploadPhotoDto: UpdateUploadPhotoDto) {
-    const uploadPhoto = await this.prisma.uploadPhoto.findUnique({ where: { id } });
+    const uploadPhoto = await this.prismaService.uploadPhoto.findUnique({ where: { id } });
 
     if (!uploadPhoto) {
       throw new NotFoundException(`UploadPhoto with ID ${id} not found`);
     }
 
-    return this.prisma.uploadPhoto.update({
+    return this.prismaService.uploadPhoto.update({
       where: { id },
       data: updateUploadPhotoDto,
     });
   }
 
   async remove(id: number) {
-    const uploadPhoto = await this.prisma.uploadPhoto.findUnique({ where: { id } });
+    const uploadPhoto = await this.prismaService.uploadPhoto.findUnique({ where: { id } });
 
     if (!uploadPhoto) {
       throw new NotFoundException(`UploadPhoto with ID ${id} not found`);
     }
 
-    await this.prisma.uploadPhoto.delete({ where: { id } });
+    await this.prismaService.uploadPhoto.delete({ where: { id } });
     return { message: `UploadPhoto with ID ${id} has been deleted` };
   }
 }
