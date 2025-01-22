@@ -9,6 +9,7 @@ import {
   Min,
   Max,
   Length,
+  IsBase64,
 } from 'class-validator';
 import {
   Gender,
@@ -28,9 +29,13 @@ export class CreateProfileDto {
   @IsNotEmpty()
   gender: Gender;
 
+ @IsNotEmpty()
+ @IsBase64()
+  profilePic: string;
+
   @IsString()
   @IsOptional()
-  profilePic?: string;
+  profilePic_url?: string;
 
   @IsEnum(DietPreference)
   @IsNotEmpty()

@@ -22,14 +22,24 @@ export class UploadPhotosService {
     const uploadResult = await this.cloudinaryService.uploadImage(file).catch(()=>{
       throw new NotFoundException('Failed to upload image');
     })
+    if(createUploadPhotoDto.image_url){
+      try{
+        const result = await this.cloudinaryService.uploadBase64( `data:image/jpeg;base64,${createUploadPhotoDto.image_url}`,
+                  'profile');
+                  createUploadPhotoDto.image_url = result.secure_url;
+      }
+      catch(error){
+        throw new Error(`Failed to upload image to Cloudinary: ${error.message}`);
+      }
+      const {image_url,...rest} = createUploadPhotoDto;
 
     return this.prismaService.uploadPhoto.create({
-      data: {
-        file: uploadResult.secure_url,
-        userId: userId,
-      },
+      data: 
+        createUploadPhotoDto
+      
     });
   }
+}
 
   findAll() {
     return this.prismaService.uploadPhoto.findMany({

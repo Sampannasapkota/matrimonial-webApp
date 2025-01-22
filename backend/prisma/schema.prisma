@@ -159,10 +159,10 @@ model User {
   id               Int            @id @default(autoincrement())
   fullname         String
   email            String         @unique
-  dob              String
+  dob              String 
   password         String
   gender           Gender
-  socialSignIn     Boolean
+  socialSignIn     Boolean        @default(false)
   createdAt        DateTime       @default(now())
   updatedAt        DateTime       @default(now())
   profile          Profile?
@@ -287,7 +287,7 @@ model Report {
 
 model UploadPhoto {
   id     Int    @id @default(autoincrement())
-  file   String
+  image_url   String
   userId Int
   user   User   @relation(fields: [userId], references: [id])
 }

@@ -11,6 +11,11 @@ const Step1 = () => {
       { value: "divorced", label: "Divorced" },
       { value: "widowed", label: "Widowed" },
     ];
+    const optionsResidential = [  
+      { value: "nepalicitizen", label: "NepaliCitizen" },
+      { value: "prholder", label: "PRHolder" },
+      { value: "nrn", label: "NRN" },
+    ];
 
     const optionsProvince = [
       { value: "koshi", label: "Koshi" },
@@ -26,7 +31,7 @@ const Step1 = () => {
       { value: "hindu", label: "Hindu" },
       { value: "muslim", label: "Muslim" },
       { value: "buddhist", label: "Buddhist" },
-      { value: "christain", label: "Christain" },
+      { value: "christian", label: "Christian" },
       { value: "jains", label: "Jains" },
       { value: "kirat", label: "Kirat" },
       { value: "others", label: "Others" },
@@ -111,7 +116,7 @@ const Step1 = () => {
           <Select
             className="w-80"
             placeholder="Residential Status"
-            options={optionsMarital}
+            options={optionsResidential}
           />
           <Select
             className="w-80"

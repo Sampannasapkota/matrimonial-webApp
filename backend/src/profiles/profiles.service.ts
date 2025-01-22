@@ -11,45 +11,36 @@ import {
   EmploymentStatus,
 } from '@prisma/client';
 import { Profile } from './entities/profile.entity';
+import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 
 @Injectable()
 export class ProfilesService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor
+  (private readonly prisma: PrismaService,
+    private readonly cloudinaryService: CloudinaryService
+  )
 
-  async create(createProfileDto: CreateProfileDto) {
-    const {
-      userId,
-      districtId,
-      gender,
-      profilePic,
-      dietPreference,
-      ageRange,
-      dateOfBirth,
-      religion,
-      height,
-      maritalStatus,
-      employmentStatus,
-      educationLevel,
-      partnerPreference,
-    } = createProfileDto;
+  
+   {}
+
+  async create(createProfileDto: CreateProfileDto) { 
+    if(createProfileDto.profilePic){
+      try{
+        const result = await this.cloudinaryService.uploadBase64( `data:image/jpeg;base64,${createProfileDto.profilePic}`,
+                  'profile');
+                  createProfileDto.profilePic_url = result.secure_url;
+      }
+      catch(error){
+        throw new Error(`Failed to upload image to Cloudinary: ${error.message}`);
+      }
+      
+    }
+    const {profilePic,...rest} = createProfileDto;
 
     const profile = await this.prisma.profile.create({
-      data: {
-        userId,
-        districtId,
-        gender,
-        profilePic,
-        dietPreference,
-        ageRange,
-        dateOfBirth,
-        religion,
-
-        height,
-        maritalStatus,
-        educationLevel,
-        employmentStatus,
-        partnerPreference,
-      },
+      data: 
+      rest
+      ,
     });
 
     return profile;

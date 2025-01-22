@@ -17,7 +17,6 @@ const LoginPage = () => {
   const { login } = useAuth();
 
    const [email, setEmail] = useState("");
-// >>>>>>> 9da07ed25c6c765beae221679f129a11f55ce504
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
