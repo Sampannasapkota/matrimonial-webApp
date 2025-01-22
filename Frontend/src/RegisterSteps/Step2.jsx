@@ -61,12 +61,12 @@ const Step2 = () => {
     ];
   return (
     <div
-      className="relative flex justify-center w-full h-screen items-center bg-center bg-cover font-outfit"
+      className="relative flex items-center justify-center w-full h-screen bg-center bg-cover font-outfit"
       id="step1"
       style={{ backgroundImage: `url(${wedding})` }}
     >
       <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-red-500 to-orange-400 opacity-70"></div>
-      <form className="absolute px-28 h-[35em] shadow-lg bg-white w-[60em] rounded-3xl">
+      <form className="absolute px-28 h-[35em] shadow-lg bg-white w-[50em] rounded-3xl">
         <img className="absolute w-16 top-5 left-16" src={mainLogo} alt="" />
         <p className="mt-16 mb-2 text-lg font-light text-center text-gray-600">
           Setting up your profile
@@ -74,41 +74,41 @@ const Step2 = () => {
         <h2 className="text-[#FF6347] font-semibold text-center text-2xl mb-8">
           Step 2: Family Details
         </h2>
-        <div className="flex flex-wrap justify-center gap-10">
+        <div className="flex flex-wrap justify-center gap-10 gap-x-16">
           <Select
-            className="w-80"
+            className="w-60"
             placeholder="Religion"
             options={optionsReligion}
           />
           <Select
-            className="w-80"
+            className="w-60"
             placeholder="Ethnicity"
             options={optionsEthnicity}
           />
           <Select
-            className="w-80"
+            className="w-60"
             placeholder="Family Class"
             options={optionsFamilyClass}
           />
           <input
             type="text"
-            className="w-80 border-2 border-gray-300 rounded-md pl-2 "
+            className="pl-2 border-2 border-gray-300 rounded-md w-60 "
             placeholder="Gotra"
           />
           <Select
-            className="w-80"
+            className="w-60"
             placeholder="Family Type"
             options={optionsFamily}
           />
           <Select
-            className="w-80"
+            className="w-60"
             placeholder="Family Values"
             options={optionsFamilyValues}
           />
         </div>
-        <div className="flex justify-around mt-14">
+        <div className="flex justify-around mt-14 gap-x-4">
           <button
-            className="w-80 mx-auto text-[#F24822] rounded-lg h-10 font-semibold border-2 border-[#F24822] hover:text-rose-950 hover:border-2 hover:border-rose-950"
+            className="w-72 mx-auto text-[#F24822] rounded-lg h-10 font-semibold border-2 border-[#F24822] hover:text-rose-950 hover:border-2 hover:border-rose-950"
             onClick={() => {
               navigate("/register/step1");
             }}
@@ -116,7 +116,7 @@ const Step2 = () => {
             Back
           </button>
           <button
-            className="w-80 mx-auto bg-[#F24822] rounded-lg h-10 text-white font-semibold  hover:bg-white hover:text-rose-950 hover:border-2 hover:border-rose-950"
+            className="w-72 mx-auto bg-[#F24822] rounded-lg h-10 text-white font-semibold  hover:bg-white hover:text-rose-950 hover:border-2 hover:border-rose-950"
             type="submit"
             onClick={() => {
               navigate("/register/step3");
