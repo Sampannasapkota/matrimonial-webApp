@@ -9,12 +9,14 @@ import { LoginDto } from './dto/login-user.dto';
 import { compare } from 'bcrypt';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { UsersService } from 'src/users/users.service';
+import { CreateUserDto } from 'src/users/dto/create-user.dto';
 
 @Injectable()
 export class AuthService {
   constructor(
     private prismaService: PrismaService,
     private jwtService: JwtService,
+    private usersService: UsersService,
   ) {}
   async login(loginDto: LoginDto) {
     const user = await this.prismaService.user.findFirst({
@@ -32,9 +34,6 @@ export class AuthService {
     if (!user) {
       throw new NotFoundException('Unable to find the user');
     }
-    // if (!(await compare(loginDto.password, user.password))) {
-    //   throw new UnauthorizedException('Invalid credentials!');
-    // }
 
     const token = await this.jwtService.signAsync(user);
     return {
@@ -48,5 +47,14 @@ export class AuthService {
     return {
       token,
     };
+  }
+  async validateGoogleUser(googleUser: CreateUserDto) {
+    const existingUser = await this.prismaService.user.findUnique({
+      where: { email: googleUser.email },
+    });
+    if (existingUser) {
+      return existingUser;
+    }
+    return await this.usersService.create(googleUser);
   }
 }
