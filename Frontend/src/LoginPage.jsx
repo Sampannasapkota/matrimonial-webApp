@@ -43,8 +43,7 @@ const LoginPage = () => {
     const token = urlParams.get("token");
     if (token) {
       localStorage.setItem("token", token);
-     
-      window.location.href = "http://localhost:5173/dashboard";
+      navigate("/dashboard");
     }
   }, []);
 
