@@ -31,7 +31,7 @@ export class AuthService {
       service: 'gmail',
       auth: {
         user: 'pujankhanal698@gmail.com',
-        pass: 'lzmo brgy nfji kbja', // Replace with your Gmail app password
+        pass: 'lzmo brgy nfji kbja', 
       },
     });
 
@@ -41,7 +41,7 @@ export class AuthService {
       to: email, // Recipient email
       subject: 'Your OTP for Verification', // Email subject
       text: `Your OTP is ${otp}`, // Plain text body
-      html: `<p>Your OTP is <strong>${otp}</strong></p>`, // HTML body
+      html: `<p>Your OTP is <strong>${otp}</strong></p>`, 
     };
 
     try {
