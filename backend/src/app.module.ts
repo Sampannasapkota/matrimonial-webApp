@@ -16,9 +16,12 @@ import { AuthModule } from './authentication/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { UploadPhotosModule } from './upload-photos/upload-photos.module';
 import { PartnerPreferencesModule } from './partner-preferences/partner-preferences.module';
+import { CloudinaryModule } from './cloudinary/cloudinary.module';
+
 
 @Module({
   imports: [
+    CloudinaryModule,
     RolesModule,
     UsersModule,
     AuthModule,

@@ -11,9 +11,10 @@ const Step1 = () => {
       { value: "divorced", label: "Divorced" },
       { value: "widowed", label: "Widowed" },
     ];
-    const optionsResidentialStatus = [     
-      { value: "nepaliCitizen", label: "Nepali Citizen" },
-      { value: "prHolder", label: "PR Holder" },
+
+    const optionsResidential = [
+      { value: "nepalicitizen", label: "NepaliCitizen" },
+      { value: "prholder", label: "PRHolder" },
       { value: "nrn", label: "NRN" },
     ];
 
@@ -31,7 +32,7 @@ const Step1 = () => {
       { value: "hindu", label: "Hindu" },
       { value: "muslim", label: "Muslim" },
       { value: "buddhist", label: "Buddhist" },
-      { value: "christain", label: "Christain" },
+      { value: "christian", label: "Christian" },
       { value: "jains", label: "Jains" },
       { value: "kirat", label: "Kirat" },
       { value: "others", label: "Others" },
@@ -116,7 +117,7 @@ const Step1 = () => {
           <Select
             className="w-60"
             placeholder="Residential Status"
-            options={optionsResidentialStatus}
+            options={optionsResidential}
           />
           <Select
             className="w-60"

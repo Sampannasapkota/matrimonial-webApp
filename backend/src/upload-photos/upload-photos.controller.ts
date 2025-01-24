@@ -24,19 +24,10 @@ export class UploadPhotosController {
 
   @Post()
   @UseInterceptors(FileInterceptor('file'))
-  async create(
-    @Body() createUploadPhotoDto: CreateUploadPhotoDto,
-    @UploadedFile() file: Express.Multer.File,
-  ) {
-    if (!file) {
-      throw new Error('File is required');
-    }
-
-    const uploadResult = await this.cloudinaryService.uploadImage(file);
-    createUploadPhotoDto.file = uploadResult.secure_url;
-
-    return this.uploadPhotosService.create(createUploadPhotoDto, file);
+  uploadImage(@UploadedFile() file: Express.Multer.File) {
+    return this.cloudinaryService.uploadImage(file);
   }
+  
 
   @Get()
   findAll() {
@@ -56,7 +47,7 @@ export class UploadPhotosController {
   ) {
     if (file) {
       const uploadResult = await this.cloudinaryService.uploadImage(file);
-      updateUploadPhotoDto.file = uploadResult.secure_url;
+      updateUploadPhotoDto.image_url = uploadResult.secure_url;
     }
 
     return this.uploadPhotosService.update(+id, updateUploadPhotoDto);

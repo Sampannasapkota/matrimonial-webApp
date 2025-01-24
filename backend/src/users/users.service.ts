@@ -26,30 +26,30 @@ export class UsersService {
 
     createUserDto.password = await hash(createUserDto.password, 10);
 
-    return this.prismaService.user.create({
-      data: {
-        fullname: createUserDto.fullname,
-        email: createUserDto.email,
-        dob: createUserDto.dob,
-        password: createUserDto.password,
-        gender: createUserDto.gender,
-        socialSignIn: createUserDto.socialSignIn,
-        profile: createUserDto.profile ? {
-          create: {
-            bio: createUserDto.profile.bio,
-            avatarUrl: createUserDto.profile.avatarUrl,
-          },
-        } : undefined,
-        interests: createUserDto.interests ? {
-          create: createUserDto.interests.map((interest) => ({
-            interestId: interest,
-          })),
-        } : undefined,
-        partnerPreference: createUserDto.partnerPreference ? {
-          create: createUserDto.partnerPreference,
-        } : undefined,
-      },
-    });
+    // return this.prismaService.user.create({
+    //   data: {
+    //     fullname: createUserDto.fullname,
+    //     email: createUserDto.email,
+    //     dob: createUserDto.dob,
+    //     password: createUserDto.password,
+    //     gender: createUserDto.gender,
+    //     socialSignIn: createUserDto.socialSignIn,
+    //     profile: createUserDto.profile ? {
+    //       create: {
+    //         bio: createUserDto.profile.bio,
+    //         avatarUrl: createUserDto.profile.avatarUrl,
+    //       },
+    //     } : undefined,
+    //     interests: createUserDto.interests ? {
+    //       create: createUserDto.interests.map((interest) => ({
+    //         interestId: interest,
+    //       })),
+    //     } : undefined,
+    //     partnerPreference: createUserDto.partnerPreference ? {
+    //       create: createUserDto.partnerPreference,
+    //     } : undefined,
+    //   },
+    // });
   }
 
   async findAll() {
@@ -94,33 +94,33 @@ export class UsersService {
       );
     }
 
-    return this.prismaService.user.update({
-      where: { id },
-      data: {
-        interests: updateUserDto.interests ? {
-          deleteMany: {},
-          create: updateUserDto.interests.map((interest) => ({
-            interestId: interest,
-          })),
-        } : undefined,
-      profile: updateUserDto.profile ? {
-        upsert: {
-          create: {
-            bio: updateUserDto.profile.bio,
-            avatarUrl: updateUserDto.profile.avatarUrl,
-          },
-          update: {
-            bio: updateUserDto.profile.bio,
-            avatarUrl: updateUserDto.profile.avatarUrl,
-          },
-        },
-      } : undefined,
-      },
-      include: {
-        profile: true,
-        interests: true,
-      },
-    });
+    // return this.prismaService.user.update({
+    //   where: { id },
+    //   data: {
+    //     interests: updateUserDto.interests ? {
+    //       deleteMany: {},
+    //       create: updateUserDto.interests.map((interest) => ({
+    //         interestId: interest,
+    //       })),
+    //     } : undefined,
+    //   profile: updateUserDto.profile ? {
+    //     upsert: {
+    //       create: {
+    //         bio: updateUserDto.profile.bio,
+    //         avatarUrl: updateUserDto.profile.avatarUrl,
+    //       },
+    //       update: {
+    //         bio: updateUserDto.profile.bio,
+    //         avatarUrl: updateUserDto.profile.avatarUrl,
+    //       },
+    //     },
+    //   } : undefined,
+    //   },
+    //   include: {
+    //     profile: true,
+    //     interests: true,
+    //   },
+    // });
   }
 
   async remove(id: number) {
