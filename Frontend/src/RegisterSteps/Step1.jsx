@@ -11,7 +11,8 @@ const Step1 = () => {
       { value: "divorced", label: "Divorced" },
       { value: "widowed", label: "Widowed" },
     ];
-    const optionsResidential = [  
+
+    const optionsResidential = [
       { value: "nepalicitizen", label: "NepaliCitizen" },
       { value: "prholder", label: "PRHolder" },
       { value: "nrn", label: "NRN" },
@@ -94,12 +95,12 @@ const Step1 = () => {
 
   return (
     <div
-      className="relative flex justify-center w-full h-screen items-center bg-center bg-cover font-outfit"
+      className="relative flex items-center justify-center w-full h-screen bg-center bg-cover font-outfit"
       id="step1"
       style={{ backgroundImage: `url(${wedding})` }}
     >
       <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-red-500 to-orange-400 opacity-70"></div>
-      <form className="absolute px-28 h-[35em] shadow-lg bg-white w-[60em] rounded-3xl">
+      <form className="absolute px-28 h-[35em] shadow-lg bg-white w-[50em] rounded-3xl">
         <img className="absolute w-16 top-5 left-16" src={mainLogo} alt="" />
         <p className="mt-16 mb-2 text-lg font-light text-center text-gray-600">
           Setting up your profile
@@ -107,56 +108,56 @@ const Step1 = () => {
         <h2 className="text-[#FF6347] font-semibold text-center text-2xl mb-8">
           Step 1 : Demographic Details
         </h2>
-        <div className="flex flex-wrap justify-center gap-5">
+        <div className="flex flex-wrap justify-center gap-5 gap-x-10">
           <Select
-            className="w-80"
+            className="w-60"
             placeholder="Marital Status"
             options={optionsMarital}
           />
           <Select
-            className="w-80"
+            className="w-60"
             placeholder="Residential Status"
             options={optionsResidential}
           />
           <Select
-            className="w-80"
+            className="w-60"
             placeholder="Province"
             options={optionsProvince}
           />
           <Select
-            className="w-80"
+            className="w-60"
             placeholder="Mother Tongue"
             options={optionsMotherTongue}
           />
 
           <Select
-            className="w-80"
+            className="w-60"
             placeholder="Education Level"
             options={optionsEducational}
           />
           <Select
-            className="w-80"
+            className="w-60"
             placeholder="Employment Status"
             options={optionsEmployment}
           />
           <Select
-            className="w-80"
+            className="w-60"
             placeholder="Diet Preference"
             options={optionsDiet}
           />
           <Select
-            className="w-80"
+            className="w-60"
             placeholder="Height"
             options={optionsHeight}
           />
           <Select
-            className="w-80"
+            className="w-60"
             placeholder="Income Range"
             options={optionsIncome}
           />
           <input
             type="text"
-            className="w-80 border-2 border-gray-300 rounded-lg pl-2"
+            className="pl-2 border-2 border-gray-300 rounded-lg w-60"
             placeholder="District"
           />
         </div>
