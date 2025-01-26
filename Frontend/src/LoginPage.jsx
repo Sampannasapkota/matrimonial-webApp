@@ -96,9 +96,12 @@ const LoginPage = () => {
               <input type="checkbox" id="remember" name="remember" />
               Remember me
             </label>
-            <a className="underline text-[#F24822]" href="">
+            <span
+              className="underline text-[#F24822] cursor-pointer"
+              onClick={() => navigate("/forgot-password")}
+            >
               Forgot Password?
-            </a>
+            </span>
           </div>
           <div className="relative flex mt-10 space-x-4">
             {/* Login Button */}

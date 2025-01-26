@@ -148,6 +148,15 @@ enum Interests {
   Others
 }
 
+enum IncomeRange {
+  very_low
+  low
+  medium
+  high
+  very_high
+  unemployed
+}
+
 // Models
 
 model Role {
@@ -159,10 +168,10 @@ model User {
   id               Int            @id @default(autoincrement())
   fullname         String
   email            String         @unique
-  dob              String 
+  dob              String
   password         String
   gender           Gender
-  googleId     String        @unique
+  googleId         String?        @unique
   createdAt        DateTime       @default(now())
   updatedAt        DateTime       @default(now())
   profile          Profile?
@@ -181,20 +190,8 @@ model User {
   UploadPhoto UploadPhoto[]
 
   PartnerPreference PartnerPreference[]
-}
 
-model Province {
-  id           Int          @id @default(autoincrement())
-  provinceName ProvinceName
-  districts    District[]
-}
-
-model District {
-  id         Int       @id @default(autoincrement())
-  provinceId Int
-  province   Province  @relation(fields: [provinceId], references: [id])
-  name       String
-  profiles   Profile[]
+  DemographicDetails DemographicDetails[]
 }
 
 model Profile {
@@ -207,8 +204,7 @@ model Profile {
   ageRange          Int
   dateOfBirth       String
   religion          Religion
-  districtId        Int
-  district          District          @relation(fields: [districtId], references: [id])
+  district          String
   residentialStatus ResidentialStatus @default(NepaliCitizen)
   familyType        FamilyType        @default(Nuclear)
   height            Float
@@ -220,6 +216,22 @@ model Profile {
   partnerPreference String
   createdAt         DateTime          @default(now())
   updatedAt         DateTime          @default(now())
+}
+
+model DemographicDetails {
+  id                Int               @id @default(autoincrement())
+  userId            Int               @unique
+  user              User              @relation(fields: [userId], references: [id])
+  maritalStatus     MaritalStatus
+  residentialStatus ResidentialStatus
+  province          ProvinceName
+  district          String
+  educationLevel    EducationLevel
+  employmentStatus  EmploymentStatus
+  dietPreference    DietPreference
+  height            Float
+  incomeRange       String
+  motherTongue      MotherTongue
 }
 
 model Message {
@@ -286,10 +298,10 @@ model Report {
 }
 
 model UploadPhoto {
-  id     Int    @id @default(autoincrement())
-  image_url   String
-  userId Int
-  user   User   @relation(fields: [userId], references: [id])
+  id        Int    @id @default(autoincrement())
+  image_url String
+  userId    Int
+  user      User   @relation(fields: [userId], references: [id])
 }
 
 model PartnerPreference {

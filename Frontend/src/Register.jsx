@@ -1,123 +1,23 @@
-// import React, { useState } from 'react'
-// import { useNavigate } from 'react-router';
-// import Select from 'react-select';
-
-// const options = [
-//   { value: "male", label: "Male" },
-//   { value: "female", label: "Female" },
-//   { value: "other", label: "Other" },
-// ];
-// const Register = () => {
-
-
-//   const [formData, setFormData] = useState({
-//     fullName: "",
-//     email: "",
-//     dob: "",
-//     gender: "",
-//     password: "",
-//   });
-
-//   const navigate = useNavigate();
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-
-//     try {
-//       const response = await fetch("http://localhost:3000/auth/send-otp", {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify(formData),
-//       });
-
-//       const data = await response.json();
-
-//       if (data.success) {
-//         navigate("/register/otp", { state: { email: formData.email} }); // Pass email to next page
-//       } else {
-//         alert(data.message || "Something went wrong!");
-//       }
-//     } catch (error) {
-//       console.error("Error:", error);
-//     }
-//   };
-
-//   return (
-//     <form onSubmit={handleSubmit}>
-//       <input
-//         type="text"
-//         placeholder="Full Name"
-//         value={formData.fullName}
-//         onChange={(e) =>
-//           setFormData({ ...formData, fullName: e.target.value })
-//         }
-//         required
-//       />
-//       <input
-//         type="email"
-//         placeholder="Email"
-//         value={formData.email}
-//         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-//         required
-//       />
-//       <input
-//         type="date"
-//         value={formData.dob}
-//         onChange={(e) => setFormData({ ...formData, dob: e.target.value })}
-//         required
-//       />
-//       <Select
-//         // styles={customStyles}
-//         placeholder="Gender"
-//         options={options}
-//         onChange={(selectedOption) =>
-//           setFormData({ ...formData, gender: selectedOption.value })
-//         }
-//         required
-//       />
-//       <input
-//         type="password"
-//         placeholder="Password"
-//         value={formData.password}
-//         onChange={(e) =>
-//           setFormData({ ...formData, password: e.target.value })
-//         }
-//         required
-//       />
-//       <button type="submit">Submit</button>
-//     </form>
-//   );
-// }
-
-
-// export default Register
-
-
 import React, { useState } from "react";
 import mainLogo from "./assets/main-logo.png";
 import wedding from "./assets/wedding.jpeg";
 import Select from "react-select";
 import { Link, useNavigate } from "react-router-dom";
 
-
 const Register = () => {
   const navigate = useNavigate();
   const [isTermsChecked, setIsTermsChecked] = useState(false);
 
   const [formData, setFormData] = useState({
-      fullName: "",
-      email: "",
-      dob: "",
-      gender: "",
-      password: "",
-    });
+    fullName: "",
+    email: "",
+    dob: "",
+    gender: "",
+    password: "",
+  });
 
   const [otp, setOtp] = useState("");
   const [otpSent, setOtpSent] = useState(false);
-
-
 
   // Update checkbox state
   const handleTermsChange = (e) => {
@@ -139,7 +39,7 @@ const Register = () => {
       const data = await response.json();
 
       if (data.success) {
-        navigate("/register/otp", { state: { email: formData.email} }); // Pass email to next page
+        navigate("/register/otp", { state: { email: formData.email } }); // Pass email to next page
       } else {
         alert(data.message || "Something went wrong!");
       }
@@ -147,7 +47,6 @@ const Register = () => {
       console.error("Error:", error);
     }
   };
-
 
   const options = [
     { value: "male", label: "Male" },
@@ -194,7 +93,7 @@ const Register = () => {
             placeholder="Full Name *"
             value={formData.fullName}
             onChange={(e) => {
-              setFormData({...formData,fullName: e.target.value});
+              setFormData({ ...formData, fullName: e.target.value });
             }}
             required
           />
@@ -205,7 +104,7 @@ const Register = () => {
             placeholder="Email Address *"
             value={formData.email}
             onChange={(e) => {
-              setFormData({...formData,email: e.target.value});
+              setFormData({ ...formData, email: e.target.value });
             }}
             required
           />
@@ -216,7 +115,7 @@ const Register = () => {
               placeholder="Date Of Birth"
               value={formData.dob}
               onChange={(e) => {
-                setFormData({...formData,dob: e.target.value});
+                setFormData({ ...formData, dob: e.target.value });
               }}
               required
             />
@@ -225,7 +124,7 @@ const Register = () => {
               styles={customStyles}
               placeholder="Gender"
               onChange={(selectedOption) => {
-                setFormData({...formData, gender: selectedOption.value});
+                setFormData({ ...formData, gender: selectedOption.value });
               }}
               options={options}
               required
@@ -237,7 +136,7 @@ const Register = () => {
             placeholder="Password *"
             value={formData.password}
             onChange={(e) => {
-              setFormData({...formData, password: e.target.value});
+              setFormData({ ...formData, password: e.target.value });
             }}
             required
           />
@@ -281,7 +180,6 @@ const Register = () => {
       </form>
     </div>
   );
-}
-
+};
 
 export default Register;

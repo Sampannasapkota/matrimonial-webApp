@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Injectable,
   NotFoundException,
   UnauthorizedException,
@@ -11,14 +12,15 @@ import { RegisterUserDto } from './dto/register-user.dto';
 import { UsersService } from 'src/users/users.service';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import * as nodemailer from 'nodemailer';
+import * as bcrypt from 'bcrypt';
 
 
 @Injectable()
 export class AuthService {
   constructor(
-    private prismaService: PrismaService,
-    private jwtService: JwtService,
-    private usersService: UsersService,
+    private readonly prismaService: PrismaService,
+    private readonly jwtService: JwtService,
+    private readonly usersService: UsersService,
   ) {}
   private otps = new Map<string, string>(); // Store OTPs in memory (use a DB in production)
 
@@ -106,5 +108,50 @@ export class AuthService {
       return existingUser;
     }
     return await this.usersService.create(googleUser);
+  }
+
+  async forgotPassword(email:string):Promise<string>{
+    const user =await this .prismaService.user.findFirst({
+      where:{
+        email:email
+      }
+    });
+    if(!user){
+      throw new BadRequestException('User not found');
+    }
+    const payload = {email:user.email,sub:user.id};
+    const resetToken=this.jwtService.sign(payload,{
+      secret:process.env.JWT_RESET_SECRET,
+      expiresIn:process.env.JWT_RESET_EXPIRATION
+    });
+    return resetToken;
+  }
+
+  async resetPassword(token:string,newPassword:string):Promise<string>{
+    try{
+      const decoded=this.jwtService.verify(token,{
+        secret:process.env.JWT_RESET_SECRET
+      });
+      const user=await this.prismaService.user.findUnique({
+        where:{
+          id:decoded.sub
+        }
+      });
+      if(!user){
+        throw new NotFoundException('User not found');
+      }
+      const hashedPassword=await bcrypt.hash(newPassword,10);
+      await this.prismaService.user.update({
+        where:{
+          id:user.id
+        },
+        data:{
+          password:hashedPassword
+        }
+      });
+      return 'Password reset successfully';
+    }catch(error){
+      throw new BadRequestException('Invalid token or expired token');
+    }
   }
 }

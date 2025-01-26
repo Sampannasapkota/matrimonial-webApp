@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateProfileDto } from './dto/create-profile.dto';
+import { UpdateProfileDto } from './dto/update-profile.dto';
 
 import {
   Gender,
@@ -9,66 +10,110 @@ import {
   MaritalStatus,
   EducationLevel,
   EmploymentStatus,
+  ResidentialStatus,
+  FamilyType,
+  MotherTongue,
 } from '@prisma/client';
-import { Profile } from './entities/profile.entity';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 
 @Injectable()
 export class ProfilesService {
-  constructor
-  (private readonly prisma: PrismaService,
+  constructor(
+    private readonly prisma: PrismaService,
     private readonly cloudinaryService: CloudinaryService
-  )
+  ) {}
 
-  
-   {}
-
-  async create(createProfileDto: CreateProfileDto) { 
-    if(createProfileDto.profilePic){
-      try{
-        const result = await this.cloudinaryService.uploadBase64( `data:image/jpeg;base64,${createProfileDto.profilePic}`,
-                  'profile');
-                  createProfileDto.profilePic_url = result.secure_url;
-      }
-      catch(error){
+  async create(createProfileDto: CreateProfileDto) {
+    if (createProfileDto.profilePic) {
+      try {
+        const result = await this.cloudinaryService.uploadBase64(
+          `data:image/jpeg;base64,${createProfileDto.profilePic}`,
+          'profile'
+        );
+        createProfileDto.profilePic = result.secure_url;
+      } catch (error) {
         throw new Error(`Failed to upload image to Cloudinary: ${error.message}`);
       }
-      
     }
-    const {profilePic,...rest} = createProfileDto;
 
-    const profile = await this.prisma.profile.create({
-      data: 
-      rest
-      ,
-    });
+    const { profilePic, userId, ...rest } = createProfileDto;
 
-    return profile;
+    try {
+      const profile = await this.prisma.profile.create({
+        data: {
+          ...rest,
+          profilePic: profilePic || null,
+          user: {
+            connect: { id: createProfileDto.userId },
+          },
+        },
+        include: { user: true },
+      });
+
+      return profile;
+    } catch (error) {
+      throw new Error(`Error creating profile: ${error.message}`);
+    }
+  }
+
+  async findAll(skip = 0, take = 10) {
+    try {
+      return await this.prisma.profile.findMany({
+        skip,
+        take,
+        include: { user: true },
+      });
+    } catch (error) {
+      throw new Error(`Error fetching profiles: ${error.message}`);
+    }
   }
 
   async findOne(id: number) {
-    const profile = await this.prisma.profile.findUnique({
-      where: { id },
-    });
+    try {
+      const profile = await this.prisma.profile.findUnique({
+        where: { id },
+        include: { user: true },
+      });
 
-    if (!profile) {
-      throw new NotFoundException(`Profile #${id} not found`);
+      if (!profile) {
+        throw new NotFoundException(`Profile #${id} not found`);
+      }
+
+      return profile;
+    } catch (error) {
+      throw new Error(`Error fetching profile: ${error.message}`);
     }
-
-    return profile;
   }
 
-  async update(id: number, updateData: Partial<CreateProfileDto>) {
-    const profile = await this.prisma.profile.update({
-      where: { id },
-      data: updateData,
-    });
-
-    if (!profile) {
-      throw new NotFoundException(`Profile #${id} not found`);
+  async update(id: number, updateProfileDto: UpdateProfileDto) {
+    if (updateProfileDto.profilePic) {
+      try {
+        const result = await this.cloudinaryService.uploadBase64(
+          `data:image/jpeg;base64,${updateProfileDto.profilePic}`,
+          'profile'
+        );
+        updateProfileDto.profilePic = result.secure_url;
+      } catch (error) {
+        throw new Error(`Failed to upload image to Cloudinary: ${error.message}`);
+      }
     }
 
-    return profile;
+    const { profilePic, ...rest } = updateProfileDto;
+
+    try {
+      const profile = await this.prisma.profile.update({
+        where: { id },
+        data: {
+          ...rest,
+          profilePic: profilePic || undefined,
+        },
+        include: { user: true },
+      });
+
+      return profile;
+    } catch (error) {
+      throw new NotFoundException(`Error updating profile: ${error.message}`);
+    }
   }
 
   async remove(id: number) {
@@ -77,14 +122,7 @@ export class ProfilesService {
         where: { id },
       });
     } catch (error) {
-      throw new NotFoundException(`profile with ID ${id} not found`);
+      throw new NotFoundException(`Error deleting profile: ${error.message}`);
     }
-  }
-
-  async findAll(skip = 0, take = 10) {
-    return await this.prisma.profile.findMany({
-      skip,
-      take,
-    });
   }
 }

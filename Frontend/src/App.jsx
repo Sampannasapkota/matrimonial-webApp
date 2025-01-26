@@ -14,6 +14,8 @@ import Step5 from "./RegisterSteps/Step5";
 import AdminDashboard from "./admin/AdminDashboard";
 import { useAuth } from "./context/authContext";
 import Otp from "./RegisterSteps/Otp";
+import ForgotPassword from "./forgotPassword/forgotPassword";
+
 
 const ProtectedRoutes = () => {
   const { token } = useAuth();
@@ -26,6 +28,8 @@ function App() {
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/reset-password" element={<ForgotPassword />} />
       <Route path="/register" element={<Register />} />
       <Route path="/register/otp" element={<Otp/>} />
       <Route path="/register/step1" element={<Step1 />} />
