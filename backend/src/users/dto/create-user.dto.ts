@@ -1,43 +1,29 @@
-import { IsBoolean, IsDateString, IsEmail, IsEnum, IsOptional, IsString, Length, Matches } from 'class-validator';
-import { Gender } from '@prisma/client'; // Import your Gender enum
-import { Type } from 'class-transformer';
+import { IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, Length } from 'class-validator';
+import { Gender } from '@prisma/client'; // Import the Gender enum if defined elsewhere
 
 export class CreateUserDto {
+  @IsNotEmpty()
   @IsString()
-  @Length(2, 50)
   fullname: string;
 
+  @IsNotEmpty()
   @IsEmail()
   email: string;
 
-  @IsDateString()
+  @IsNotEmpty()
+  @IsString()
   dob: string;
 
+  @IsNotEmpty()
   @IsString()
-  @Length(8, 128)
-  @Matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!$%@#£€*?&]+$/, {
-    message: 'Password must contain at least one letter, one number, and one special character.',
-  })
+  @Length(6, 20, { message: 'Password must be between 6 and 20 characters.' })
   password: string;
 
-  @IsEnum(Gender, { message: 'Gender must be either MALE, FEMALE, or OTHER' })
+  @IsNotEmpty()
+  @IsEnum(Gender, { message: 'Gender must be one of the defined enum values.' })
   gender: Gender;
 
+  @IsOptional()
   @IsString()
-  googleId: string;
-
-  @IsOptional()
-  @Type(() => Object)
-
-  @IsOptional()
-  @Type(() => Array)
-  interests?: number[]; // Array of interest IDs
-
-  @IsOptional()
-  @Type(() => Object)
-  partnerPreference?: {
-    ageRange?: [number, number];
-    location?: string;
-    hobbies?: string[];
-  };
+  googleId?: string;
 }

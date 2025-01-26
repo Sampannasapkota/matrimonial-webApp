@@ -6,174 +6,119 @@ import {
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { hash } from 'bcrypt';
-import { capitalizeFirstLetterOfEachWordInAphrase } from 'src/helpers/capitalize';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private prismaService: PrismaService) {}
+
+  private capitalizeFirstLetterOfEachPhrase(text: string): string {
+    return text
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(' ');
+  }
 
   async create(createUserDto: CreateUserDto) {
-    createUserDto.fullname = createUserDto.fullname
-      ? capitalizeFirstLetterOfEachWordInAphrase(createUserDto.fullname.trim())
-      : '';
-
-    if (await this.checkIfUserExist(createUserDto.email)) {
+    if (await this.checkIfEmailExists(createUserDto.email)) {
       throw new BadRequestException(
-        `User with email ${createUserDto.email} already exists.`,
+        `Email ${createUserDto.email} has already been taken`,
       );
     }
 
-    createUserDto.password = await hash(createUserDto.password, 10);
+    if (
+      createUserDto.googleId &&
+      (await this.checkIfGoogleIdExists(createUserDto.googleId))
+    ) {
+      throw new BadRequestException(
+        `Google ID ${createUserDto.googleId} has already been taken`,
+      );
+    }
 
-    // return this.prismaService.user.create({
-    //   data: {
-    //     fullname: createUserDto.fullname,
-    //     email: createUserDto.email,
-    //     dob: createUserDto.dob,
-    //     password: createUserDto.password,
-    //     gender: createUserDto.gender,
-    //     socialSignIn: createUserDto.socialSignIn,
-    //     profile: createUserDto.profile ? {
-    //       create: {
-    //         bio: createUserDto.profile.bio,
-    //         avatarUrl: createUserDto.profile.avatarUrl,
-    //       },
-    //     } : undefined,
-    //     interests: createUserDto.interests ? {
-    //       create: createUserDto.interests.map((interest) => ({
-    //         interestId: interest,
-    //       })),
-    //     } : undefined,
-    //     partnerPreference: createUserDto.partnerPreference ? {
-    //       create: createUserDto.partnerPreference,
-    //     } : undefined,
-    //   },
-    // });
+    createUserDto.fullname = this.capitalizeFirstLetterOfEachPhrase(
+      createUserDto.fullname,
+    );
+
+    createUserDto.password = await bcrypt.hash(createUserDto.password, 10);
+
+    return this.prismaService.user.create({ data: createUserDto });
   }
 
   async findAll() {
-    return this.prismaService.user.findMany({
-      include: {
-        profile: true,
-        messagesSent: true,
-        messagesReceived: true,
-        interests: { include: { interest: true } },
-        matchesAsUserOne: true,
-        matchesAsUserTwo: true,
-        Like: true,
-        Report: true,
-        FamilyDetails: true,
-        UploadPhoto: true,
-        PartnerPreference: true,
-      },
-    });
+    const users = await this.prismaService.user.findMany();
+    return users;
   }
 
   async findOne(id: number) {
-    return this.getUserById(id, true);
+    return this.getUserById(id);
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
-    const user = await this.getUserById(id);
+    await this.getUserById(id);
 
     if (
       updateUserDto.email &&
-      (await this.checkIfEmailExist(updateUserDto.email, id))
+      (await this.checkIfEmailExists(updateUserDto.email, id))
     ) {
-      throw new BadRequestException('This email has already been taken.');
-    }
-
-    if (updateUserDto.password) {
-      updateUserDto.password = await hash(updateUserDto.password, 10);
-    }
-
-    if (updateUserDto.fullname) {
-      updateUserDto.fullname = capitalizeFirstLetterOfEachWordInAphrase(
-        updateUserDto.fullname.trim(),
+      throw new BadRequestException(
+        `Email ${updateUserDto.email} has already been taken`,
       );
     }
 
-    // return this.prismaService.user.update({
-    //   where: { id },
-    //   data: {
-    //     interests: updateUserDto.interests ? {
-    //       deleteMany: {},
-    //       create: updateUserDto.interests.map((interest) => ({
-    //         interestId: interest,
-    //       })),
-    //     } : undefined,
-    //   profile: updateUserDto.profile ? {
-    //     upsert: {
-    //       create: {
-    //         bio: updateUserDto.profile.bio,
-    //         avatarUrl: updateUserDto.profile.avatarUrl,
-    //       },
-    //       update: {
-    //         bio: updateUserDto.profile.bio,
-    //         avatarUrl: updateUserDto.profile.avatarUrl,
-    //       },
-    //     },
-    //   } : undefined,
-    //   },
-    //   include: {
-    //     profile: true,
-    //     interests: true,
-    //   },
-    // });
+    if (
+      updateUserDto.googleId &&
+      (await this.checkIfGoogleIdExists(updateUserDto.googleId, id))
+    ) {
+      throw new BadRequestException(
+        `Google ID ${updateUserDto.googleId} has already been taken`,
+      );
+    }
+
+    if (updateUserDto.fullname) {
+      updateUserDto.fullname = this.capitalizeFirstLetterOfEachPhrase(
+        updateUserDto.fullname,
+      );
+    }
+
+    if (updateUserDto.password) {
+      updateUserDto.password = await bcrypt.hash(updateUserDto.password, 10);
+    }
+
+    return this.prismaService.user.update({
+      where: { id },
+      data: updateUserDto,
+    });
   }
 
   async remove(id: number) {
     await this.getUserById(id);
-    return this.prismaService.user.delete({
-      where: { id },
-    });
+    return this.prismaService.user.delete({ where: { id } });
   }
 
-  private async getUserById(id: number, includeRelations = false) {
-    const user = await this.prismaService.user.findUnique({
-      where: { id },
-      include: includeRelations
-        ? {
-            profile: true,
-            messagesSent: true,
-            messagesReceived: true,
-            interests: { include: { interest: true } },
-            matchesAsUserOne: true,
-            matchesAsUserTwo: true,
-            Like: true,
-            Report: true,
-            FamilyDetails: true,
-            UploadPhoto: true,
-            PartnerPreference: true,
-          }
-        : undefined,
-    });
-
+  private async getUserById(id: number) {
+    const user = await this.prismaService.user.findUnique({ where: { id } });
     if (!user) {
-      throw new NotFoundException(`User with ID ${id} does not exist.`);
+      throw new NotFoundException(`User with ID ${id} does not exist`);
     }
-
     return user;
   }
 
-  private async checkIfUserExist(email: string, id?: number): Promise<boolean> {
+  private async checkIfEmailExists(email: string, id?: number): Promise<boolean> {
     const user = await this.prismaService.user.findUnique({ where: { email } });
     if (id) {
-      return user ? user.id !== id : false;
+      return user ? user.id === id : false;
     }
     return !!user;
   }
 
-  private async checkIfEmailExist(email: string, id?: number): Promise<boolean> {
-    if (!email) {
-      throw new BadRequestException('Email is required');
-    }
-
-    const user = await this.prismaService.user.findUnique({ where: { email } });
-
+  private async checkIfGoogleIdExists(
+    googleId: string,
+    id?: number,
+  ): Promise<boolean> {
+    if (!googleId) return false;
+    const user = await this.prismaService.user.findUnique({ where: { googleId } });
     if (id) {
-      return user ? user.id !== id : false;
+      return user ? user.id === id : false;
     }
     return !!user;
   }

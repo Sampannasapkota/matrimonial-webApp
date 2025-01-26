@@ -3,8 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { RolesModule } from './roles/roles.module';
 import { UsersModule } from './users/users.module';
-import { ProvincesModule } from './provinces/provinces.module';
-import { DistrictsModule } from './districts/districts.module';
+
 import { ProfilesModule } from './profiles/profiles.module';
 import { MessagesModule } from './messages/messages.module';
 import { MatchesModule } from './matches/matches.module';
@@ -17,6 +16,7 @@ import { ConfigModule } from '@nestjs/config';
 import { UploadPhotosModule } from './upload-photos/upload-photos.module';
 import { PartnerPreferencesModule } from './partner-preferences/partner-preferences.module';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
+import { DemographicDetailsModule } from './demographic-details/demographic-details.module';
 
 
 @Module({
@@ -25,8 +25,7 @@ import { CloudinaryModule } from './cloudinary/cloudinary.module';
     RolesModule,
     UsersModule,
     AuthModule,
-    ProvincesModule,
-    DistrictsModule,
+   DemographicDetailsModule,
     ProfilesModule,
     MessagesModule,
     MatchesModule,
@@ -37,6 +36,7 @@ import { CloudinaryModule } from './cloudinary/cloudinary.module';
     ConfigModule.forRoot(),
     UploadPhotosModule,
     PartnerPreferencesModule,
+    DemographicDetailsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
