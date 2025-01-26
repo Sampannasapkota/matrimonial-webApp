@@ -64,11 +64,11 @@ const Step1 = () => {
       { value: "retired", label: "Retired" },
     ];
     const optionsIncome = [
-      { value: "very-low", label: "Less than 20,000" },
+      { value: "very_low", label: "Less than 20,000" },
       { value: "low", label: "20,000 to 40,000" },
       { value: "medium", label: "40,000 to 60,000" },
       { value: "high", label: "60,000 to 1,00,000" },
-      { value: "very-high", label: "Above 1,00,000" },
+      { value: "very_high", label: "Above 1,00,000" },
       { value: "unemployed", label: "UnEmployed" },
     ];
     const optionsMotherTongue = [

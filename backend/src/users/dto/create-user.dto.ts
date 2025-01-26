@@ -23,15 +23,11 @@ export class CreateUserDto {
   @IsEnum(Gender, { message: 'Gender must be either MALE, FEMALE, or OTHER' })
   gender: Gender;
 
-  @IsBoolean()
-  socialSignIn: boolean;
+  @IsString()
+  googleId: string;
 
   @IsOptional()
   @Type(() => Object)
-  profile?: {
-    bio?: string;
-    avatarUrl?: string;
-  };
 
   @IsOptional()
   @Type(() => Array)

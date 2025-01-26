@@ -9,13 +9,16 @@ import { LoginDto } from './dto/login-user.dto';
 import { compare } from 'bcrypt';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { UsersService } from 'src/users/users.service';
+import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import * as nodemailer from 'nodemailer';
+
 
 @Injectable()
 export class AuthService {
   constructor(
     private prismaService: PrismaService,
     private jwtService: JwtService,
+    private usersService: UsersService,
   ) {}
   private otps = new Map<string, string>(); // Store OTPs in memory (use a DB in production)
 
@@ -37,7 +40,7 @@ export class AuthService {
 
     // Email content
     const mailOptions = {
-      from: 'pujankhanal698@gmail.com', // Sender address
+      from: '"merobihe" <pujankhanal698@gmail.com>', // Sender address
       to: email, // Recipient email
       subject: 'Your OTP for Verification', // Email subject
       text: `Your OTP is ${otp}`, // Plain text body
@@ -63,6 +66,8 @@ export class AuthService {
 
     return { success: false, message: 'Invalid OTP' };
   }
+
+
   async login(loginDto: LoginDto) {
     const user = await this.prismaService.user.findFirst({
       where: {
@@ -79,9 +84,6 @@ export class AuthService {
     if (!user) {
       throw new NotFoundException('Unable to find the user');
     }
-    // if (!(await compare(loginDto.password, user.password))) {
-    //   throw new UnauthorizedException('Invalid credentials!');
-    // }
 
     const token = await this.jwtService.signAsync(user);
     return {
@@ -95,5 +97,14 @@ export class AuthService {
     return {
       token,
     };
+  }
+  async validateGoogleUser(googleUser: CreateUserDto) {
+    const existingUser = await this.prismaService.user.findUnique({
+      where: { email: googleUser.email },
+    });
+    if (existingUser) {
+      return existingUser;
+    }
+    return await this.usersService.create(googleUser);
   }
 }

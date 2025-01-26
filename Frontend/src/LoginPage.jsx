@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import wedding from "./assets/wedding.jpeg";
 import mainLogo from "./assets/main-logo.png";
@@ -6,36 +5,47 @@ import vertical_img from "./assets/Rectangle 78.png";
 import img2 from "./assets/Rectangle 79.png";
 import img3 from "./assets/Rectangle 80.png";
 import img4 from "./assets/Rectangle 81.png";
+import googlelogo from "./assets/image.png";
 import { IoMdLock, IoMdMail } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 import { api } from "./api/index";
 import { useAuth } from "./context/authContext";
+import { useEffect } from "react";
 
 const LoginPage = () => {
-
   const navigate = useNavigate();
   const { login } = useAuth();
 
-   const [email, setEmail] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
 
   const handleLogin = async (e) => {
     e.preventDefault();
     console.log(email, password);
-    
+
     try {
       const response = await api.post("/auth/login", { email, password });
       console.log(response);
       navigate("/dashboard");
       login(response.data.token);
-    }
-     catch (error) {
+    } catch (error) {
       console.error(error);
       setError(error.response.data.message);
     }
   };
+
+  const handleGoogleLogin = () => {
+    window.location.href = "http://localhost:3000/auth/google/login";
+  };
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get("token");
+    if (token) {
+      localStorage.setItem("token", token);
+      navigate("/dashboard");
+    }
+  }, []);
 
   return (
     <div
@@ -56,7 +66,8 @@ const LoginPage = () => {
         </div>
         <form
           className="px-[8%] h-96 bg-white w-[65%] rounded-3xl"
-          onSubmit={handleLogin}>
+          onSubmit={handleLogin}
+        >
           <h2 className="text-[#FF6347] text-center text-3xl font-semibold mt-6 mb-10">
             Welcome to meroBihe
           </h2>
@@ -89,21 +100,31 @@ const LoginPage = () => {
               Forgot Password?
             </a>
           </div>
-          <div className="relative flex mt-10 space-x-12">
+          <div className="relative flex mt-10 space-x-4">
+            {/* Login Button */}
             <button
-              className="w-full bg-[#F24822] rounded-lg h-10 text-white font-semibold  hover:bg-white hover:text-rose-950 hover:border-2 hover:border-rose-950"
+              className="w-1/2 bg-[#F24822] rounded-lg h-10 text-white font-semibold hover:bg-white hover:text-rose-950 hover:border-2 hover:border-rose-950"
               type="submit"
             >
               Log In
             </button>
+            {/* Google Login Button */}
+            <button
+              className="w-1/2 flex items-center justify-center bg-white border-2 border-red-300 rounded-lg h-10 text-gray-600 font-semibold hover:bg-gray-100"
+              type="button"
+              onClick={handleGoogleLogin}
+            >
+              <img
+                className="w-5 h-5 mr-2"
+                src={googlelogo}
+                alt="Google logo"
+              />
+              Continue with Google
+            </button>
           </div>
           <p className="mt-5 text-center text-gray-600">
             New member?
-            <Link 
-              to='/register'
-              className="text-[#F24822] ml-2 underline"
-              
-            >
+            <Link to="/register" className="text-[#F24822] ml-2 underline">
               SignUp
             </Link>
           </p>
@@ -114,4 +135,3 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
-//sampanna sapkota
