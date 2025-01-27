@@ -199,21 +199,20 @@ model Profile {
   userId            Int               @unique
   user              User              @relation(fields: [userId], references: [id])
   gender            Gender
-  profilePic        String?
   dietPreference    DietPreference
   ageRange          Int
   dateOfBirth       String
   religion          Religion
+  province          ProvinceName
   district          String
-  residentialStatus ResidentialStatus @default(NepaliCitizen)
-  familyType        FamilyType        @default(Nuclear)
+  residentialStatus ResidentialStatus
+  familyType        FamilyType
   height            Float
-  incomeRange       Int               @default(0)
+  incomeRange       String
   maritalStatus     MaritalStatus
-  educationLevel    EducationLevel    @default(PrimaryLevel)
+  educationLevel    EducationLevel
   employmentStatus  EmploymentStatus
-  motherTongue      MotherTongue      @default(Nepali)
-  partnerPreference String
+  motherTongue      MotherTongue
   createdAt         DateTime          @default(now())
   updatedAt         DateTime          @default(now())
 }
@@ -309,15 +308,15 @@ model PartnerPreference {
   userId            Int
   user              User              @relation(fields: [userId], references: [id])
   maritalStatus     MaritalStatus
-  ageRange          Int               @default(0)
+  ageRange          Int
   dietPreference    DietPreference
   religion          Religion
   familyValues      FamilyValue
   ethnicity         Ethnicity
   familyClass       FamilyClass
-  residentialStatus ResidentialStatus @default(NepaliCitizen)
+  residentialStatus ResidentialStatus
   employmentStatus  EmploymentStatus
-  educationLevel    EducationLevel    @default(PrimaryLevel)
+  educationLevel    EducationLevel
   createdAt         DateTime          @default(now())
   updatedAt         DateTime          @default(now())
 }

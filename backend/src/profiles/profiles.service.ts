@@ -1,128 +1,104 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 
-import {
-  Gender,
-  DietPreference,
-  Religion,
-  MaritalStatus,
-  EducationLevel,
-  EmploymentStatus,
-  ResidentialStatus,
-  FamilyType,
-  MotherTongue,
-} from '@prisma/client';
-import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
-
 @Injectable()
 export class ProfilesService {
-  constructor(
-    private readonly prisma: PrismaService,
-    private readonly cloudinaryService: CloudinaryService
-  ) {}
+  constructor(private prismaService: PrismaService) {}
 
   async create(createProfileDto: CreateProfileDto) {
-    if (createProfileDto.profilePic) {
-      try {
-        const result = await this.cloudinaryService.uploadBase64(
-          `data:image/jpeg;base64,${createProfileDto.profilePic}`,
-          'profile'
-        );
-        createProfileDto.profilePic = result.secure_url;
-      } catch (error) {
-        throw new Error(`Failed to upload image to Cloudinary: ${error.message}`);
-      }
+    // Check if the related user exists
+    const userExists = await this.prismaService.user.findUnique({
+      where: { id: createProfileDto.userId },
+    });
+
+    if (!userExists) {
+      throw new NotFoundException(`User with ID ${createProfileDto.userId} does not exist`);
     }
 
-    const { profilePic, userId, ...rest } = createProfileDto;
-
-    try {
-      const profile = await this.prisma.profile.create({
-        data: {
-          ...rest,
-          profilePic: profilePic || null,
-          user: {
-            connect: { id: createProfileDto.userId },
-          },
-        },
-        include: { user: true },
-      });
-
-      return profile;
-    } catch (error) {
-      throw new Error(`Error creating profile: ${error.message}`);
-    }
+    return this.prismaService.profile.create({
+      data: {
+        userId: createProfileDto.userId,
+        gender: createProfileDto.gender,
+        dietPreference: createProfileDto.dietPreference,
+        ageRange: createProfileDto.ageRange,
+        dateOfBirth: createProfileDto.dateOfBirth,
+        religion: createProfileDto.religion,
+        province: createProfileDto.province,
+        district: createProfileDto.district,
+        residentialStatus: createProfileDto.residentialStatus,
+        familyType: createProfileDto.familyType,
+        height: createProfileDto.height,
+        incomeRange: createProfileDto.incomeRange,
+        maritalStatus: createProfileDto.maritalStatus,
+        educationLevel: createProfileDto.educationLevel,
+        employmentStatus: createProfileDto.employmentStatus,
+        motherTongue: createProfileDto.motherTongue,
+      },
+    });
   }
 
-  async findAll(skip = 0, take = 10) {
-    try {
-      return await this.prisma.profile.findMany({
-        skip,
-        take,
-        include: { user: true },
-      });
-    } catch (error) {
-      throw new Error(`Error fetching profiles: ${error.message}`);
-    }
+  async findAll() {
+    return this.prismaService.profile.findMany({
+      include: {
+        user: true, // Include the related user details
+      },
+    });
   }
 
   async findOne(id: number) {
-    try {
-      const profile = await this.prisma.profile.findUnique({
-        where: { id },
-        include: { user: true },
-      });
-
-      if (!profile) {
-        throw new NotFoundException(`Profile #${id} not found`);
-      }
-
-      return profile;
-    } catch (error) {
-      throw new Error(`Error fetching profile: ${error.message}`);
-    }
+    return this.getProfileById(id);
   }
 
   async update(id: number, updateProfileDto: UpdateProfileDto) {
-    if (updateProfileDto.profilePic) {
-      try {
-        const result = await this.cloudinaryService.uploadBase64(
-          `data:image/jpeg;base64,${updateProfileDto.profilePic}`,
-          'profile'
-        );
-        updateProfileDto.profilePic = result.secure_url;
-      } catch (error) {
-        throw new Error(`Failed to upload image to Cloudinary: ${error.message}`);
+    // Ensure the profile exists
+    await this.getProfileById(id);
+
+    // If userId is being updated, check if the new user exists
+    if (updateProfileDto.userId) {
+      const userExists = await this.prismaService.user.findUnique({
+        where: { id: updateProfileDto.userId },
+      });
+
+      if (!userExists) {
+        throw new NotFoundException(`User with ID ${updateProfileDto.userId} does not exist`);
       }
     }
 
-    const { profilePic, ...rest } = updateProfileDto;
-
-    try {
-      const profile = await this.prisma.profile.update({
-        where: { id },
-        data: {
-          ...rest,
-          profilePic: profilePic || undefined,
-        },
-        include: { user: true },
-      });
-
-      return profile;
-    } catch (error) {
-      throw new NotFoundException(`Error updating profile: ${error.message}`);
-    }
+    return this.prismaService.profile.update({
+      where: { id },
+      data: {
+        ...updateProfileDto,
+      },
+    });
   }
 
   async remove(id: number) {
-    try {
-      return await this.prisma.profile.delete({
-        where: { id },
-      });
-    } catch (error) {
-      throw new NotFoundException(`Error deleting profile: ${error.message}`);
+    // Ensure the profile exists
+    await this.getProfileById(id);
+
+    return this.prismaService.profile.delete({
+      where: { id },
+    });
+  }
+
+  private async getProfileById(id: number) {
+    const profile = await this.prismaService.profile.findUnique({
+      where: { id },
+      include: {
+        user: true, // Include the related user details
+      },
+    });
+
+    if (!profile) {
+      throw new NotFoundException(`Profile with ID ${id} does not exist`);
     }
+
+    return profile;
   }
 }

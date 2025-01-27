@@ -27,8 +27,6 @@ export class UploadPhotosController {
   uploadImage(@UploadedFile() file: Express.Multer.File) {
     return this.cloudinaryService.uploadImage(file);
   }
-  
-
   @Get()
   findAll() {
     return this.uploadPhotosService.findAll();

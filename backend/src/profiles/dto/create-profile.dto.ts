@@ -1,14 +1,4 @@
 import {
-  IsInt,
-  IsString,
-  IsOptional,
-  IsEnum,
-  IsDate,
-  IsNumber,
-  Min,
-  Max,
-} from 'class-validator';
-import {
   Gender,
   DietPreference,
   Religion,
@@ -18,69 +8,80 @@ import {
   EducationLevel,
   EmploymentStatus,
   MotherTongue,
+  ProvinceName,
 } from '@prisma/client';
+import {
+  IsEnum,
+  IsInt,
+  IsString,
+  IsNumber,
+  IsNotEmpty,
+  IsDateString,
+} from 'class-validator';
 
 export class CreateProfileDto {
   @IsInt()
+  @IsNotEmpty()
   userId: number;
 
   @IsEnum(Gender)
+  @IsNotEmpty()
   gender: Gender;
 
-  @IsOptional()
-  @IsString()
-  profilePic?: string;
-
   @IsEnum(DietPreference)
+  @IsNotEmpty()
   dietPreference: DietPreference;
 
   @IsInt()
-  @Min(1)
-  @Max(120)
+  @IsNotEmpty()
   ageRange: number;
 
-  @IsString()
+  @IsDateString()
+  @IsNotEmpty()
   dateOfBirth: string;
 
   @IsEnum(Religion)
+  @IsNotEmpty()
   religion: Religion;
 
   @IsString()
+  @IsNotEmpty()
   district: string;
 
+  @IsEnum(ProvinceName)
+  @IsNotEmpty()
+  province: ProvinceName;
+
   @IsEnum(ResidentialStatus)
-  residentialStatus: ResidentialStatus = ResidentialStatus.NepaliCitizen;
+  @IsNotEmpty()
+  residentialStatus: ResidentialStatus;
 
   @IsEnum(FamilyType)
-  familyType: FamilyType = FamilyType.Nuclear;
+  @IsNotEmpty()
+  familyType: FamilyType;
 
   @IsNumber()
+  @IsNotEmpty()
   height: number;
 
   @IsInt()
-  @Min(0)
-  incomeRange: number = 0;
+  @IsNotEmpty()
+  incomeRange: string;
 
   @IsEnum(MaritalStatus)
+  @IsNotEmpty()
   maritalStatus: MaritalStatus;
 
   @IsEnum(EducationLevel)
-  educationLevel: EducationLevel = EducationLevel.PrimaryLevel;
+  @IsNotEmpty()
+  educationLevel: EducationLevel;
 
   @IsEnum(EmploymentStatus)
+  @IsNotEmpty()
   employmentStatus: EmploymentStatus;
 
   @IsEnum(MotherTongue)
-  motherTongue: MotherTongue = MotherTongue.Nepali;
+  @IsNotEmpty()
+  motherTongue: MotherTongue;
 
-  @IsString()
-  partnerPreference: string;
-
-  @IsOptional()
-  @IsDate()
-  createdAt?: Date = new Date();
-
-  @IsOptional()
-  @IsDate()
-  updatedAt?: Date = new Date();
 }
