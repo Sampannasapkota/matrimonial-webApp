@@ -1,5 +1,5 @@
 import { IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, Length } from 'class-validator';
-import { Gender } from '@prisma/client'; // Import the Gender enum if defined elsewhere
+import { Gender } from '@prisma/client';
 
 export class CreateUserDto {
   @IsNotEmpty()

@@ -1,95 +1,101 @@
-
-import axios from 'axios';
-
-// const options = [
-//   { value: "male", label: "Male" },
-//   { value: "female", label: "Female" },
-//   { value: "other", label: "Other" },
-// ];
-// const Register = () => {
-
 import React, { useState } from "react";
-import mainLogo from "./assets/main-logo.png";
-import wedding from "./assets/wedding.jpeg";
 import Select from "react-select";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Register = () => {
-  // const navigate = useNavigate();
-  const [isTermsChecked, setIsTermsChecked] = useState(false);
+  const navigate = useNavigate();
+
+  const genderOptions = [
+    { value: "Male", label: "Male" },
+    { value: "Female", label: "Female" },
+    { value: "NonBinary", label: "Other" },
+  ];
 
   const [formData, setFormData] = useState({
-    fullName: "",
+    fullname: "",
     email: "",
     dob: "",
     gender: "",
     password: "",
   });
 
-  const navigate = useNavigate();
+  const [isTermsChecked, setIsTermsChecked] = useState(false);
 
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleGenderChange = (selectedOption) => {
-    setFormData({ ...formData, gender: selectedOption.value });
-  };
   
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post("http://localhost:3000/users", {
-        ...formData,
-      });
-      console.log("User created successfully:", response.data);
-      console.log("Final form data being submitted:", formData);
-    } catch (error) {
-      console.error("Error creating user:", error.response.data.message);
-    }
+  const handleGenderChange = (selectedOption) => {
+    setFormData({ ...formData, gender: selectedOption?.value || "" });
+  };
 
-  // Update checkbox state
+  
   const handleTermsChange = (e) => {
     setIsTermsChecked(e.target.checked);
   };
 
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    
+    if (!isTermsChecked) {
+      alert("Please agree to the terms and conditions.");
+      return;
+    }
+
+    // Validate gender selection
+    if (!formData.gender) {
+      alert("Please select a gender.");
+      return;
+    }
+    const formattedDob = new Date(formData.dob).toISOString().split("T")[0]; // "YYYY-MM-DD"
 
     try {
-      const response = await fetch("http://localhost:3000/auth/send-otp", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+      // Send form data to the `users` API
+      const userResponse = await axios.post("http://localhost:3000/users", {
+        ...formData,
+        dob: formattedDob,
       });
 
-      const data = await response.json();
+      console.log("User created successfully:", userResponse.data);
 
-      if (data.success) {
+      // Send OTP to the email
+      const otpResponse = await axios.post(
+        "http://localhost:3000/auth/send-otp",
+        {
+          email: formData.email,
+        }
+      );
 
-        navigate("/register/otp", { state: { email: formData.email} }); // Pass email to next page
+      console.log("OTP sent successfully:", otpResponse.data);
 
-
+      if (otpResponse.data.success) {
+        // Navigate to OTP page
+        navigate("/register/otp", { state: { email: formData.email } });
       } else {
-        alert(data.message || "Something went wrong!");
+        alert(otpResponse.data.message || "Something went wrong!");
       }
     } catch (error) {
-      console.error("Error:", error);
+      console.error(
+        "Error occurred:",
+        error.response?.data?.message || error.message
+      );
+      alert("An error occurred while processing your request.");
     }
   };
-
 
   return (
     <form onSubmit={handleSubmit}>
       <input
         type="text"
         placeholder="Full Name"
-        name="fullName"
-        value={formData.fullName}
+        name="fullname"
+        value={formData.fullname}
         onChange={handleChange}
         required
       />
@@ -103,41 +109,173 @@ const Register = () => {
       />
       <input
         type="date"
-        name='dob'
+        name="dob"
         value={formData.dob}
         onChange={handleChange}
         required
       />
       <Select
-        // styles={customStyles}
         placeholder="Gender"
-        options={options}
+        options={genderOptions}
         onChange={handleGenderChange}
-        required
+        value={genderOptions.find((option) => option.value === formData.gender)}
       />
       <input
         type="password"
         placeholder="Password"
-        name='password'
+        name="password"
         value={formData.password}
         onChange={handleChange}
         required
       />
+      <div>
+        <input
+          type="checkbox"
+          id="terms"
+          checked={isTermsChecked}
+          onChange={handleTermsChange}
+        />
+        <label htmlFor="terms">I agree to the terms and conditions</label>
+      </div>
       <button type="submit">Submit</button>
     </form>
   );
-}
-}
+};
 
-export default Register
-
+export default Register;
 
 // import React, { useState } from "react";
 // import mainLogo from "./assets/main-logo.png";
 // import wedding from "./assets/wedding.jpeg";
 // import Select from "react-select";
 // import { Link, useNavigate } from "react-router-dom";
+// import axios from "axios";
 
+// const Register = () => {
+//   const navigate = useNavigate();
+//   const options = [
+//     { value: "male", label: "Male" },
+//     { value: "female", label: "Female" },
+//     { value: "other", label: "Other" },
+//   ];
+
+//   const [formData, setFormData] = useState({
+//     fullName: "",
+//     email: "",
+//     dob: "",
+//     gender: "",
+//     password: "",
+//   });
+
+//   const handleTermsChange = (e) => {
+//     setIsTermsChecked(e.target.checked);
+//   };
+//   const [isTermsChecked, setIsTermsChecked] = useState(false);
+
+//   const handleChange = (e) => {
+//     const { name, value } = e.target;
+//     setFormData({ ...formData, [name]: value });
+//   };
+
+//   const handleGenderChange = (selectedOption) => {
+//     setFormData({ ...formData, gender: selectedOption?.value });
+//   };
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     try {
+//       const response = await axios.post("http://localhost:3000/users", {
+//         ...formData,
+//       });
+//       console.log("User created successfully:", response.data);
+
+//       const otpResponse = await fetch("http://localhost:3000/auth/send-otp", {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify(formData),
+//       });
+
+//       const data = await response.json();
+//     } catch (error) {
+//       console.error("Error creating user:", error.response.data.message);
+//     }
+
+//     // Update checkbox state
+
+//       try {
+//         const responseOtp = await fetch("http://localhost:3000/auth/send-otp", {
+//           method: "POST",
+//           headers: {
+//             "Content-Type": "application/json",
+//           },
+//           body: JSON.stringify(formData),
+//         });
+
+//         const data = await response.json();
+
+//         if (data.success) {
+//           navigate("/register/otp", { state: { email: formData.email } }); // Pass email to next page
+//         } else {
+//           alert(data.message || "Something went wrong!");
+//         }
+//       } catch (error) {
+//         console.error("Error:", error);
+//       }
+//     }
+
+//     return (
+//       <form onSubmit={handleSubmit}>
+//         <input
+//           type="text"
+//           placeholder="Full Name"
+//           name="fullName"
+//           value={formData.fullName}
+//           onChange={handleChange}
+//           required
+//         />
+//         <input
+//           type="email"
+//           name="email"
+//           placeholder="Email"
+//           value={formData.email}
+//           onChange={handleChange}
+//           required
+//         />
+//         <input
+//           type="date"
+//           name="dob"
+//           value={formData.dob}
+//           onChange={handleChange}
+//           required
+//         />
+//         <Select
+//           // styles={customStyles}
+//           placeholder="Gender"
+//           options={options}
+//           onChange={handleGenderChange}
+//         />
+//         <input
+//           type="password"
+//           placeholder="Password"
+//           name="password"
+//           value={formData.password}
+//           onChange={handleChange}
+//           required
+//         />
+//         <button type="submit">Submit</button>
+//       </form>
+//     );
+//   }
+
+// export default Register
+
+// import React, { useState } from "react";
+// import mainLogo from "./assets/main-logo.png";
+// import wedding from "./assets/wedding.jpeg";
+// import Select from "react-select";
+// import { Link, useNavigate } from "react-router-dom";
 
 // const Register = () => {
 //   const navigate = useNavigate();
@@ -153,8 +291,6 @@ export default Register
 
 //   const [otp, setOtp] = useState("");
 //   const [otpSent, setOtpSent] = useState(false);
-
-
 
 //   // Update checkbox state
 //   const handleTermsChange = (e) => {
@@ -184,7 +320,6 @@ export default Register
 //       console.error("Error:", error);
 //     }
 //   };
-
 
 //   const options = [
 //     { value: "male", label: "Male" },
@@ -265,7 +400,7 @@ export default Register
 //                 setFormData({...formData, gender: selectedOption.value});
 //               }}
 //               options={options}
-//               required
+
 //             />
 //           </div>
 //           <input
@@ -319,7 +454,6 @@ export default Register
 //     </div>
 //   );
 // }
-
 
 // export default Register;
 
@@ -458,4 +592,3 @@ export default Register
 // };
 
 // export default Register;
-
