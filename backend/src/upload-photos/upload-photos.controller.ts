@@ -23,9 +23,8 @@ export class UploadPhotosController {
   ) {}
 
   @Post()
-  @UseInterceptors(FileInterceptor('file'))
-  uploadImage(@UploadedFile() file: Express.Multer.File) {
-    return this.cloudinaryService.uploadImage(file);
+  uploadImage(@Body() dto: UpdateUploadPhotoDto, @Body('userId') userId: string) {
+    return this.cloudinaryService.uploadBase64(Number(userId), [dto.image_url]);
   }
   @Get()
   findAll() {

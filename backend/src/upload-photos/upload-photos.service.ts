@@ -24,8 +24,7 @@ export class UploadPhotosService {
     })
     if(createUploadPhotoDto.image_url){
       try{
-        const result = await this.cloudinaryService.uploadBase64( `data:image/jpeg;base64,${createUploadPhotoDto.image_url}`,
-                  'profile');
+        const result = await this.cloudinaryService.uploadBase64(userId, [createUploadPhotoDto.image_url], 'profile');
                   createUploadPhotoDto.image_url = result.secure_url;
       }
       catch(error){

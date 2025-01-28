@@ -14,7 +14,6 @@ import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import * as nodemailer from 'nodemailer';
 import * as bcrypt from 'bcrypt';
 
-
 @Injectable()
 export class AuthService {
   constructor(
@@ -22,35 +21,30 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly usersService: UsersService,
   ) {}
-  private otps = new Map<string, string>(); // Store OTPs in memory (use a DB in production)
+  private otps = new Map<string, string>();
 
   async sendOtp(email: string) {
-    // Generate a 6-digit OTP
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
-    // Save OTP in memory (or DB in production)
     this.otps.set(email, otp);
 
-    // Configure the Nodemailer transport
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
         user: 'pujankhanal698@gmail.com',
-        pass: 'lzmo brgy nfji kbja', 
+        pass: 'lzmo brgy nfji kbja',
       },
     });
 
-    // Email content
     const mailOptions = {
-      from: '"merobihe" <pujankhanal698@gmail.com>', // Sender address
-      to: email, // Recipient email
-      subject: 'Your OTP for Verification', // Email subject
-      text: `Your OTP is ${otp}`, // Plain text body
-      html: `<p>Your OTP is <strong>${otp}</strong></p>`, 
+      from: '"merobihe" <pujankhanal698@gmail.com>',
+      to: email,
+      subject: 'Your OTP for Verification',
+      text: `Your OTP is ${otp}`,
+      html: `<p>Your OTP is <strong>${otp}</strong></p>`,
     };
 
     try {
-      // Send the email
       await transporter.sendMail(mailOptions);
       return { success: true, message: 'OTP sent successfully' };
     } catch (error) {
@@ -62,13 +56,12 @@ export class AuthService {
     const storedOtp = this.otps.get(email);
 
     if (storedOtp === otp) {
-      this.otps.delete(email); // Clear OTP after verification
+      this.otps.delete(email);
       return { success: true, message: 'OTP verified successfully' };
     }
 
     return { success: false, message: 'Invalid OTP' };
   }
-
 
   async login(loginDto: LoginDto) {
     const user = await this.prismaService.user.findFirst({
@@ -95,10 +88,25 @@ export class AuthService {
   async register(registerDto: RegisterUserDto) {
     const userService = new UsersService(this.prismaService);
     const user = await userService.create(registerDto);
-    const token = await this.jwtService.signAsync({});
+    const token = await this.jwtService.signAsync(user);
     return {
       token,
     };
+  }
+  async getProfile(userId: number) {
+    const user = await this.prismaService.user.findFirst({
+      where: { id: userId },
+      include: {
+        DemographicDetails: true,
+        FamilyDetails: true,
+        interests: true,
+        UploadPhoto: true,
+      },
+    });
+
+    if (!user) throw new NotFoundException();
+
+    return user;
   }
   async validateGoogleUser(googleUser: CreateUserDto) {
     const existingUser = await this.prismaService.user.findUnique({
@@ -110,47 +118,47 @@ export class AuthService {
     return await this.usersService.create(googleUser);
   }
 
-  async forgotPassword(email:string):Promise<string>{
-    const user =await this .prismaService.user.findFirst({
-      where:{
-        email:email
-      }
+  async forgotPassword(email: string): Promise<string> {
+    const user = await this.prismaService.user.findFirst({
+      where: {
+        email: email,
+      },
     });
-    if(!user){
+    if (!user) {
       throw new BadRequestException('User not found');
     }
-    const payload = {email:user.email,sub:user.id};
-    const resetToken=this.jwtService.sign(payload,{
-      secret:process.env.JWT_RESET_SECRET,
-      expiresIn:process.env.JWT_RESET_EXPIRATION
+    const payload = { email: user.email, sub: user.id };
+    const resetToken = this.jwtService.sign(payload, {
+      secret: process.env.JWT_RESET_SECRET,
+      expiresIn: process.env.JWT_RESET_EXPIRATION,
     });
     return resetToken;
   }
 
-  async resetPassword(token:string,newPassword:string):Promise<string>{
-    try{
-      const decoded=this.jwtService.verify(token,{
-        secret:process.env.JWT_RESET_SECRET
+  async resetPassword(token: string, newPassword: string): Promise<string> {
+    try {
+      const decoded = this.jwtService.verify(token, {
+        secret: process.env.JWT_RESET_SECRET,
       });
-      const user=await this.prismaService.user.findUnique({
-        where:{
-          id:decoded.sub
-        }
+      const user = await this.prismaService.user.findUnique({
+        where: {
+          id: decoded.sub,
+        },
       });
-      if(!user){
+      if (!user) {
         throw new NotFoundException('User not found');
       }
-      const hashedPassword=await bcrypt.hash(newPassword,10);
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
       await this.prismaService.user.update({
-        where:{
-          id:user.id
+        where: {
+          id: user.id,
         },
-        data:{
-          password:hashedPassword
-        }
+        data: {
+          password: hashedPassword,
+        },
       });
       return 'Password reset successfully';
-    }catch(error){
+    } catch (error) {
       throw new BadRequestException('Invalid token or expired token');
     }
   }

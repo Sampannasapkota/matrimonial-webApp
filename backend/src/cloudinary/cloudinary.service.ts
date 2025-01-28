@@ -1,12 +1,18 @@
 import { Injectable } from '@nestjs/common';
-import { UploadApiErrorResponse, UploadApiResponse, v2 as cloudinary, v2} from 'cloudinary';
+import { PrismaService } from 'src/prisma/prisma.service';
+import {
+  UploadApiErrorResponse,
+  UploadApiResponse,
+  v2 as cloudinary,
+  v2,
+} from 'cloudinary';
 import toStream = require('buffer-to-stream');
 
 @Injectable()
-
 export class CloudinaryService {
+  constructor(private readonly prismaService: PrismaService) {}
   async uploadImage(
-    file:any
+    file: any,
   ): Promise<UploadApiResponse | UploadApiErrorResponse> {
     return new Promise((resolve, reject) => {
       const upload = v2.uploader.upload_stream((error, result) => {
@@ -17,14 +23,36 @@ export class CloudinaryService {
     });
   }
 
-  async uploadBase64(base64Image:string,folder:string='default'): Promise<UploadApiResponse | UploadApiErrorResponse> {
-    try{
-      return cloudinary.uploader.upload(base64Image, {
-        folder: folder,
-        resource_type: 'image',
+  async uploadBase64(
+    userId: number,
+    base64Image: string[],
+    folder: string = 'default',
+  ): Promise<any> {
+    try {
+      let photos = [];
+
+      await Promise.all(
+        base64Image?.map(async (i) => {
+          const result = await cloudinary.uploader.upload(
+            `data:image/jpeg;base64,${i}`,
+            {
+              folder: folder,
+              resource_type: 'image',
+            },
+          );
+
+          photos.push({ userId, image_url: result.secure_url });
+        }),
+      );
+
+      return await this.prismaService.uploadPhoto.createMany({
+        data: photos,
+        skipDuplicates: true,
       });
-    }catch(error){
-      throw new Error(`Failed to upload Base64 image to Cloudinary: ${error.message}`);
+    } catch (error) {
+      throw new Error(
+        `Failed to upload Base64 image to Cloudinary: ${error.message}`,
+      );
     }
   }
 }

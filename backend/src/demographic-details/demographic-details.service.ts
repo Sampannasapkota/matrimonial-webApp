@@ -22,33 +22,34 @@ export class DemographicDetailsService {
       );
     }
 
+    // Create demographic details
     return this.prismaService.demographicDetails.create({
       data: {
+        userId: createDemographicDetailsDto.userId,
         maritalStatus: createDemographicDetailsDto.maritalStatus,
         residentialStatus: createDemographicDetailsDto.residentialStatus,
-        province: createDemographicDetailsDto.province,
-        district: createDemographicDetailsDto.district,
+        districtId: createDemographicDetailsDto.districtId,
+        provinceId: createDemographicDetailsDto.provinceId,
         educationLevel: createDemographicDetailsDto.educationLevel,
         employmentStatus: createDemographicDetailsDto.employmentStatus,
         dietPreference: createDemographicDetailsDto.dietPreference,
         height: createDemographicDetailsDto.height,
         incomeRange: createDemographicDetailsDto.incomeRange,
         motherTongue: createDemographicDetailsDto.motherTongue,
-        userId: createDemographicDetailsDto.userId,
       },
     });
   }
 
   async findAll() {
     return this.prismaService.demographicDetails.findMany({
-      include: { user: true },
+      include: { user: true, province: true, district: true },
     });
   }
 
   async findOne(id: number) {
     const demographicDetails = await this.prismaService.demographicDetails.findUnique({
       where: { id },
-      include: { user: true },
+      include: { user: true, province: true, district: true },
     });
 
     if (!demographicDetails) {
@@ -83,20 +84,21 @@ export class DemographicDetailsService {
       }
     }
 
+    // Update demographic details
     return this.prismaService.demographicDetails.update({
       where: { id },
       data: {
+        userId: updateDemographicDetailsDto.userId,
         maritalStatus: updateDemographicDetailsDto.maritalStatus,
         residentialStatus: updateDemographicDetailsDto.residentialStatus,
-        province: updateDemographicDetailsDto.province,
-        district: updateDemographicDetailsDto.district,
+        districtId: updateDemographicDetailsDto.districtId,
+        provinceId: updateDemographicDetailsDto.provinceId,
         educationLevel: updateDemographicDetailsDto.educationLevel,
         employmentStatus: updateDemographicDetailsDto.employmentStatus,
         dietPreference: updateDemographicDetailsDto.dietPreference,
         height: updateDemographicDetailsDto.height,
         incomeRange: updateDemographicDetailsDto.incomeRange,
         motherTongue: updateDemographicDetailsDto.motherTongue,
-        userId: updateDemographicDetailsDto.userId,
       },
     });
   }
