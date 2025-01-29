@@ -1,8 +1,10 @@
 import { Interests } from "@prisma/client";
-import { IsEnum } from "class-validator";
+import { IsEnum, IsInt } from "class-validator";
 
 export class CreateInterestDto {
-    
-    @IsEnum(Interests)
-    interest: Interests;
+    @IsInt()
+    userId: number;
+
+    @IsEnum(Interests, {each:true})
+    interests: Interests[];
 }

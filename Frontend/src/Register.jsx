@@ -64,6 +64,8 @@ const Register = () => {
 
       console.log("User created successfully:", userResponse.data);
 
+      localStorage.setItem("userId", userResponse.data.id);
+
       // Send OTP to the email
       const otpResponse = await axios.post(
         "http://localhost:3000/auth/send-otp",

@@ -42,7 +42,7 @@ export class CreateDemographicDetailsDto {
   @IsNotEmpty()
   dietPreference: DietPreference;
 
-  @IsNumber()
+  @IsString()
   @IsNotEmpty()
   height: number;
 

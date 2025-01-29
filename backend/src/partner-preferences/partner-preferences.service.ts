@@ -24,7 +24,9 @@ export class PartnerPreferencesService {
 
     const partnerPreference = await this.prisma.partnerPreference.create({
       data: {
-        userId,
+        user:{
+          connect: {id: userId}
+        },
         maritalStatus,
         ageRange,
         dietPreference,

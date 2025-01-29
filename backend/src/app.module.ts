@@ -4,7 +4,7 @@ import { AppService } from './app.service';
 import { RolesModule } from './roles/roles.module';
 import { UsersModule } from './users/users.module';
 
-import { ProfilesModule } from './profiles/profiles.module';
+// import { ProfilesModule } from './profiles/profiles.module';
 import { MessagesModule } from './messages/messages.module';
 import { MatchesModule } from './matches/matches.module';
 import { InterestsModule } from './interests/interests.module';
@@ -26,7 +26,7 @@ import { DemographicDetailsModule } from './demographic-details/demographic-deta
     UsersModule,
     AuthModule,
    DemographicDetailsModule,
-    ProfilesModule,
+    // ProfilesModule,
     MessagesModule,
     MatchesModule,
     InterestsModule,

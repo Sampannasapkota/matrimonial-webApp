@@ -1,4 +1,7 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateInterestDto } from './create-interest.dto';
+import { Interests } from '@prisma/client';
+import { IsEnum } from 'class-validator';
 
-export class UpdateInterestDto extends PartialType(CreateInterestDto) {}
+export class UpdateInterestDto {
+  @IsEnum(Interests)
+  interest: Interests;
+}

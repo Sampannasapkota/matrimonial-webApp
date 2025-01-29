@@ -1,11 +1,67 @@
-import React from "react";
+import React, { useState } from "react";
 import wedding from "../assets/wedding.jpeg";
 import mainLogo from "../assets/main-logo.png";
 import Select from "react-select";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Step1 = () => {
   const navigate= useNavigate()
+  
+  const userId= localStorage.getItem("userId")
+
+  const [formData, setFormData] = useState({
+    userId: userId ? parseInt(userId):null,
+    maritalStatus: "",
+    residentialStatus: null,
+    province: null,
+    motherTongue: null,
+    educationLevel: null,
+    employmentStatus: null,
+    dietPreference: null,
+    height: null,
+    incomeRange: null,
+    district: "",
+  });
+
+  const handleSelectChange = (value, field) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      [field]: value?.value || null,
+    }));
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+   const handleSubmit = (e) => {
+     e.preventDefault();
+     console.log(formData);
+
+     // Send formData to the backend
+     fetch("http://localhost:3000/demographic-details", {
+       method: "POST",
+       headers: {
+         "Content-Type": "application/json",
+       },
+       body: JSON.stringify(formData),
+     })
+       .then((response) => response.json())
+       .then((data) => {
+         console.log("Success:", data);
+         navigate("/register/step2");
+       })
+       .catch((error) => {
+         console.error("Error:", error);
+       });
+   };
+
+
     const optionsMarital = [
       { value: "single", label: "Single" },
       { value: "divorced", label: "Divorced" },
@@ -13,19 +69,19 @@ const Step1 = () => {
     ];
 
     const optionsResidential = [
-      { value: "nepalicitizen", label: "NepaliCitizen" },
-      { value: "prholder", label: "PRHolder" },
-      { value: "nrn", label: "NRN" },
+      { value: "NepaliCitizen", label: "NepaliCitizen" },
+      { value: "PRHolder", label: "PRHolder" },
+      { value: "NRN", label: "NRN" },
     ];
 
     const optionsProvince = [
-      { value: "koshi", label: "Koshi" },
-      { value: "madesh", label: "Madesh" },
-      { value: "bagmati", label: "Bagmati" },
-      { value: "gandaki", label: "Gandaki" },
-      { value: "lumbini", label: "Lumbini" },
-      { value: "karnali", label: "Karnali" },
-      { value: "sudurpaschim", label: "Sudurpaschim" },
+      { value: "Koshi", label: "Koshi" },
+      { value: "Madesh", label: "Madesh" },
+      { value: "Bagmati", label: "Bagmati" },
+      { value: "Gandaki", label: "Gandaki" },
+      { value: "Lumbini", label: "Lumbini" },
+      { value: "Karnali", label: "Karnali" },
+      { value: "Sudurpaschim", label: "Sudurpaschim" },
     ];
 
     const optionsReligion = [
@@ -39,29 +95,29 @@ const Step1 = () => {
     ];
 
     const optionsEducational = [
-      { value: "primary-school", label: "Primary " },
-      { value: "sec-school", label: "Secondary" },
-      { value: "higher-school", label: "Higher Secondary" },
-      { value: "bachelors-degree", label: "Bachelor's Degree" },
-      { value: "masters-degree", label: "Master's Degree" },
-      { value: "phd", label: "PhD" },
-      { value: "diploma", label: "Diploma" },
+      { value: "PrimaryLevel", label: "Primary " },
+      { value: "SecondaryLevel", label: "Secondary" },
+      { value: "HigherSecondaryLevel", label: "Higher Secondary" },
+      { value: "Bachelor", label: "Bachelor's Degree" },
+      { value: "Masters", label: "Master's Degree" },
+      { value: "PhD", label: "PhD" },
+      { value: "Diploma", label: "Diploma" },
     ];
 
     const optionsDiet = [
-      { value: "veg", label: "Veg" },
-      { value: "non-veg", label: "Non-Veg" },
-      { value: "eggiterian", label: "Eggiterian" },
-      { value: "vegan", label: "Vegan" },
-      { value: "no-peference", label: "No Preference" },
+      { value: "Veg", label: "Veg" },
+      { value: "NonVeg", label: "Non-Veg" },
+      { value: "Eggiterian", label: "Eggiterian" },
+      { value: "Vegan", label: "Vegan" },
+      { value: "NoPreference", label: "No Preference" },
     ];
 
     const optionsEmployment = [
-      { value: "employed", label: "Employed" },
-      { value: "self-employed", label: "Self-Employed" },
-      { value: "student", label: "Student" },
-      { value: "unemployed", label: "UnEmployed" },
-      { value: "retired", label: "Retired" },
+      { value: "Employed", label: "Employed" },
+      { value: "SelfEmployed", label: "Self-Employed" },
+      { value: "Student", label: "Student" },
+      { value: "Unemployed", label: "UnEmployed" },
+      { value: "Retired", label: "Retired" },
     ];
     const optionsIncome = [
       { value: "very_low", label: "Less than 20,000" },
@@ -72,25 +128,25 @@ const Step1 = () => {
       { value: "unemployed", label: "UnEmployed" },
     ];
     const optionsMotherTongue = [
-      { value: "nepali", label: "Nepali" },
-      { value: "newari", label: "Newari" },
-      { value: "maithili", label: "Maithili" },
-      { value: "bhojpuri", label: "Bhojpuri" },
-      { value: "tharu", label: "Tharu" },
-      { value: "tamang", label: "Tamang" },
-      { value: "sherpa", label: "Sherpa" },
-      { value: "gurung", label: "Gurung" },
-      { value: "magar", label: "Magar" },
-      { value: "rai", label: "Rai" },
-      { value: "limbu", label: "Limbu" },
-      { value: "others", label: "Others" },
+      { value: "Nepali", label: "Nepali" },
+      { value: "Newari", label: "Newari" },
+      { value: "Maithili", label: "Maithili" },
+      { value: "Bhojpuri", label: "Bhojpuri" },
+      { value: "Tharu", label: "Tharu" },
+      { value: "Tamang", label: "Tamang" },
+      { value: "Sherpa", label: "Sherpa" },
+      { value: "Gurung", label: "Gurung" },
+      { value: "Magar", label: "Magar" },
+      { value: "Rai", label: "Rai" },
+      { value: "Limbu", label: "Limbu" },
+      { value: "Others", label: "Others" },
     ];
 
     const optionsHeight = [
-      { value: "very-short", label: "Below 5'2" },
-      { value: "short", label: "5'3 to 5'6" },
-      { value: "medium", label: "5'7 to 5'10" },
-      { value: "tall", label: "5'11 and above" },
+      { value: 150, label: "Below 5'2" },
+      { value: 160, label: "5'3 to 5'6" },
+      { value: 170, label: "5'7 to 5'10" },
+      { value: 180, label: "5'11 and above" },
     ];
 
   return (
@@ -100,7 +156,8 @@ const Step1 = () => {
       style={{ backgroundImage: `url(${wedding})` }}
     >
       <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-red-500 to-orange-400 opacity-70"></div>
-      <form className="absolute px-28 h-[35em] shadow-lg bg-white w-[50em] rounded-3xl">
+      <form className="absolute px-28 h-[35em] shadow-lg bg-white w-[50em] rounded-3xl"
+      onSubmit={handleSubmit} >
         <img className="absolute w-16 top-5 left-16" src={mainLogo} alt="" />
         <p className="mt-16 mb-2 text-lg font-light text-center text-gray-600">
           Setting up your profile
@@ -113,59 +170,70 @@ const Step1 = () => {
             className="w-60"
             placeholder="Marital Status"
             options={optionsMarital}
+            onChange={(value)=> handleSelectChange(value, "maritalStatus")}
           />
           <Select
             className="w-60"
             placeholder="Residential Status"
             options={optionsResidential}
+            onChange={(value)=> handleSelectChange(value, "residentialStatus")}
           />
           <Select
             className="w-60"
             placeholder="Province"
             options={optionsProvince}
+            onChange={(value)=> handleSelectChange(value, "province")}
           />
           <Select
             className="w-60"
             placeholder="Mother Tongue"
             options={optionsMotherTongue}
+            onChange={(value)=> handleSelectChange(value, "motherTongue")}
           />
 
           <Select
             className="w-60"
             placeholder="Education Level"
             options={optionsEducational}
+            onChange={(value)=> handleSelectChange(value, "educationLevel")}
           />
           <Select
             className="w-60"
             placeholder="Employment Status"
             options={optionsEmployment}
+            onChange={(value)=> handleSelectChange(value, "employmentStatus")}
           />
           <Select
             className="w-60"
             placeholder="Diet Preference"
             options={optionsDiet}
+            onChange={(value)=> handleSelectChange(value, "dietPreference")}
           />
           <Select
             className="w-60"
             placeholder="Height"
             options={optionsHeight}
+            onChange={(value)=> handleSelectChange(value, "height")}
           />
           <Select
             className="w-60"
             placeholder="Income Range"
             options={optionsIncome}
+            onChange={(value)=> handleSelectChange(value, "incomeRange")}
           />
           <input
             type="text"
             className="pl-2 border-2 border-gray-300 rounded-lg w-60"
             placeholder="District"
+            name="district"
+            value={formData.district}
+            onChange={handleInputChange}
           />
         </div>
         <div className="flex justify-center mt-14">
           <button
             className="w-96 mx-auto bg-[#F24822] rounded-lg h-10 text-white font-semibold  hover:bg-white hover:text-rose-950 hover:border-2 hover:border-rose-950"
             type="submit"
-            onClick={()=>{navigate("/register/step2")}}
           >
             Next
           </button>

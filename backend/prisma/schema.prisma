@@ -256,6 +256,7 @@ model Match {
 
 model Interest {
   id       Int            @id @default(autoincrement())
+  userId   Int            @unique
   interest Interests?
   users    InterestUser[]
 }
