@@ -6,7 +6,12 @@ import { Public } from 'src/helpers/public';
 import { GoogleAuthGuard } from './utils/Guards';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import {ResetPasswordDto} from './dto/reset-password.dto';
+import { User } from '@prisma/client';
+interface AuthRequest extends Request {
+  payload: User;
+}
 @Controller('/auth')
+
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
@@ -33,6 +38,13 @@ export class AuthController {
   async register(@Body() registerDto: RegisterUserDto) {
     return this.authService.register(registerDto);
   }
+
+  @Get('/profile')
+  async getProfile(@Req() request: AuthRequest) {
+    const userId = request.payload?.id;
+    return this.authService.getProfile(userId);
+  }
+
   @Get('google/login')
   @UseGuards(GoogleAuthGuard)
   googleLogin(){}

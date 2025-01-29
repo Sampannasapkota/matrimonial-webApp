@@ -1,13 +1,5 @@
-import { IsEnum, IsInt, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
-import {
-  MaritalStatus,
-  ResidentialStatus,
-  ProvinceName,
-  EducationLevel,
-  EmploymentStatus,
-  DietPreference,
-  MotherTongue,
-} from '@prisma/client';
+import { IsEnum, IsInt, IsNotEmpty, IsNumber, IsOptional, IsString, Min } from 'class-validator';
+import { MaritalStatus, ResidentialStatus, EducationLevel, EmploymentStatus, DietPreference, MotherTongue } from '@prisma/client';
 
 export class CreateDemographicDetailsDto {
   @IsInt()
@@ -22,13 +14,13 @@ export class CreateDemographicDetailsDto {
   @IsNotEmpty()
   residentialStatus: ResidentialStatus;
 
-  @IsEnum(ProvinceName)
+  @IsInt()
   @IsNotEmpty()
-  province: ProvinceName;
+  districtId: number;
 
-  @IsString()
+  @IsInt()
   @IsNotEmpty()
-  district: string;
+  provinceId: number;
 
   @IsEnum(EducationLevel)
   @IsNotEmpty()
@@ -42,16 +34,16 @@ export class CreateDemographicDetailsDto {
   @IsNotEmpty()
   dietPreference: DietPreference;
 
-  @IsString()
   @IsNotEmpty()
+  @IsNumber()
+  @Min(0)
   height: number;
 
   @IsString()
-  @IsOptional()
-  incomeRange?: string;
+  @IsNotEmpty()
+  incomeRange: string;
 
   @IsEnum(MotherTongue)
   @IsNotEmpty()
   motherTongue: MotherTongue;
 }
-

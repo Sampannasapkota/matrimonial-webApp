@@ -5,6 +5,7 @@ import { RolesModule } from './roles/roles.module';
 import { UsersModule } from './users/users.module';
 
 // import { ProfilesModule } from './profiles/profiles.module';
+
 import { MessagesModule } from './messages/messages.module';
 import { MatchesModule } from './matches/matches.module';
 import { InterestsModule } from './interests/interests.module';
@@ -17,6 +18,8 @@ import { UploadPhotosModule } from './upload-photos/upload-photos.module';
 import { PartnerPreferencesModule } from './partner-preferences/partner-preferences.module';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import { DemographicDetailsModule } from './demographic-details/demographic-details.module';
+import { ProvincesModule } from './provinces/provinces.module';
+import { DistrictsModule } from './districts/districts.module';
 
 
 @Module({
@@ -27,6 +30,9 @@ import { DemographicDetailsModule } from './demographic-details/demographic-deta
     AuthModule,
    DemographicDetailsModule,
     // ProfilesModule,
+
+   ProvincesModule,
+   DistrictsModule,
     MessagesModule,
     MatchesModule,
     InterestsModule,
@@ -37,6 +43,8 @@ import { DemographicDetailsModule } from './demographic-details/demographic-deta
     UploadPhotosModule,
     PartnerPreferencesModule,
     DemographicDetailsModule,
+    ProvincesModule,
+    DistrictsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

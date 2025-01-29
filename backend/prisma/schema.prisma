@@ -33,16 +33,6 @@ enum MaritalStatus {
   divorced
 }
 
-enum ProvinceName {
-  Bagmati
-  Gandaki
-  Koshi
-  Karnali
-  Lumbini
-  Madhesh
-  Sudurpaschim
-}
-
 enum DietPreference {
   Veg
   NonVeg
@@ -174,7 +164,6 @@ model User {
   googleId         String?        @unique
   createdAt        DateTime       @default(now())
   updatedAt        DateTime       @default(now())
-  profile          Profile?
   messagesSent     Message[]      @relation("SenderMessages")
   messagesReceived Message[]      @relation("ReceiverMessages")
   interests        InterestUser[]
@@ -194,43 +183,22 @@ model User {
   DemographicDetails DemographicDetails[]
 }
 
-model Profile {
-  id                Int               @id @default(autoincrement())
-  userId            Int               @unique
-  user              User              @relation(fields: [userId], references: [id])
-  gender            Gender
-  dietPreference    DietPreference
-  ageRange          Int
-  dateOfBirth       String
-  religion          Religion
-  province          ProvinceName
-  district          String
-  residentialStatus ResidentialStatus
-  familyType        FamilyType
-  height            Float
-  incomeRange       String
-  maritalStatus     MaritalStatus
-  educationLevel    EducationLevel
-  employmentStatus  EmploymentStatus
-  motherTongue      MotherTongue
-  createdAt         DateTime          @default(now())
-  updatedAt         DateTime          @default(now())
-}
-
 model DemographicDetails {
   id                Int               @id @default(autoincrement())
   userId            Int               @unique
   user              User              @relation(fields: [userId], references: [id])
   maritalStatus     MaritalStatus
   residentialStatus ResidentialStatus
-  province          ProvinceName
-  district          String
+  districtId        Int 
+  provinceId        Int 
   educationLevel    EducationLevel
   employmentStatus  EmploymentStatus
   dietPreference    DietPreference
   height            Float
   incomeRange       String
   motherTongue      MotherTongue
+  province          Province          @relation(fields: [provinceId], references: [id])
+  district          District          @relation(fields: [districtId], references: [id])
 }
 
 model Message {
@@ -259,6 +227,21 @@ model Interest {
   userId   Int            @unique
   interest Interests?
   users    InterestUser[]
+}
+
+model Province {
+  id                 Int                  @id @default(autoincrement())
+  provinceName       String
+  districts          District[]
+  demographicDetails DemographicDetails[]
+}
+
+model District {
+  id                 Int                  @id @default(autoincrement())
+  provinceId         Int
+  province           Province             @relation(fields: [provinceId], references: [id])
+  name               String
+  demographicDetails DemographicDetails[]
 }
 
 model InterestUser {
