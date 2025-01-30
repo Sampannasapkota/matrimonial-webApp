@@ -37,9 +37,9 @@ function App() {
       <Route path="/register/step3" element={<Step3 />} />
       <Route path="/register/step4" element={<Step4 />} />
       <Route path="/register/step5" element={<Step5 />} />
-      <Route path="/" element={<ProtectedRoutes />}>
+      {/* <Route path="/" element={<ProtectedRoutes />}> */}
         <Route path="/dashboard" element={<UserDashboard />} />
-      </Route>
+      {/* </Route> */}
       <Route path="/admin" element={<AdminDashboard />} />
 
       <Route path="*" element={<NotFoundPage />} />

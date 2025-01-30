@@ -1,3 +1,5 @@
+
+
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateUploadPhotoDto } from './dto/create-upload-photo.dto';
@@ -33,9 +35,9 @@ export class UploadPhotosService {
       const {image_url,...rest} = createUploadPhotoDto;
 
     return this.prismaService.uploadPhoto.create({
-      data: 
+      data:
         createUploadPhotoDto
-      
+
     });
   }
 }

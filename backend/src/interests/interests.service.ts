@@ -22,7 +22,7 @@ export class InterestsService {
 
 
     const data = interests.map((interest) => ({
-      interest: interest as Interests, 
+      interest: interest as Interests,
       userId,
     }));
 

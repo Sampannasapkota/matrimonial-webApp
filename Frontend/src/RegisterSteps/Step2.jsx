@@ -42,7 +42,7 @@ const Step2 = () => {
       // Send form data to the backend
       const response = await axios.post(
         "http://localhost:3000/familydetails", 
-        formData
+        formData,
       );
 
       console.log("Data sent successfully:", response.data);

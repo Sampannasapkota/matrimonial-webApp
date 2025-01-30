@@ -36,6 +36,7 @@ export class DemographicDetailsService {
         height: createDemographicDetailsDto.height,
         incomeRange: createDemographicDetailsDto.incomeRange,
         motherTongue: createDemographicDetailsDto.motherTongue,
+        
       },
     });
   }
@@ -47,13 +48,16 @@ export class DemographicDetailsService {
   }
 
   async findOne(id: number) {
-    const demographicDetails = await this.prismaService.demographicDetails.findUnique({
-      where: { id },
-      include: { user: true, province: true, district: true },
-    });
+    const demographicDetails =
+      await this.prismaService.demographicDetails.findUnique({
+        where: { id },
+        include: { user: true, province: true, district: true },
+      });
 
     if (!demographicDetails) {
-      throw new NotFoundException(`DemographicDetails with ID ${id} does not exist`);
+      throw new NotFoundException(
+        `DemographicDetails with ID ${id} does not exist`,
+      );
     }
 
     return demographicDetails;
@@ -63,12 +67,15 @@ export class DemographicDetailsService {
     id: number,
     updateDemographicDetailsDto: UpdateDemographicDetailsDto,
   ) {
-    const existingDetails = await this.prismaService.demographicDetails.findUnique({
-      where: { id },
-    });
+    const existingDetails =
+      await this.prismaService.demographicDetails.findUnique({
+        where: { id },
+      });
 
     if (!existingDetails) {
-      throw new NotFoundException(`DemographicDetails with ID ${id} does not exist`);
+      throw new NotFoundException(
+        `DemographicDetails with ID ${id} does not exist`,
+      );
     }
 
     // Ensure user relationship integrity
@@ -104,12 +111,15 @@ export class DemographicDetailsService {
   }
 
   async remove(id: number) {
-    const demographicDetails = await this.prismaService.demographicDetails.findUnique({
-      where: { id },
-    });
+    const demographicDetails =
+      await this.prismaService.demographicDetails.findUnique({
+        where: { id },
+      });
 
     if (!demographicDetails) {
-      throw new NotFoundException(`DemographicDetails with ID ${id} does not exist`);
+      throw new NotFoundException(
+        `DemographicDetails with ID ${id} does not exist`,
+      );
     }
 
     return this.prismaService.demographicDetails.delete({ where: { id } });
