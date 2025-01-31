@@ -6,11 +6,14 @@ import EmptyPhotoComp from "./EmptyPhotoComp";
 import { useNavigate } from "react-router-dom";
 
 const Step5 = () => {
-  const [imageBase64Array, setImageBase64Array] = useState([]); // Store the base64 images
+  const [imageBase64Array, setImageBase64Array] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleImageUpload = (base64Image) => {
-    setImageBase64Array((prevImages) => [...prevImages, base64Image]);
+    // Remove the "data:image/jpeg;base64," prefix as backend adds it
+    const cleanBase64 = base64Image.split(",")[1];
+    setImageBase64Array((prevImages) => [...prevImages, cleanBase64]);
   };
 
   const handleSubmit = async (e) => {
@@ -20,30 +23,47 @@ const Step5 = () => {
       alert("Please upload at least 3 images!");
       return;
     }
-    const userId =localStorage.getItem("userId")
 
-    // Send the base64 images to the backend
+    const userId = localStorage.getItem("userId");
+    if (!userId) {
+      alert("User ID not found. Please login again.");
+      navigate("/login");
+      return;
+    }
+
+    setIsLoading(true);
+
     try {
       const response = await fetch("http://localhost:3000/upload-photos", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
           userId: parseInt(userId, 10),
           base64Images: imageBase64Array,
         }),
       });
-      navigate("/dashboard")
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Upload failed");
+      }
+
       const data = await response.json();
       console.log("Server Response:", data);
+      navigate("/dashboard");
     } catch (error) {
       console.error("Error uploading images:", error);
+      alert("Failed to upload images. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <div
       className="relative flex items-center justify-center w-full h-screen bg-center bg-cover font-outfit"
-      id="step1"
       style={{ backgroundImage: `url(${wedding})` }}
     >
       <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-red-500 to-orange-400 opacity-70"></div>
@@ -55,8 +75,8 @@ const Step5 = () => {
         <p className="mb-2 text-lg font-light text-center text-gray-600 mt-14">
           The final step...
         </p>
-        <h2 className="text-[#FF6347] font-semibold text-center text-2xl ">
-          Step 5 : Please upload at least 3 pictures
+        <h2 className="text-[#FF6347] font-semibold text-center text-2xl">
+          Step 5: Please upload at least 3 pictures
         </h2>
         <p className="flex items-center justify-center text-sm text-gray-500 gap-x-1">
           <span>
@@ -64,8 +84,8 @@ const Step5 = () => {
           </span>
           Make sure your face has been seen clearly for better matches
         </p>
-        {/* Photos goes here */}
-        <div className="flex flex-col items-center justify-center px-5 mt-5 gap-x-20 gap-y-4">
+
+        <div className="flex flex-col items-center justify-center px-5 mt-5 gap-y-4">
           <div className="flex gap-x-24">
             <EmptyPhotoComp onImageUpload={handleImageUpload} />
             <EmptyPhotoComp onImageUpload={handleImageUpload} />
@@ -78,18 +98,19 @@ const Step5 = () => {
 
         <div className="flex justify-around mt-10">
           <button
+            type="button"
             className="w-80 mx-auto text-[#F24822] rounded-lg h-10 font-semibold border-2 border-[#F24822] hover:text-rose-950 hover:border-2 hover:border-rose-950"
-            onClick={() => {
-              navigate("/register/step4");
-            }}
+            onClick={() => navigate("/register/step4")}
+            disabled={isLoading}
           >
             Back
           </button>
           <button
-            className="w-80 mx-auto bg-[#F24822] rounded-lg h-10 text-white font-semibold hover:bg-white hover:text-rose-950 hover:border-2 hover:border-rose-950"
             type="submit"
+            className="w-80 mx-auto bg-[#F24822] rounded-lg h-10 text-white font-semibold hover:bg-white hover:text-rose-950 hover:border-2 hover:border-rose-950 disabled:opacity-50"
+            disabled={isLoading}
           >
-            Submit
+            {isLoading ? "Uploading..." : "Submit"}
           </button>
         </div>
       </form>
@@ -98,6 +119,107 @@ const Step5 = () => {
 };
 
 export default Step5;
+
+// import React, { useState } from "react";
+// import wedding from "../assets/wedding.jpeg";
+// import mainLogo from "../assets/main-logo.png";
+// import { BsExclamationTriangleFill } from "react-icons/bs";
+// import EmptyPhotoComp from "./EmptyPhotoComp";
+// import { useNavigate } from "react-router-dom";
+
+// const Step5 = () => {
+//   const [imageBase64Array, setImageBase64Array] = useState([]); // Store the base64 images
+//   const navigate = useNavigate();
+
+//   const handleImageUpload = (base64Image) => {
+//     setImageBase64Array((prevImages) => [...prevImages, base64Image]);
+//   };
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+
+//     if (imageBase64Array.length < 3) {
+//       alert("Please upload at least 3 images!");
+//       return;
+//     }
+//     const userId =localStorage.getItem("userId")
+
+//     // Send the base64 images to the backend
+//     try {
+//       const response = await fetch("http://localhost:3000/upload-photos", {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json" },
+//         body: JSON.stringify({
+//           userId: parseInt(userId, 10),
+//           base64Images: imageBase64Array,
+//         }),
+//       });
+//       navigate("/dashboard")
+//       const data = await response.json();
+//       console.log("Server Response:", data);
+//     } catch (error) {
+//       console.error("Error uploading images:", error);
+//     }
+//   };
+
+//   return (
+//     <div
+//       className="relative flex items-center justify-center w-full h-screen bg-center bg-cover font-outfit"
+//       id="step1"
+//       style={{ backgroundImage: `url(${wedding})` }}
+//     >
+//       <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-red-500 to-orange-400 opacity-70"></div>
+//       <form
+//         className="absolute px-28 h-[35em] shadow-lg bg-white w-[60em] rounded-3xl"
+//         onSubmit={handleSubmit}
+//       >
+//         <img className="absolute w-16 top-5 left-16" src={mainLogo} alt="" />
+//         <p className="mb-2 text-lg font-light text-center text-gray-600 mt-14">
+//           The final step...
+//         </p>
+//         <h2 className="text-[#FF6347] font-semibold text-center text-2xl ">
+//           Step 5 : Please upload at least 3 pictures
+//         </h2>
+//         <p className="flex items-center justify-center text-sm text-gray-500 gap-x-1">
+//           <span>
+//             <BsExclamationTriangleFill />
+//           </span>
+//           Make sure your face has been seen clearly for better matches
+//         </p>
+//         {/* Photos goes here */}
+//         <div className="flex flex-col items-center justify-center px-5 mt-5 gap-x-20 gap-y-4">
+//           <div className="flex gap-x-24">
+//             <EmptyPhotoComp onImageUpload={handleImageUpload} />
+//             <EmptyPhotoComp onImageUpload={handleImageUpload} />
+//           </div>
+//           <div className="flex gap-x-24">
+//             <EmptyPhotoComp onImageUpload={handleImageUpload} />
+//             <EmptyPhotoComp onImageUpload={handleImageUpload} />
+//           </div>
+//         </div>
+
+//         <div className="flex justify-around mt-10">
+//           <button
+//             className="w-80 mx-auto text-[#F24822] rounded-lg h-10 font-semibold border-2 border-[#F24822] hover:text-rose-950 hover:border-2 hover:border-rose-950"
+//             onClick={() => {
+//               navigate("/register/step4");
+//             }}
+//           >
+//             Back
+//           </button>
+//           <button
+//             className="w-80 mx-auto bg-[#F24822] rounded-lg h-10 text-white font-semibold hover:bg-white hover:text-rose-950 hover:border-2 hover:border-rose-950"
+//             type="submit"
+//           >
+//             Submit
+//           </button>
+//         </div>
+//       </form>
+//     </div>
+//   );
+// };
+
+// export default Step5;
 
 // import React from 'react'
 // import wedding from "../assets/wedding.jpeg";
