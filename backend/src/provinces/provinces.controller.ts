@@ -11,6 +11,6 @@ export class ProvincesController {
   }
   @Get(':id')
     async getProvinceById(@Param('id', ParseIntPipe) id: number) {
-      return this.provinceService.findOne(id);
+      return this.provinceService.findOne(Number(id));
     }
 }

@@ -20,6 +20,7 @@ import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import { DemographicDetailsModule } from './demographic-details/demographic-details.module';
 import { ProvincesModule } from './provinces/provinces.module';
 import { DistrictsModule } from './districts/districts.module';
+import { NotificationsModule } from './notifications/notifications.module';
 
 
 @Module({
@@ -45,6 +46,7 @@ import { DistrictsModule } from './districts/districts.module';
     DemographicDetailsModule,
     ProvincesModule,
     DistrictsModule,
+    NotificationsModule
   ],
   controllers: [AppController],
   providers: [AppService],

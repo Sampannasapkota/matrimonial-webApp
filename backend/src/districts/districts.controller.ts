@@ -11,6 +11,6 @@ export class DistrictsController {
   }
   @Get(':id')
   async getDistrictById(@Param('id', ParseIntPipe) id: number) {
-    return this.districtService.findOne(id);
+    return this.districtService.findOne(Number(id));
   }
 }

@@ -31,13 +31,13 @@ export class AuthService {
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: 'pujankhanal698@gmail.com',
-        pass: 'lzmo brgy nfji kbja',
+        user: 'merobihee@gmail.com',
+        pass: 'nols vueo jnog ngiz',
       },
     });
 
     const mailOptions = {
-      from: '"merobihe" <pujankhanal698@gmail.com>',
+      from: '"merobihe" <merobihee@gmail.com>',
       to: email,
       subject: 'Your OTP for Verification',
       text: `Your OTP is ${otp}`,
@@ -99,7 +99,7 @@ export class AuthService {
       include: {
         DemographicDetails: true,
         FamilyDetails: true,
-        interests: true,
+        Interest: true,
         UploadPhoto: true,
       },
     });

@@ -166,7 +166,6 @@ model User {
   updatedAt        DateTime       @default(now())
   messagesSent     Message[]      @relation("SenderMessages")
   messagesReceived Message[]      @relation("ReceiverMessages")
-  interests        InterestUser[]
   matchesAsUserOne Match[]        @relation("UserOneMatches")
   matchesAsUserTwo Match[]        @relation("UserTwoMatches")
 
@@ -181,6 +180,10 @@ model User {
   PartnerPreference PartnerPreference[]
 
   DemographicDetails DemographicDetails[]
+
+  Interest Interest[]
+
+  Notification Notification[]
 }
 
 model DemographicDetails {
@@ -225,8 +228,9 @@ model Match {
 model Interest {
   id       Int            @id @default(autoincrement())
   userId   Int            @unique
-  interest Interests?
-  users    InterestUser[]
+  interest Interests
+  user     User           @relation(fields: [userId], references: [id])
+  
 }
 
 model Province {
@@ -244,14 +248,6 @@ model District {
   demographicDetails DemographicDetails[]
 }
 
-model InterestUser {
-  userId     Int
-  user       User     @relation(fields: [userId], references: [id])
-  interestId Int
-  interest   Interest @relation(fields: [interestId], references: [id])
-
-  @@id([userId, interestId])
-}
 
 model FamilyDetails {
   id           Int         @id @default(autoincrement())
@@ -303,4 +299,12 @@ model PartnerPreference {
   educationLevel    EducationLevel
   createdAt         DateTime          @default(now())
   updatedAt         DateTime          @default(now())
+}
+
+model Notification {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  message   String
+  createdAt DateTime @default(now())
 }
