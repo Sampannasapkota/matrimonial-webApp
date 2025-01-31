@@ -1,17 +1,24 @@
-import { Body, Controller, Get, Post, Req, Res, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Req,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login-user.dto';
-import { RegisterUserDto} from './dto/register-user.dto';
+import { RegisterUserDto } from './dto/register-user.dto';
 import { Public } from 'src/helpers/public';
 import { GoogleAuthGuard } from './utils/Guards';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
-import {ResetPasswordDto} from './dto/reset-password.dto';
+import { ResetPasswordDto } from './dto/reset-password.dto';
 import { User } from '@prisma/client';
 interface AuthRequest extends Request {
   payload: User;
 }
 @Controller('/auth')
-
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
@@ -47,22 +54,22 @@ export class AuthController {
 
   @Get('google/login')
   @UseGuards(GoogleAuthGuard)
-  googleLogin(){}
+  googleLogin() {}
 
   @Get('google/callback')
   @UseGuards(GoogleAuthGuard)
-  async googleCallBack(@Req()req,@Res()res){ 
-    const response =await this.authService.login(req.user.id);
+  async googleCallback(@Req() req, @Res() res) {
+    console.log('req', req);
+    const response = await this.authService.login(req.user.id);
+    console.log({ response });
     res.redirect(`http://localhost:5173/login?token=${response.token}`);
-    
   }
-@Post('forgot-password')
-async forgotPassword(@Body()body:ForgotPasswordDto){
-  return this.authService.forgotPassword(body.email);
-}
-@Post('reset-password')
-async resetPassword(@Body() body:ResetPasswordDto){
-  return this.authService.resetPassword(body.token,body.newPassword);
-}
-
+  @Post('forgot-password')
+  async forgotPassword(@Body() body: ForgotPasswordDto) {
+    return this.authService.forgotPassword(body.email);
+  }
+  @Post('reset-password')
+  async resetPassword(@Body() body: ResetPasswordDto) {
+    return this.authService.resetPassword(body.token, body.newPassword);
+  }
 }

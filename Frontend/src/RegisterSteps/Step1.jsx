@@ -8,6 +8,7 @@ import axios from "axios";
 const Step1 = () => {
   const navigate= useNavigate()
   
+  
   const userId= localStorage.getItem("userId")
 
   const [formData, setFormData] = useState({

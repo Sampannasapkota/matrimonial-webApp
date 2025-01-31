@@ -20,6 +20,8 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
+  console.log("callback here!!")
+
   const handleLogin = async (e) => {
     e.preventDefault();
     console.log(email, password);

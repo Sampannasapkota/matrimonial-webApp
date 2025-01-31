@@ -11,13 +11,16 @@ const Step5 = () => {
   const navigate = useNavigate();
 
   const handleImageUpload = (base64Image) => {
+    console.log({base64Image})
     // Remove the "data:image/jpeg;base64," prefix as backend adds it
     const cleanBase64 = base64Image.split(",")[1];
-    setImageBase64Array((prevImages) => [...prevImages, cleanBase64]);
+    console.log({cleanBase64})
+    setImageBase64Array((prevImages) => [...prevImages, base64Image]);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log({imageBase64Array})
 
     if (imageBase64Array.length < 3) {
       alert("Please upload at least 3 images!");

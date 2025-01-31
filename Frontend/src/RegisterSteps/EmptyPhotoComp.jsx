@@ -10,11 +10,13 @@ const EmptyPhotoComp = ({ onImageUpload }) => {
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
+    console.log({file})
     if (file) {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onloadend = () => {
         const base64String = reader.result.split(",")[1]; // Remove "data:image/jpeg;base64," part
+        console.log({base64String})
         onImageUpload(base64String);
       };
     }
